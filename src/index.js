@@ -4,7 +4,7 @@ import { Route, Router } from "react-router-dom";
 import { createBrowserHistory } from "history";
 
 import { ThemeProvider } from "@material-ui/styles";
-import Theme from "./theme";
+import Theme from "./themes/landingTheme";
 import Box from "@material-ui/core/Box";
 
 import LandingPage from "./views/LandingPage.jsx"

@@ -1,15 +1,17 @@
 
-import Theme from "../theme";
+import Theme from "../themes/landingTheme";
 import { ThemeProvider } from "@material-ui/styles";
 import { Typography, Button } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 const LandingPage = () => {
   // const url = "http://localhost:3000/LandingPage";
 
   return (
     <ThemeProvider theme={Theme}>
-      <Box mt="230px" mb="140px">
+      <CssBaseline />
+      <Box mt="230px" mb="140px" bgcolor="primary">
         <Typography variant="h1" align="center" color="primary">
           My Daily
         </Typography>
