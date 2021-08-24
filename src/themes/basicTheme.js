@@ -1,49 +1,47 @@
 import { createTheme } from '@material-ui/core/styles'
+import colours from "./colours"
 
 const Theme = createTheme({
-  palette: {
-    primary: {
-      main: '#B9D6F2',
+    palette: {
+        primary: {
+            main: colours.white,
+        },
+        secondary: {
+            main: colours.dark_blue,
+        },
+        tertiary: {
+            main: colours.black,
+        },
+        background: {
+            default: colours.white
+        }
     },
-    secondary: {
-      main: '#FFFFFF',
-    },
-    background: {
-      light: '',
-      main: '#003559',
-      dark: '',
+
+    typography: {
+        h1: {
+            fontFamily: 'Reem Kufi',
+            fontSize: '5rem',
+            color: colours.black
+        },
+        h2: {
+            fontFamily: 'Reem Kufi',
+            fontWeight: '400',
+            fontSize: '1.5rem',
+            color: colours.black,
+        },
+        body1: {
+            fontFamily: 'Roboto',
+            color: colours.black
+
+        },
+        button: {
+            fontFamily: 'Reem Kufi',
+            fontWeight: '400',
+            fontSize: '1.5rem',
+            color: colours.dark_blue
+        },
+
     }
-  },
-
-  typography: {
-    h1: {
-      fontFamily: 'Reem Kufi',
-      fontSize: '5rem',
-    },
-    h2: {
-      fontFamily: 'Roboto',
-      fontWeight: '500',
-      fontSize: '14',
-      fontStyle: 'bold',
-    },
-    body1: {
-      fontFamily: 'Roboto',
-      fontWeight: '400',
-      lineHeight: '1.2',
-    },
-    body2: {
-      fontFamily: 'Roboto',
-      fontWeight: '700',
-      lineHeight: '1.2',
-    },
-    button: {
-      width: "120px",
-      height: "40px"
-    },
-  }
-
-  
-
 });
 
 export default Theme;

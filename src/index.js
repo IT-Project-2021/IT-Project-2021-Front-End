@@ -8,6 +8,7 @@ import Theme from "./themes/landingTheme";
 import Box from "@material-ui/core/Box";
 
 import LandingPage from "./views/LandingPage.jsx"
+import PeopleInfoPage from "./views/PeopleInfoPage"
 
 
 
@@ -18,6 +19,7 @@ ReactDOM.render(
     <ThemeProvider theme={Theme}>
       <Box align="center" height="100%">
         <Route exact path="/" component={LandingPage} />
+        <Route path="/people_info" component={PeopleInfoPage} />
       </Box>
     </ThemeProvider>
   </Router>,
