@@ -18,7 +18,7 @@ const Theme = createTheme({
   typography: {
     h1: {
       fontFamily: 'Reem Kufi',
-      fontSize: '5rem',
+      fontSize: '7rem',
     },
     h2: {
       fontFamily: 'Roboto',
