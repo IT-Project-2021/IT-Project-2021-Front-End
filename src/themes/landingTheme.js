@@ -1,16 +1,17 @@
 import { createTheme } from '@material-ui/core/styles'
+import colours from "./colours"
 
 const Theme = createTheme({
   palette: {
     primary: {
-      main: '#B9D6F2',
+      main: colours.beau_blue,
     },
     secondary: {
-      main: '#FFFFFF',
+      main: colours.white,
     },
     background: {
       light: '',
-      default: '#003559',
+      default: colours.dark_blue,
       dark: '',
     }
   },
@@ -42,7 +43,7 @@ const Theme = createTheme({
     },
   }
 
-  
+
 
 });
 
