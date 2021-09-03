@@ -6,7 +6,6 @@ import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 const LandingPage = () => {
-  // const url = "http://localhost:3000/LandingPage";
 
   return (
     <ThemeProvider theme={Theme}>
