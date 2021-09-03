@@ -4,8 +4,11 @@ import { Typography, Button,Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from '@material-ui/core/Divider';
-const HomePage = () => {
+import { Link } from "react-router-dom";
 
+const PeopleInfoPage = props => <Link to="/PeopleInformation" {...props}/>
+
+const HomePage = () => {
     return (
         <ThemeProvider theme={Theme}>
             <CssBaseline />
@@ -20,7 +23,7 @@ const HomePage = () => {
                 </Box>
 
                 <Box mt="2px" width={.99} bgcolor="primary" height="60px" marginLeft="1%">
-                    <Button fullWidth={true} size="large" style={{ height: "98%", justifyContent: "flex-start" }}>
+                    <Button fullWidth={true} size="large" style={{ height: "98%", justifyContent: "flex-start" }} component={PeopleInfoPage}>
                         <Typography variant="h2" style={{ color: "white", padding: "15px 0 0 0" }}>People</Typography>
                     </Button>
                     <Divider style={{ background: "white" }} />

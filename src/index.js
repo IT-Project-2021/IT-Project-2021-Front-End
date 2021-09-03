@@ -9,7 +9,7 @@ import Box from "@material-ui/core/Box";
 
 import LandingPage from "./views/LandingPage"
 import PeopleInfoPage from "./views/PeopleInfoPage"
-import HomePage from "./views/Homepage"
+import HomePage from "./views/HomePage"
 
 
 var hist = createBrowserHistory();

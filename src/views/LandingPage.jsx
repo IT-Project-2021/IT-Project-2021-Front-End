@@ -4,8 +4,9 @@ import { ThemeProvider } from "@material-ui/styles";
 import { Typography, Button, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
+const HomePage = props => <Link to="/HomePage" {...props}/>
 
 const LandingPage = () => {
 
@@ -24,14 +25,13 @@ const LandingPage = () => {
         </Box>
 
         <Box mt="20px">
-          {/* </Box><Button size="medium" variant="contained" color="primary" type="submit" component={PageA}> */}
-          <Button size="medium" variant="contained" color="primary" type="submit">
+          <Button size="medium" variant="contained" color="primary" type="submit" component={HomePage}>
             <Typography variant="h2">Log In</Typography>
           </Button>
         </Box>
 
         <Box mt="20px">
-          <Button size="medium" variant="contained" color="secondary" type="submit">
+          <Button size="medium" variant="contained" color="secondary" type="submit" component={HomePage}>
             <Typography variant="h2">Sign Up</Typography>
           </Button>
         </Box>
