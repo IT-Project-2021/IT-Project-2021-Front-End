@@ -18,8 +18,8 @@ ReactDOM.render(
   <Router history={hist}>
     <ThemeProvider theme={Theme}>
       <Box align="center" height="100%">
-        <Route path="/" component={LandingPage} />
-        <Route path="/people_info" component={PeopleInfoPage} />
+        <Route exact path="/" component={LandingPage} />
+        <Route path="/PeopleInformation" component={PeopleInfoPage} />
         <Route path="/HomePage" component={HomePage} />
       </Box>
     </ThemeProvider>
