@@ -23,8 +23,7 @@ const Theme = createTheme({
     h2: {
       fontFamily: 'Roboto',
       fontWeight: '500',
-      fontSize: '14',
-      fontStyle: 'bold',
+      fontSize: '1.5rem',
     },
     body1: {
       fontFamily: 'Roboto',
@@ -38,7 +37,7 @@ const Theme = createTheme({
     },
     button: {
       width: "120px",
-      height: "40px"
+      height: "40px",
     },
   }
 
