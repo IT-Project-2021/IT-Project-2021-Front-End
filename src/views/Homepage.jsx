@@ -5,6 +5,7 @@ import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
+import { Link } from "react-router-dom";
 
 // determine the styles on this page
 const palette = Theme.palette
@@ -17,7 +18,9 @@ const useStyles = makeStyles({
         height: "98%",
         justifyContent: "flex-start",
         color: palette.secondary.main,
-        padding: "30px 0 0 0",
+        padding: "30px 0 10px 2px",
+        marginLeft: "1%",
+        marginTop: "2px",
     },
     divider: {
         background: palette.secondary.main
@@ -26,6 +29,7 @@ const useStyles = makeStyles({
         width: "50%",
         height: "100%",
         color: palette.secondary.main,
+        padding: "0 15px 0 15px"
     },
     optionsBar: {
         width: "99%",
@@ -49,11 +53,12 @@ const PageTitle = () => {
 }
 
 // the main buttons on the homepage (e.g. People, Meetings)
-const HomePageButton = ({name}) => {
+const PeopleInfoPage = props => <Link to="/PeopleInformation" {...props}/>
+const HomePageButton = ({name, linkedComponent}) => {
     const classes = useStyles();
     return (
         <Box marginLeft="1%">
-            <Button className={classes.mainButton} fullWidth={true}>
+            <Button className={classes.mainButton} fullWidth={true} component={linkedComponent}>
                 <Typography variant="h2">{name}</Typography>
             </Button>
             <Divider className={classes.divider} />
@@ -90,66 +95,16 @@ const OptionsBar = () => {
 }
 
 const HomePage = () => {
-
-// import { Link } from "react-router-dom";
-
-// const PeopleInfoPage = props => <Link to="/PeopleInformation" {...props}/>
-
-
-const HomePage = () => {
     return (
         <ThemeProvider theme={Theme}>
             <CssBaseline />
-
             <PageTitle />
 
-            <HomePageButton name="People" />
+            <HomePageButton name="People" linkedComponent={PeopleInfoPage}/>
             <HomePageButton name="Meetings" />
             <HomePageButton name="Reminders" />
 
             <OptionsBar />
-
-
-//             <Grid container direction="column" alignItems="center" justifyContent="center" style={{minHeight: "90vh"}}>
-//                 <Box>
-//                     <Typography variant="h1" align="center" color="primary">
-//                         My Daily
-//                     </Typography>
-//                     <Typography variant="h1" align="center" color="primary">
-//                         Planner
-//                     </Typography>
-//                 </Box>
-
-//                 <Box mt="2px" width={.99} bgcolor="primary" height="60px" marginLeft="1%">
-//                     <Button fullWidth={true} size="large" style={{ height: "98%", justifyContent: "flex-start" }} component={PeopleInfoPage}>
-//                         <Typography variant="h2" style={{ color: "white", padding: "15px 0 0 0" }}>People</Typography>
-//                     </Button>
-//                     <Divider style={{ background: "white" }} />
-//                 </Box>
-
-//                 <Box mt="2px" width={.99} bgcolor="primary" height="60px" marginLeft="1%">
-//                     <Button fullWidth={true} size="large" style={{ height: "98%", justifyContent: "flex-start" }}>
-//                         <Typography variant="h2" style={{ color: "white", padding: "15px 0 0 0" }}>Meetings</Typography>
-//                     </Button>
-//                     <Divider style={{ background: "white" }} />
-//                 </Box>
-
-//                 <Box mt="2px" width={.99} bgcolor="primary" height="60px" marginLeft="1%">
-//                     <Button fullWidth={true} size="large" style={{ height: "98%", justifyContent: "flex-start" }}>
-//                         <Typography variant="h2" style={{ color: "white", padding: "15px 0 0 0" }}>Reminders</Typography>
-//                     </Button>
-//                     <Divider style={{ background: "white" }} />
-//                 </Box>
-
-//                 <Box mt="2px" width={.99} bgcolor="primary" height="60px" position="fixed" bottom="0">
-//                     <Button size="large" style={{ height: "100%", justifyContent: "flex-start", width: "50%" }}>
-//                         <Typography variant="h6" style={{ color: "white" }}>Settings</Typography>
-//                     </Button>
-//                     <Button size="large" style={{ height: "100%", justifyContent: "flex-end", width: "50%" }}>
-//                         <Typography variant="h6" style={{ color: "white" }}>Logout</Typography>
-//                     </Button>
-//                 </Box>
-//             </Grid>
         </ThemeProvider>
     )
 };
