@@ -7,9 +7,9 @@ import { ThemeProvider } from "@material-ui/styles";
 import Theme from "./themes/landingTheme";
 import Box from "@material-ui/core/Box";
 
-import LandingPage from "./views/LandingPage.jsx"
+import LandingPage from "./views/LandingPage"
 import PeopleInfoPage from "./views/PeopleInfoPage"
-import HomePage from "./views/Homepage"
+import HomePage from "./views/HomePage"
 
 
 var hist = createBrowserHistory();
@@ -19,7 +19,7 @@ ReactDOM.render(
     <ThemeProvider theme={Theme}>
       <Box align="center" height="100%">
         <Route exact path="/" component={LandingPage} />
-        <Route path="/people_info" component={PeopleInfoPage} />
+        <Route path="/PeopleInformation" component={PeopleInfoPage} />
         <Route path="/HomePage" component={HomePage} />
       </Box>
     </ThemeProvider>
