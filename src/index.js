@@ -7,17 +7,17 @@ import { ThemeProvider } from "@material-ui/styles";
 import Theme from "./theme";
 import Box from "@material-ui/core/Box";
 
-import LandingPage from "./views/LandingPage.jsx"
-
-
+import LandingPage from "./views/LandingPage"
 
 var hist = createBrowserHistory();
 
 ReactDOM.render(
   <Router history={hist}>
     <ThemeProvider theme={Theme}>
-      <Box align="center" height="100%">
-        <Route exact path="/" component={LandingPage} />
+      <Box align="center">
+        <Route path="/" component={LandingPage} />
+        {/* <Route path="/" component={props => <LandingPage {...props} />} /> */}
+        {/* <Route path="/" render={props => <LandingPage {...props} />} /> */}
       </Box>
     </ThemeProvider>
   </Router>,
