@@ -25,6 +25,11 @@ const Theme = createTheme({
       fontWeight: '500',
       fontSize: '1.5rem',
     },
+    h3: {
+      fontFamily: 'Roboto',
+      fontSize: '1.25rem',
+      fontWeight: '500',
+    },
     body1: {
       fontFamily: 'Roboto',
       fontWeight: '400',

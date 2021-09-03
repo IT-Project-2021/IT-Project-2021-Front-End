@@ -9,6 +9,10 @@ import { makeStyles } from '@material-ui/core/styles';
 // determine the styles on this page
 const palette = Theme.palette
 const useStyles = makeStyles({
+    titleText: {
+        color: palette.primary.main,
+        align: "center"
+    },
     mainButton: {
         height: "98%",
         justifyContent: "flex-start",
@@ -17,8 +21,32 @@ const useStyles = makeStyles({
     },
     divider: {
         background: palette.secondary.main
+    },
+    optionsButton: {
+        width: "50%",
+        height: "100%",
+        color: palette.secondary.main,
+    },
+    optionsBar: {
+        width: "99%",
+        position: "absolute",
+        height: "60px",
+        bottom: "0",
     }
 });
+
+// title of the page
+const PageTitle = () => {
+    const classes = useStyles();
+    return (
+        <Box className={classes.titleText} mt="100px" mb="50px">
+            <Typography variant="h1">
+                My Daily <br /> Planner
+            </Typography>
+            
+        </Box>
+    )
+}
 
 // the main buttons on the homepage (e.g. People, Meetings)
 const HomePageButton = ({name}) => {
@@ -33,46 +61,47 @@ const HomePageButton = ({name}) => {
     )
 }
 
+// buttons to navigate to various site options (e.g. Settings, Logout)
 const OptionsButton = ({name, position}) => {
-
     // interpret position of the text
     let justifyFlex = "flex-start"
     if (position === "right") {
         justifyFlex = "flex-end"
     }
 
+    const classes = useStyles();
     return (
-        <Button size="large" style={{ height: "100%", justifyContent: justifyFlex, width: "50%" }}>
-            <Typography variant="h6" style={{ color: "white" }}>{name}</Typography>
+        <Button className={classes.optionsButton} style={{justifyContent: justifyFlex}}>
+            <Typography variant="h3">{name}</Typography>
         </Button>
+    )
+}
+
+// bar at the bottom of the page, providing site options
+const OptionsBar = () => {
+
+    const classes = useStyles();
+    return (
+        <Box className={classes.optionsBar}  >
+            <OptionsButton name="Settings" position="left" />
+            <OptionsButton name="Logout" position="right" />
+        </Box>
     )
 }
 
 const HomePage = () => {
 
-    // const classes = useStyles();
-
     return (
         <ThemeProvider theme={Theme}>
             <CssBaseline />
 
-            <Box mt="100px" mb="50px">
-                <Typography variant="h1" align="center" color="primary">
-                    My Daily
-                </Typography>
-                <Typography variant="h1" align="center" color="primary">
-                    Planner
-                </Typography>
-            </Box>
+            <PageTitle />
 
             <HomePageButton name="People" />
             <HomePageButton name="Meetings" />
             <HomePageButton name="Reminders" />
 
-            <Box mt="2px" width={.99} bgcolor="primary" height="60px" position="absolute" bottom="0">
-                <OptionsButton name="Settings" position="left" />
-                <OptionsButton name="Logout" position="right" />
-            </Box>
+            <OptionsBar />
 
         </ThemeProvider>
     )
