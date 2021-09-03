@@ -1,19 +1,19 @@
 import Theme from "../themes/landingTheme";
+
+//general components in use
+import PageTitle from "../components/PageTitle"
+
 import { ThemeProvider } from "@material-ui/styles";
 import { Typography, Button,Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
+
 import { Link } from "react-router-dom";
 
-// determine the styles on this page
 const palette = Theme.palette
 const useStyles = makeStyles({
-    titleText: {
-        color: palette.primary.main,
-        align: "center"
-    },
     mainButton: {
         height: "98%",
         justifyContent: "flex-start",
@@ -39,18 +39,6 @@ const useStyles = makeStyles({
     }
 });
 
-// title of the page
-const PageTitle = () => {
-    const classes = useStyles();
-    return (
-        <Box className={classes.titleText} mt="100px" mb="50px">
-            <Typography variant="h1">
-                My Daily <br /> Planner
-            </Typography>
-            
-        </Box>
-    )
-}
 
 // the main buttons on the homepage (e.g. People, Meetings)
 const PeopleInfoPage = props => <Link to="/PeopleInformation" {...props}/>
