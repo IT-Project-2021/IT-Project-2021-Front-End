@@ -23,7 +23,8 @@ const useStyles = makeStyles({
         marginTop: "2px",
     },
     divider: {
-        background: palette.secondary.main
+        background: palette.secondary.main,
+        variant: 'fullWidth',
     },
     optionsButton: {
         width: "50%",
@@ -86,11 +87,15 @@ const HomePage = () => {
     return (
         <ThemeProvider theme={Theme}>
             <CssBaseline />
+            
+            <Grid container direction="column" justifyContent="center" style={{ minHeight: "90vh" }}>
+      
             <PageTitle />
 
             <HomePageButton name="People" linkedComponent={PeopleInfoPage}/>
             <HomePageButton name="Meetings" />
             <HomePageButton name="Reminders" />
+            </Grid>
 
             <OptionsBar />
         </ThemeProvider>
