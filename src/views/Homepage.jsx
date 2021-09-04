@@ -42,7 +42,6 @@ const useStyles = makeStyles({
 
 
 // the main buttons on the homepage (e.g. People, Meetings)
-const PeopleInfoPage = props => <Link to="/PeopleInformation" {...props}/>
 const HomePageButton = ({name, linkedComponent}) => {
     const classes = useStyles();
     return (
@@ -92,7 +91,10 @@ const HomePage = () => {
       
             <PageTitle />
 
-            <HomePageButton name="People" linkedComponent={PeopleInfoPage}/>
+            <Link to="/PeopleInformation" style={{ textDecoration: 'none' }}>
+                <HomePageButton name="People"/>
+            </Link>
+
             <HomePageButton name="Meetings" />
             <HomePageButton name="Reminders" />
             </Grid>

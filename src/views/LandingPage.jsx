@@ -29,10 +29,12 @@ const useStyles = makeStyles({
 const LoginButton = () => {
   const classes = useStyles();
   return (
-    <Box  mt="20px">
-      <Button className = {classes.loginButton} variant="contained"  type="submit" component={HomePage}>
-        <Typography variant="h2">Log In</Typography>
-      </Button>
+    <Box mt="20px">
+      <Link to="/HomePage" style={{ textDecoration: 'none' }}>
+        <Button className = {classes.loginButton} variant="contained" type="submit" >
+          <Typography variant="h2">Log In</Typography>
+        </Button>
+      </Link>
     </Box>
   )
 }
@@ -40,16 +42,16 @@ const LoginButton = () => {
 const SignUpButton = () => {
   const classes = useStyles();
   return (
-    <Box  mt="20px">
-      <Button className = {classes.signupButton} variant="contained" type="submit" component={HomePage}>
-        <Typography variant="h2">Sign Up</Typography>
-      </Button>
+    <Box mt="20px">
+       <Link to="/HomePage" style={{ textDecoration: 'none' }}>
+        <Button className = {classes.signupButton} variant="contained" type="submit" >
+          <Typography variant="h2">Sign Up</Typography>
+        </Button>
+        </Link>
     </Box>
   )
 }
 
-
-const HomePage = props => <Link to="/HomePage" {...props}/>
 const LandingPage = () => {
 
   return (
