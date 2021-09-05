@@ -10,6 +10,7 @@ import Box from "@material-ui/core/Box";
 import LandingPage from "./views/LandingPage"
 import PeopleInfoPage from "./views/PeopleInfoPage"
 import HomePage from "./views/HomePage"
+import PeopleListPage from "./views/PeopleListPage"
 
 
 var hist = createBrowserHistory();
@@ -21,6 +22,7 @@ ReactDOM.render(
         <Route exact path="/" component={LandingPage} />
         <Route path="/PeopleInformation" component={PeopleInfoPage} />
         <Route path="/HomePage" component={HomePage} />
+        <Route path="/People" component={PeopleListPage} />
       </Box>
     </ThemeProvider>
   </Router>,

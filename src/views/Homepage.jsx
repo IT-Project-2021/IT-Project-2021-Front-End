@@ -91,7 +91,7 @@ const HomePage = () => {
       
             <PageTitle />
 
-            <Link to="/PeopleInformation" style={{ textDecoration: 'none' }}>
+            <Link to="/People" style={{ textDecoration: 'none' }}>
                 <HomePageButton name="People"/>
             </Link>
 
