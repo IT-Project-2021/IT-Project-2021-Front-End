@@ -10,32 +10,64 @@ import { Link } from "react-router-dom";
 
 const palette = Theme.palette
 const useStyles = makeStyles({
-    contactDetails: {
+    personButton: {
       color: palette.tertiary.main,
+      justifyContent: "flex-start",
     },
-    contactNotes: {
-      fontStyle: "italic",
-      color: palette.tertiary.main,
-      padding: "20px 0 40px 0"
+    divider: {
+        background: palette.secondary.main,
+        variant: 'fullWidth',
     },
-    contactNumbers: {
-      padding: "0 0 20px 0",
-      color: palette.tertiary.main,
-      textDecoration: "underline"
+    personLink: {
+        textDecoration: "none",
     },
-    editButton: {
-      color: palette.secondary.main,
-      backgroundColor: palette.primary.main,
-      margin: "10px"
-    }
+    listedPerson: {
+        textTransform: "none",
+        padding: "10px 20px 10px 10px"
+    },
+    personList: {
+        listStyleType: "none",
+        padding: "0 10px 0 10px"
+    },
 });
 
+const PersonListItem = () => {
+    const classes = useStyles();
+    return (
+        <Box>
+            <Link to="/PeopleInformation" className={classes.personLink} >
+                <Button className={classes.personButton} fullWidth={true}>
+                    <Typography className={classes.listedPerson}> Person </Typography>
+                </Button>
+            </Link>
+            <Divider className={classes.divider} />
+        </Box>
+    )
+}
+
+const PersonList = () => {
+    const classes = useStyles();
+    return (
+        <Grid container direction="column" style={{ minHeight: "90vh", padding: "20px 0 0 0"}}>
+        <ul className={classes.personList}>
+            <li><PersonListItem /></li>
+            <li><PersonListItem /></li>
+            <li><PersonListItem /></li>
+            <li><PersonListItem /></li>
+            <li><PersonListItem /></li>
+            <li><PersonListItem /></li>
+            <li><PersonListItem /></li>
+            <li><PersonListItem /></li>
+        </ul>
+        </Grid>
+    )
+}
 
 const PeopleListPage = () => {
-    const classes = useStyles()
     return (
         <ThemeProvider theme={Theme}>
         <CssBaseline />
+
             <AppBar position="static" color="secondary" align="left" >
             <Box ml="50px" my="20px">
                 <Typography variant="h6">
@@ -44,17 +76,7 @@ const PeopleListPage = () => {
             </Box>
             </AppBar>
 
-            
-            
-            <h1>People</h1>
-
-            <ul>
-                <li>
-                <Link to="/PeopleInformation" style={{ textDecoration: 'none' }}>
-                    <Button>Person</Button>
-                </Link>
-                </li>
-            </ul>
+            <PersonList />
 
         </ThemeProvider>
     )
