@@ -5,8 +5,9 @@ import { ThemeProvider } from "@material-ui/styles";
 import { Typography, Button, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from '@material-ui/core/AppBar';
 import { makeStyles } from '@material-ui/core/styles';
+//general components in use
+import PageAppBar from "../components/PageAppBar"
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -116,13 +117,8 @@ const PeopleInfoPage = () => {
   return (
     <ThemeProvider theme={Theme}>
       <CssBaseline />
-        <AppBar position="static" color="secondary" align="left" >
-          <Box ml="50px" my="20px">
-              <Typography variant="h6">
-              People
-              </Typography>
-          </Box>
-        </AppBar>
+
+      <PageAppBar prevPage="/People"/>
 
         <Grid container direction="column" justifyContent="center" style={{minHeight: "90vh"}}>
           

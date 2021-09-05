@@ -8,6 +8,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import { Link } from "react-router-dom";
 
+//general components in use
+import PageAppBar from "../components/PageAppBar"
+
 const palette = Theme.palette
 const useStyles = makeStyles({
     personButton: {
@@ -68,13 +71,7 @@ const PeopleListPage = () => {
         <ThemeProvider theme={Theme}>
         <CssBaseline />
 
-            <AppBar position="static" color="secondary" align="left" >
-            <Box ml="50px" my="20px">
-                <Typography variant="h6">
-                People
-                </Typography>
-            </Box>
-            </AppBar>
+            <PageAppBar prevPage="/HomePage"/>
 
             <PersonList />
 
