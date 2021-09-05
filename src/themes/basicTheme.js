@@ -12,6 +12,9 @@ const Theme = createTheme({
         tertiary: {
             main: colours.black,
         },
+        quarternary: {
+            main: colours.beau_blue,
+        },
         background: {
             default: colours.white
         }

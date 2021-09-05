@@ -5,8 +5,9 @@ import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
 import { Link } from "react-router-dom";
+import AddButton from "@material-ui/icons/Add"
+import IconButton from '@material-ui/core/IconButton';
 
 //general components in use
 import PageAppBar from "../components/PageAppBar"
@@ -32,6 +33,19 @@ const useStyles = makeStyles({
         listStyleType: "none",
         padding: "0 10px 0 10px"
     },
+    addButtonContainer: {
+        position: "fixed", 
+        bottom: 0,
+        padding: "4em",
+        width: "100%",
+        justifyContent: "flex-end",
+        display: "flex"
+    },
+    addButton: {
+        fontSize: "large",
+        color: palette.tertiary.main,
+        backgroundColor: palette.quarternary.main
+    }
 });
 
 const PersonListItem = () => {
@@ -51,8 +65,16 @@ const PersonListItem = () => {
 const PersonList = () => {
     const classes = useStyles();
     return (
-        <Grid container direction="column" style={{ minHeight: "90vh", padding: "20px 0 0 0"}}>
+        <Grid container direction="column" style={{ minHeight: "80vh", padding: "20px 0 0 0"}}>
         <ul className={classes.personList}>
+            <li><PersonListItem /></li>
+            <li><PersonListItem /></li>
+            <li><PersonListItem /></li>
+            <li><PersonListItem /></li>
+            <li><PersonListItem /></li>
+            <li><PersonListItem /></li>
+            <li><PersonListItem /></li>
+            <li><PersonListItem /></li>
             <li><PersonListItem /></li>
             <li><PersonListItem /></li>
             <li><PersonListItem /></li>
@@ -67,6 +89,7 @@ const PersonList = () => {
 }
 
 const PeopleListPage = () => {
+    const classes = useStyles();
     return (
         <ThemeProvider theme={Theme}>
         <CssBaseline />
@@ -74,6 +97,12 @@ const PeopleListPage = () => {
             <PageAppBar prevPage="/HomePage"/>
 
             <PersonList />
+
+            <Box className={classes.addButtonContainer} >
+                <IconButton aria-label="add" className={classes.addButton} >
+                    <AddButton fontSize="large"/>
+                </IconButton>
+            </Box>
 
         </ThemeProvider>
     )
