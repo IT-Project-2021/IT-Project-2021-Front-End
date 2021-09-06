@@ -27,11 +27,11 @@ const useStyles = makeStyles({
     },
     listedPerson: {
         textTransform: "none",
-        padding: "10px 20px 10px 10px"
+        padding: "22px 20px 15px 15px"
     },
     personList: {
         listStyleType: "none",
-        padding: "0 10px 0 10px"
+        padding: "0 10px 0 15px"
     },
     addButtonContainer: {
         position: "fixed", 
@@ -54,7 +54,7 @@ const PersonListItem = () => {
         <Box>
             <Link to="/PeopleInformation" className={classes.personLink} >
                 <Button className={classes.personButton} fullWidth={true}>
-                    <Typography className={classes.listedPerson}> Person </Typography>
+                    <Typography variant="h4" className={classes.listedPerson}> Person </Typography>
                 </Button>
             </Link>
             <Divider className={classes.divider} />

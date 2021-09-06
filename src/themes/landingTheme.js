@@ -19,22 +19,28 @@ const Theme = createTheme({
   typography: {
     h1: {
       fontFamily: 'Reem Kufi',
-      fontSize: '7rem',
+      fontSize: '9rem',
     },
     h2: {
       fontFamily: 'Roboto',
       fontWeight: '500',
-      fontSize: '1.5rem',
+      fontSize: '2.5rem',
     },
     h3: {
       fontFamily: 'Roboto',
-      fontSize: '1.25rem',
+      fontSize: '5rem',
+      fontWeight: '500',
+    },
+    h4: {
+      fontFamily: 'Roboto',
+      fontSize: '2.5rem',
       fontWeight: '500',
     },
     body1: {
       fontFamily: 'Roboto',
       fontWeight: '400',
       lineHeight: '1.2',
+      fontSize: '1.5rem',
     },
     body2: {
       fontFamily: 'Roboto',
@@ -42,8 +48,8 @@ const Theme = createTheme({
       lineHeight: '1.2',
     },
     button: {
-      width: "120px",
-      height: "40px",
+      width: "150px",
+      height: "55px",
     },
   }
 

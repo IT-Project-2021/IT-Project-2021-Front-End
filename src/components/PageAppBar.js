@@ -22,6 +22,7 @@ const useStyles = makeStyles({
     },
     toolbar: {
         color: palette.secondary.main,
+        minHeight: "110px",
     },
     toolbarText: {
         padding: "0 75% 0 0"
@@ -42,7 +43,7 @@ const PageAppBar = ({prevPage}) => {
                 </IconButton>
                 </Link>
 
-                <Typography variant="h6">
+                <Typography variant="h4">
                     People
                 </Typography>
             

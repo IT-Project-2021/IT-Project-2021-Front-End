@@ -65,7 +65,7 @@ const OptionsButton = ({name, position}) => {
     const classes = useStyles();
     return (
         <Button className={classes.optionsButton} style={{justifyContent: justifyFlex}}>
-            <Typography variant="h3">{name}</Typography>
+            <Typography variant="h5">{name}</Typography>
         </Button>
     )
 }

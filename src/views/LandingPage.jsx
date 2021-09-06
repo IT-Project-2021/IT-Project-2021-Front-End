@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 const LoginButton = () => {
   const classes = useStyles();
   return (
-    <Box mt="20px">
+    <Box mt="30px">
       <Link to="/HomePage" style={{ textDecoration: 'none' }}>
         <Button className = {classes.loginButton} variant="contained" type="submit" >
           <Typography variant="h2">Log In</Typography>
@@ -42,7 +42,7 @@ const LoginButton = () => {
 const SignUpButton = () => {
   const classes = useStyles();
   return (
-    <Box mt="20px">
+    <Box mt="30px">
        <Link to="/HomePage" style={{ textDecoration: 'none' }}>
         <Button className = {classes.signupButton} variant="contained" type="submit" >
           <Typography variant="h2">Sign Up</Typography>
