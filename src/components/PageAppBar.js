@@ -30,7 +30,7 @@ const useStyles = makeStyles({
 
 });
 
-const PageAppBar = ({prevPage}) => {
+const PageAppBar = ({prevPage, tab}) => {
     const classes = useStyles();
     return (
         <AppBar className={classes.root} color="secondary">
@@ -44,7 +44,7 @@ const PageAppBar = ({prevPage}) => {
                 </Link>
 
                 <Typography variant="h4">
-                    People
+                    {tab}
                 </Typography>
             
                 <Box display="flex" justifyContent="flex-end" width="100%">
