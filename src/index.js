@@ -12,6 +12,7 @@ import PeopleInfoPage from "./views/PeopleInfoPage"
 import HomePage from "./views/HomePage"
 import PeopleListPage from "./views/PeopleListPage"
 import MeetingsPage from "./views/MeetingsPage"
+import MeetingInfoPage from "./views/MeetingInfoPage"
 
 
 var hist = createBrowserHistory();
@@ -25,6 +26,7 @@ ReactDOM.render(
         <Route path="/HomePage" component={HomePage} />
         <Route path="/People" component={PeopleListPage} />
         <Route path="/Meetings" component={MeetingsPage} />
+        <Route path="/MeetingInformation" component={MeetingInfoPage} />
       </Box>
     </ThemeProvider>
   </Router>,
