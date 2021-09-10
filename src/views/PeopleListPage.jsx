@@ -48,11 +48,12 @@ const useStyles = makeStyles({
     }
 });
 
-const PersonListItem = ({name}) => {
+const PersonListItem = ({name, id}) => {
     const classes = useStyles();
+    const detailsURL = "/PeopleInformation/" + id;
     return (
         <Box>
-            <Link to="/PeopleInformation" className={classes.personLink} >
+            <Link to={detailsURL} className={classes.personLink} >
                 <Button className={classes.personButton} fullWidth={true}>
                     <Typography variant="h4" className={classes.listedPerson}> {name} </Typography>
                 </Button>
@@ -94,7 +95,10 @@ const PeopleListPage = () => {
             <ul className={classes.personList}>
                 {peopleList.map(item => 
                     <li key={item._id}>
-                        <PersonListItem name={item.first_name + " " + item.last_name} />
+                        <PersonListItem 
+                            name={item.first_name + " " + item.last_name}
+                            id={item._id} 
+                        />
                     </li>
                 )}
             </ul>

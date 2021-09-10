@@ -1,13 +1,14 @@
 
 import Theme from "../themes/basicTheme";
-
+import { useParams } from "react-router-dom"
 import { ThemeProvider } from "@material-ui/styles";
 import { Typography, Button, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from '@material-ui/core/styles';
-//general components in use
 import PageAppBar from "../components/PageAppBar"
+import peopleService from "../services/people"
+import React, { useState, useEffect } from 'react'
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -31,13 +32,13 @@ const useStyles = makeStyles({
     }
 });
 
-const PersonDetails = () => {
+const PersonDetails = ({details}) => {
 
   const classes = useStyles();
   return (
     <Box >
       <Box className={classes.contactDetails}>
-        <Typography variant="h1">Contact Name</Typography>
+        <Typography variant="h1">{details.first_name + " " + details.last_name}</Typography>
         <Typography variant="h2">Company • Position</Typography>
       </Box>
 
@@ -114,6 +115,27 @@ const MeetingHistory = () => {
 
 const PeopleInfoPage = () => {
 
+  // Page will display dummy info before it has loaded properly
+  const dummyInfo = {
+    first_name: "Contact",
+    last_name: "Name"
+  }
+  const [contactInfo, setContactInfo] = useState(dummyInfo)
+
+  // get user info from server
+  let {id} = useParams();
+  console.log("person id:", id);
+  useEffect(() => {
+    peopleService
+      .getByID(id)
+      .then(response => {
+        setContactInfo(response.data)
+      })
+      .catch(error => {
+        console.log("Failed to retrieve person info from the server")
+      })
+  }, [id])
+
   return (
     <ThemeProvider theme={Theme}>
       <CssBaseline />
@@ -122,7 +144,7 @@ const PeopleInfoPage = () => {
 
         <Grid container direction="column" justifyContent="center" style={{minHeight: "90vh"}}>
           
-          <PersonDetails />
+          <PersonDetails details={contactInfo}/>
 
           <Box display="inline" px="20px">
             <SetMeetingButton />

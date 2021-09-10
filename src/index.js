@@ -22,7 +22,7 @@ ReactDOM.render(
     <ThemeProvider theme={Theme}>
       <Box align="center" height="100%">
         <Route exact path="/" component={LandingPage} />
-        <Route path="/PeopleInformation" component={PeopleInfoPage} />
+        <Route path="/PeopleInformation/:id" component={PeopleInfoPage} />
         <Route path="/HomePage" component={HomePage} />
         <Route path="/People" component={PeopleListPage} />
         <Route path="/Login" component={LoginPage} />
