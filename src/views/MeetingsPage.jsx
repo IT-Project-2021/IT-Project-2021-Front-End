@@ -14,47 +14,51 @@ import PageAppBar from "../components/PageAppBar"
 
 const palette = Theme.palette
 const useStyles = makeStyles({
-    personButton: {
+    meetingButton: {
       color: palette.tertiary.main,
       justifyContent: "flex-start",
     },
     divider: {
-        background: palette.secondary.main,
+        background: palette.quarternary.main,
         variant: 'fullWidth',
     },
-    personLink: {
+    meetingLink: {
         textDecoration: "none",
     },
-    listedPerson: {
+    listedMeeting: {
         textTransform: "none",
         padding: "22px 20px 15px 15px"
     },
-    personList: {
+    meetingList: {
         listStyleType: "none",
         padding: "0 10px 0 15px"
     },
     addButtonContainer: {
         position: "fixed", 
         bottom: 0,
-        padding: "4em",
         width: "100%",
         justifyContent: "flex-end",
-        display: "flex"
+        display: "flex",
+        padding: "4em",
     },
     addButton: {
         fontSize: "large",
         color: palette.tertiary.main,
         backgroundColor: palette.quarternary.main
-    }
+    },
+    leftText: {
+        textAlign: "left",
+        padding: "30px 00px 0px 33px"
+    },
 });
 
-const PersonListItem = () => {
+const MeetingListItem = () => {
     const classes = useStyles();
     return (
         <Box>
-            <Link to="/PeopleInformation" className={classes.personLink} >
-                <Button className={classes.personButton} fullWidth={true}>
-                    <Typography variant="h4" className={classes.listedPerson}> Person </Typography>
+            <Link to="/PeopleInformation" className={classes.meetingLink} >
+                <Button className={classes.meetingButton} fullWidth={true}>
+                    <Typography variant="h4" className={classes.listedMeeting}> Meetings </Typography>
                 </Button>
             </Link>
             <Divider className={classes.divider} />
@@ -62,41 +66,35 @@ const PersonListItem = () => {
     )
 }
 
-const PersonList = () => {
+const MeetingList = () => {
     const classes = useStyles();
     return (
-        <Grid container direction="column" style={{ minHeight: "80vh", padding: "20px 0 0 0"}}>
-        <ul className={classes.personList}>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
+        <Grid container direction="column" style={{ padding: "20px 0 0 0"}}>
+        <ul className={classes.meetingList}>
+            <li><MeetingListItem /></li>
+            <li><MeetingListItem /></li>
+            <li><MeetingListItem /></li>
+            <li><MeetingListItem /></li>
         </ul>
         </Grid>
     )
 }
 
-const PeopleListPage = () => {
+const MeetingsPage = () => {
     const classes = useStyles();
     return (
         <ThemeProvider theme={Theme}>
         <CssBaseline />
 
-            <PageAppBar prevPage="/HomePage" tab="People"/>
+            <PageAppBar prevPage="/HomePage" tab="Meetings"/>
 
-            <PersonList />
+            <Typography variant="h2" className={classes.leftText} >Upcoming</Typography>
+
+            <MeetingList />
+
+            <Typography variant="h2" className={classes.leftText} >Past Meetings</Typography>
+
+            <MeetingList />
 
             <Box className={classes.addButtonContainer} >
                 <IconButton aria-label="add" className={classes.addButton} >
@@ -108,4 +106,4 @@ const PeopleListPage = () => {
     )
 }
 
-export default PeopleListPage
+export default MeetingsPage
