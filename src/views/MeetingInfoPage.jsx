@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     },
     meetingDescription: {
       color: palette.tertiary.main,
-      padding: "30px 00px 0px 33px",
+      padding: "20px 00px 0px 33px",
       textAlign: "left",
     },
     editButtonContainer: {
@@ -48,7 +48,7 @@ const MeetingDetails = () => {
         <Typography variant="h1">Meeting 1</Typography>
       </Box>
 
-      <Box className={classes.meetingDescription}>
+      <Box className={classes.leftText}>
         <Typography variant="body1">
             Meeting Description
         </Typography>
@@ -67,36 +67,77 @@ const EditDetailsButton = () => {
 }
 
 const MeetingHistory = () => {
+
+  const classes = useStyles();
+
   return (
     <Box>
-      <Box mt="40px">
-        <Typography variant="h2">
-          Date/Time:
-        </Typography>
-        <Typography variant="h2">
-          Location:
-        </Typography>
-        <Typography variant="h2">
-          Reminder:
-        </Typography>
-        <Typography variant="h2">
-          Participants:
-        </Typography>
-        <Typography variant="h2">
-          Agenda:
-        </Typography>
+
+      <Box mt="40px" className={classes.leftText}>
+        <Box mb="40px">
+          <Typography variant="h2">
+            Date/Time: 
+          </Typography>
+          <Typography variant="h4" >
+            8/8/2021 3PM
+          </Typography>
+        </Box>
+
+        <Box mb="40px">
+          <Typography variant="h2">
+            Location:
+          </Typography>
+          <Typography variant="h4" >
+            Melbourne
+          </Typography>
+        </Box>
+
+        <Box mb="40px">
+          <Typography variant="h2">
+            Reminder:
+          </Typography>
+          <Typography variant="h4" >
+            1 hour before
+          </Typography>
+        </Box>
+
+        <Box mb="40px" style={{minHeight: "10vh"}}>
+          <Typography variant="h2">
+            Participants
+          </Typography>
+          <Typography variant="h4" >
+            John Doe
+          </Typography>
+          <Typography variant="h4" >
+            Jane Doe
+          </Typography>
+        </Box>
+
+        <Box mb="40px" style={{minHeight: "10vh"}}>
+          <Typography variant="h2">
+            Agenda
+          </Typography>
+          <Typography variant="h4">
+            Topic 1
+          </Typography>
+          <Typography variant="h4" >
+            Topic 2
+          </Typography>
+        </Box>
+        
       </Box>
+
     </Box>
   )
 }
 
-const PeopleInfoPage = () => {
-
+const MeetingInfoPage = () => {
+  const classes = useStyles();
   return (
     <ThemeProvider theme={Theme}>
       <CssBaseline />
 
-      <PageAppBar prevPage="/Meeting" tab="Meetings"/>
+      <PageAppBar prevPage="/Meetings" tab="Meetings"/>
 
         <Grid style={{minHeight: "90vh"}}>
           
@@ -104,13 +145,14 @@ const PeopleInfoPage = () => {
 
           <MeetingHistory />
 
-          <Box display="inline" px="25px">
-            <EditDetailsButton />
+          <Box className={classes.editButtonContainer} >
+            <EditDetailsButton fontSize="large" className={classes.editButton}/>
           </Box>
+
 
         </Grid>
 
     </ThemeProvider>
 )};
 
-export default PeopleInfoPage;
+export default MeetingInfoPage;
