@@ -3,9 +3,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import { Typography, Button, TextField, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from '@material-ui/core/AppBar';
 import Link from '@material-ui/core/Link';
-
 
 //general components in use
 import PageAppBar from "../components/PageAppBar"
@@ -16,15 +14,7 @@ const LoginPage = () => {
     <ThemeProvider theme={Theme}>
       <CssBaseline />
 
-      <PageAppBar prevPage="/"/>
-
-      {/* <AppBar position="static" color="secondary" align="left" >
-          <Box ml="50px" my="20px">
-            <Typography variant="h6">
-              Login
-            </Typography>
-          </Box>
-      </AppBar> */}
+      <PageAppBar prevPage="/" tab="Back" />
 
       <Grid container direction="column" alignItems="center" justifyContent="center" style={{minHeight: "90vh"}}>
         <Box marginTop="clamp(120px, 12%, 300px)">
