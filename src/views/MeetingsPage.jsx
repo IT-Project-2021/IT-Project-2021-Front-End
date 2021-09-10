@@ -55,12 +55,10 @@ const useStyles = makeStyles({
 const MeetingListItem = () => {
     const classes = useStyles();
     return (
-        <Box>
-            <Link to="/PeopleInformation" className={classes.meetingLink} >
-                <Button className={classes.meetingButton} fullWidth={true}>
-                    <Typography variant="h4" className={classes.listedMeeting}> Meetings </Typography>
-                </Button>
-            </Link>
+        <Box>        
+            <Button className={classes.meetingButton} fullWidth={true}>
+                <Typography variant="h4" className={classes.listedMeeting}> Meetings </Typography>
+            </Button>
             <Divider className={classes.divider} />
         </Box>
     )
