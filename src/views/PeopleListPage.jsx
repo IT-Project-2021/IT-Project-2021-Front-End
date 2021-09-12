@@ -76,7 +76,7 @@ const PeopleListPage = () => {
                 setPeopleList(response.data)
             })
             .catch(error => {
-                console.log("Failed to retrieve list of people from the server")
+                console.log("Failed to retrieve list of people from the server:", error)
             })
     }, [])
     console.log("Number of people:", peopleList.length)

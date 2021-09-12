@@ -34,6 +34,7 @@ const useStyles = makeStyles({
 
 const PersonDetails = ({details}) => {
 
+  console.log("details:", details)
   const classes = useStyles();
   return (
     <Box >
@@ -50,10 +51,10 @@ const PersonDetails = ({details}) => {
 
       <Box className={classes.contactNumbers}>
         <Typography variant="body1">
-            email@address
+            {details.email}
         </Typography>
         <Typography variant="body1">
-            0123 456 789
+            {details.phone_num}
         </Typography>
       </Box>
     </Box>
@@ -117,8 +118,10 @@ const PeopleInfoPage = () => {
 
   // Page will display dummy info before it has loaded properly
   const dummyInfo = {
-    first_name: "Contact",
-    last_name: "Name"
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone_num: "",
   }
   const [contactInfo, setContactInfo] = useState(dummyInfo)
 
