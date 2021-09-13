@@ -42,7 +42,7 @@ const useStyles = makeStyles({
         display: "flex"
     },
     addButton: {
-        fontSize: "large",
+        fontSize: "100px",
         color: palette.tertiary.main,
         backgroundColor: palette.quarternary.main
     }
@@ -106,8 +106,8 @@ const PeopleListPage = () => {
 
 
             <Box className={classes.addButtonContainer} >
-                <IconButton aria-label="add" className={classes.addButton} >
-                    <AddButton fontSize="large"/>
+                <IconButton aria-label="add" className={classes.addButton}>
+                    <AddButton fontSize="inherit"/>
                 </IconButton>
             </Box>
 

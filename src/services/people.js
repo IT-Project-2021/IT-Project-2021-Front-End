@@ -1,7 +1,6 @@
 import axios from 'axios'
 
-// NOTE: this will need to be changed after deployment
-const baseUrl = 'http://localhost:4040/api/people'
+const baseUrl = 'https://it-project-2021-back-end.herokuapp.com/api/people'
 
 // get all people in the database
 const getAll = () => {
