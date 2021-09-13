@@ -8,6 +8,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from '@material-ui/core/styles';
 //general components in use
 import PageAppBar from "../components/PageAppBar"
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -33,9 +35,20 @@ const useStyles = makeStyles({
         color: palette.tertiary.main,
         backgroundColor: palette.quarternary.main
     },
-    leftText: {
+    meetingDetails: {
         textAlign: "left",
         padding: "30px 00px 0px 33px"
+    },
+    row: {
+      display: "flex",
+      flexDirection: "row",
+    },
+    meetingQuestions: {
+      textAlign: "left",
+      padding: "30px 50px 0px 50px"
+    },
+    meetingAnswers: {
+      padding: "30px 120px 0px 120px"
     },
 });
 
@@ -44,11 +57,11 @@ const MeetingDetails = () => {
   const classes = useStyles();
   return (
     <Box >
-      <Box className={classes.leftText}>
+      <Box className={classes.meetingDetails}>
         <Typography variant="h1">Meeting 1</Typography>
       </Box>
 
-      <Box className={classes.leftText}>
+      <Box className={classes.meetingDetails}>
         <Typography variant="body1">
             Meeting Description
         </Typography>
@@ -66,65 +79,69 @@ const EditDetailsButton = () => {
   )
 }
 
-const MeetingHistory = () => {
-
-  const classes = useStyles();
-
+const MeetingQuestions = () => {
   return (
-    <Box>
+      
+    <Box mt="40px">
+      <Box mb="40px">
+        <Typography variant="h2">
+          Date/Time: 
+        </Typography>
+      </Box>
+      
+      <Box mb="40px">
+        <Typography variant="h2">
+          Location:
+        </Typography>
+      </Box>
+      
+      <Box mb="40px">
+        <Typography variant="h2">
+          Reminder:
+        </Typography>
+      </Box>
 
-      <Box mt="40px" className={classes.leftText}>
-        <Box mb="40px">
-          <Typography variant="h2">
-            Date/Time: 
-          </Typography>
-          <Typography variant="h4" >
-            8/8/2021 3PM
-          </Typography>
-        </Box>
+      <Box mb="40px">
+        <Typography variant="h2">
+          Participants
+        </Typography>
+      </Box>
+      
+      <Box mb="40px">
+        <Typography variant="h2">
+          Agenda
+        </Typography>
+      </Box>
+    </Box>
+  )
+};
 
-        <Box mb="40px">
-          <Typography variant="h2">
-            Location:
-          </Typography>
-          <Typography variant="h4" >
-            Melbourne
-          </Typography>
-        </Box>
+const MeetingAnswers = () => {
+  return (
+    <Box mt="40px">
+      
+      <Box mb="40px">
+        <Typography variant="h2">
+          8/8/2021 3PM 
+        </Typography>
+      </Box>
+      
 
-        <Box mb="40px">
-          <Typography variant="h2">
-            Reminder:
-          </Typography>
-          <Typography variant="h4" >
-            1 hour before
-          </Typography>
-        </Box>
+      <Box mb="40px">
+        <Typography variant="h2">
+          Melbourne
+        </Typography>
+      </Box>
 
-        <Box mb="40px" style={{minHeight: "10vh"}}>
-          <Typography variant="h2">
-            Participants
-          </Typography>
-          <Typography variant="h4" >
-            John Doe
-          </Typography>
-          <Typography variant="h4" >
-            Jane Doe
-          </Typography>
-        </Box>
-
-        <Box mb="40px" style={{minHeight: "10vh"}}>
-          <Typography variant="h2">
-            Agenda
-          </Typography>
-          <Typography variant="h4">
-            Topic 1
-          </Typography>
-          <Typography variant="h4" >
-            Topic 2
-          </Typography>
-        </Box>
-        
+      <Box mb="40px">
+        <Select labelId="label" id="select" value="60">
+          <MenuItem value="5">5 minutes before</MenuItem> 
+          <MenuItem value="15">15 minutes before</MenuItem>
+          <MenuItem value="30">30 minutes before</MenuItem>
+          <MenuItem value="60">1 hour before</MenuItem>
+          <MenuItem value="120">2 hours before</MenuItem>
+          <MenuItem value="1440">1 day before</MenuItem>
+        </Select>    
       </Box>
 
     </Box>
@@ -143,7 +160,14 @@ const MeetingInfoPage = () => {
           
           <MeetingDetails />
 
-          <MeetingHistory />
+          <div className={classes.row}>
+            <div className={classes.meetingQuestions}>
+              <MeetingQuestions />
+            </div>
+            <div className={classes.meetingAnswers}>
+              <MeetingAnswers />
+            </div>
+          </div>
 
           <Box className={classes.editButtonContainer} >
             <EditDetailsButton fontSize="large" className={classes.editButton}/>
