@@ -9,8 +9,9 @@ import Box from "@material-ui/core/Box";
 
 import LandingPage from "./views/LandingPage"
 import PeopleInfoPage from "./views/PeopleInfoPage"
-import HomePage from "./views/HomePage"
 import PeopleListPage from "./views/PeopleListPage"
+import HomePage from "./views/HomePage"
+import LoginPage from "./views/LoginPage"
 import MeetingsPage from "./views/MeetingsPage"
 import MeetingInfoPage from "./views/MeetingInfoPage"
 
@@ -25,6 +26,7 @@ ReactDOM.render(
         <Route path="/PeopleInformation" component={PeopleInfoPage} />
         <Route path="/HomePage" component={HomePage} />
         <Route path="/People" component={PeopleListPage} />
+        <Route path="/Login" component={LoginPage} />
         <Route path="/Meetings" component={MeetingsPage} />
         <Route path="/MeetingInformation" component={MeetingInfoPage} />
       </Box>

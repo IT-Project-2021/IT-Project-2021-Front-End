@@ -98,7 +98,6 @@ const HomePage = () => {
             <Link to="/Meetings" style={{ textDecoration: 'none' }}>
                 <HomePageButton name="Meetings"/>
             </Link>
-            
             <HomePageButton name="Reminders" />
             </Grid>
 
