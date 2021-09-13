@@ -14,7 +14,7 @@ const LoginPage = () => {
     <ThemeProvider theme={Theme}>
       <CssBaseline />
 
-      <PageAppBar prevPage="/" tab="Back" />
+      <PageAppBar prevPage="/" />
 
       <Grid container direction="column" alignItems="center" justifyContent="center" style={{minHeight: "90vh"}}>
         <Box marginTop="clamp(120px, 12%, 300px)">
