@@ -12,9 +12,6 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { Link } from "react-router-dom";
 
-// name update doesn't stick in git unless the file contents change...
-// pls delete this comment!!
-
 const palette = Theme.palette
 const useStyles = makeStyles({
     mainButton: {
