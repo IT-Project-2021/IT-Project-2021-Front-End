@@ -8,7 +8,7 @@ import Link from '@material-ui/core/Link';
 //general components in use
 import PageAppBar from "../components/PageAppBar"
 
-const ProfilePage = () => {
+const PasswordPage = () => {
 
     return (
         <ThemeProvider theme={Theme}>
@@ -19,16 +19,20 @@ const ProfilePage = () => {
             <Grid container direction="column" alignItems="center" justifyContent="center" >
                 <Box marginTop="clamp(50px, 20%, 100px)">
                     <Typography variant="h2">
-                        Profile
+                        Change Password
                     </Typography>
                 </Box>
                 <form>
                     <Box marginTop="clamp(40px, 18%, 70px)" width="30%" minWidth="400px">
-                        <TextField label="First Name" placeholder="John" variant="filled" fullWidth />
+                        <TextField label="Current Password" placeholder="Current Password" required type="password" variant="filled" fullWidth required />
                     </Box>
 
                     <Box marginTop="clamp(40px, 18%, 70px)" width="30%" minWidth="400px">
-                        <TextField label="Last Name" placeholder="Doe" type="password" variant="filled" fullWidth />
+                        <TextField label="New Password" placeholder="New Password" required type="password" type="password" variant="filled" fullWidth />
+                    </Box>
+
+                    <Box marginTop="clamp(40px, 18%, 70px)" width="30%" minWidth="400px">
+                        <TextField label="Confirm New Password" placeholder="Confirm New Password" required type="password" variant="filled" fullWidth />
                     </Box>
                     <br />
 
@@ -42,18 +46,10 @@ const ProfilePage = () => {
                     </Link>
                 </Box>
 
-                <Box px="20px" marginTop="clamp(80px, 25%, 140px)">
-                    <Link to="/HomePage" style={{ textDecoration: 'none' }}>
-                        <Button size="medium" type="submit" variant="contained" color="tertiary">
-                            <Typography variant="button" style={{ color: 'black' }}>Change password</Typography>
-                        </Button>
-                    </Link>
-                </Box>
-
 
                 <Box marginTop="clamp(10px, 3%, 18px)" >
                     <Link href="#" style={{ fontSize: "25px", color: '#0353A4' }}>
-                        Delete Account
+                        Go Back
                     </Link>
                 </Box>
 
@@ -62,4 +58,4 @@ const ProfilePage = () => {
     )
 };
 
-export default ProfilePage;
+export default PasswordPage;
