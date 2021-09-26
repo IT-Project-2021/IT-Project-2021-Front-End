@@ -7,10 +7,13 @@ import { ThemeProvider } from "@material-ui/styles";
 import Theme from "./themes/landingTheme";
 import Box from "@material-ui/core/Box";
 
-import LandingPage from "./views/LandingPage.jsx"
+import LandingPage from "./views/LandingPage"
 import PeopleInfoPage from "./views/PeopleInfoPage"
+import PeopleListPage from "./views/PeopleListPage"
+import HomePage from "./views/HomePage"
+import LoginPage from "./views/LoginPage"
+import MeetingsPage from "./views/MeetingsPage"
 import MenuBar from './views/Menubar';
-
 
 
 var hist = createBrowserHistory();
@@ -20,12 +23,20 @@ ReactDOM.render(
     <ThemeProvider theme={Theme}>
       <Box align="center" height="100%">
         <Route exact path="/" component={LandingPage} />
+
         <Route path="/people_info" component={PeopleInfoPage} />
         <Route path="/menubar" component={MenuBar}/>
+
+        <Route path="/PeopleInformation/:id" component={PeopleInfoPage} />
+        <Route path="/HomePage" component={HomePage} />
+        <Route path="/People" component={PeopleListPage} />
+        <Route path="/Login" component={LoginPage} />
+        <Route path="/Meetings" component={MeetingsPage} />
+
       </Box>
     </ThemeProvider>
   </Router>,
   document.getElementById('root')
-  
+
 );
 

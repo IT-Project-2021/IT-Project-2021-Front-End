@@ -12,6 +12,9 @@ const Theme = createTheme({
         tertiary: {
             main: colours.black,
         },
+        quarternary: {
+            main: colours.beau_blue,
+        },
         background: {
             default: colours.white
         }
@@ -20,18 +23,19 @@ const Theme = createTheme({
     typography: {
         h1: {
             fontFamily: 'Reem Kufi',
-            fontSize: '5rem',
+            fontSize: '7rem',
             color: colours.black
         },
         h2: {
             fontFamily: 'Reem Kufi',
             fontWeight: '400',
-            fontSize: '1.5rem',
+            fontSize: '2.5rem',
             color: colours.black,
         },
         body1: {
             fontFamily: 'Roboto',
-            color: colours.black
+            color: colours.black,
+            fontSize: '1.5rem',
 
         },
         button: {

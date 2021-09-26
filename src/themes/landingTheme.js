@@ -1,16 +1,17 @@
 import { createTheme } from '@material-ui/core/styles'
+import colours from "./colours"
 
 const Theme = createTheme({
   palette: {
     primary: {
-      main: '#B9D6F2',
+      main: colours.beau_blue,
     },
     secondary: {
-      main: '#FFFFFF',
+      main: colours.white,
     },
     background: {
       light: '',
-      default: '#003559',
+      default: colours.dark_blue,
       dark: '',
     }
   },
@@ -18,18 +19,28 @@ const Theme = createTheme({
   typography: {
     h1: {
       fontFamily: 'Reem Kufi',
-      fontSize: '5rem',
+      fontSize: '9rem',
     },
     h2: {
       fontFamily: 'Roboto',
       fontWeight: '500',
-      fontSize: '14',
-      fontStyle: 'bold',
+      fontSize: '2.5rem',
+    },
+    h3: {
+      fontFamily: 'Roboto',
+      fontSize: '5rem',
+      fontWeight: '500',
+    },
+    h4: {
+      fontFamily: 'Roboto',
+      fontSize: '2.5rem',
+      fontWeight: '500',
     },
     body1: {
       fontFamily: 'Roboto',
       fontWeight: '400',
       lineHeight: '1.2',
+      fontSize: '1.5rem',
     },
     body2: {
       fontFamily: 'Roboto',
@@ -37,12 +48,12 @@ const Theme = createTheme({
       lineHeight: '1.2',
     },
     button: {
-      width: "120px",
-      height: "40px"
+      width: "150px",
+      height: "55px",
     },
   }
 
-  
+
 
 });
 
