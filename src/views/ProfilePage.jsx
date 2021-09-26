@@ -14,7 +14,7 @@ const ProfilePage = () => {
         <ThemeProvider theme={Theme}>
             <CssBaseline />
 
-            <PageAppBar prevPage="/" />
+            <PageAppBar prevPage="/" tab="Profile" />
 
             <Grid container direction="column" alignItems="center" justifyContent="center" >
                 <Box marginTop="clamp(50px, 20%, 100px)">
