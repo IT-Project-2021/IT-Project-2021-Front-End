@@ -11,6 +11,10 @@ import PageAppBar from "../components/PageAppBar"
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import AddIcon from '@material-ui/icons/Add';
+
 const palette = Theme.palette
 const useStyles = makeStyles({
     contactDetails: {
@@ -95,23 +99,13 @@ const MeetingQuestions = () => {
         </Typography>
       </Box>
       
-      <Box mb="40px">
+      <Box>
         <Typography variant="h2">
           Reminder:
         </Typography>
       </Box>
 
-      <Box mb="40px">
-        <Typography variant="h2">
-          Participants
-        </Typography>
-      </Box>
       
-      <Box mb="40px">
-        <Typography variant="h2">
-          Agenda
-        </Typography>
-      </Box>
     </Box>
   )
 };
@@ -133,7 +127,7 @@ const MeetingAnswers = () => {
         </Typography>
       </Box>
 
-      <Box mb="40px">
+      <Box>
         <Select labelId="label" id="select" value="60">
           <MenuItem value="5">5 minutes before</MenuItem> 
           <MenuItem value="15">15 minutes before</MenuItem>
@@ -142,6 +136,71 @@ const MeetingAnswers = () => {
           <MenuItem value="120">2 hours before</MenuItem>
           <MenuItem value="1440">1 day before</MenuItem>
         </Select>    
+      </Box>
+
+      
+    </Box>
+  )
+}
+
+const ParticipantsAndTopics = () => {
+  return (
+    <Box mt="40px">
+
+      <Box mb="40px"> 
+        <Typography variant="h2">
+          Participants
+        </Typography>
+      </Box>
+      
+      <Box mb="40px" ml="20px">
+        <Typography variant="h2">
+          John Doe
+          <IconButton edge="end" aria-label="delete">
+            <DeleteIcon />
+          </IconButton>
+        </Typography>
+        
+        <Typography variant="h2">
+          Jane Doe
+          <IconButton edge="end" aria-label="delete">
+            <DeleteIcon />
+          </IconButton>
+        </Typography>
+        
+        <Button> 
+          <IconButton edge="end" aria-label="add">
+            <AddIcon /> Add Participant
+          </IconButton>
+        </Button>
+      </Box>
+
+      <Box mb="40px">
+        <Typography variant="h2">
+          Agenda
+        </Typography>
+      </Box>
+
+      <Box mb="40px" ml="20px">
+        <Typography variant="h2">
+          Topic 1
+          <IconButton edge="end" aria-label="delete">
+            <DeleteIcon />
+          </IconButton>
+        </Typography>
+        
+        <Typography variant="h2">
+          Topic 2
+          <IconButton edge="end" aria-label="delete">
+            <DeleteIcon />
+          </IconButton>
+        </Typography>
+        
+        <Button> 
+          <IconButton edge="end" aria-label="add">
+            <AddIcon /> Add Topic
+          </IconButton>
+        </Button>
       </Box>
 
     </Box>
@@ -166,6 +225,12 @@ const MeetingInfoPage = () => {
             </div>
             <div className={classes.meetingAnswers}>
               <MeetingAnswers />
+            </div>
+          </div>
+
+          <div className={classes.row}>
+            <div className={classes.meetingQuestions}>
+              <ParticipantsAndTopics />
             </div>
           </div>
 
