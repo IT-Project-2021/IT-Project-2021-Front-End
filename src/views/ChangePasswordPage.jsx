@@ -33,7 +33,7 @@ const ChangePasswordPage = () => {
         <ThemeProvider theme={Theme}>
             <CssBaseline />
 
-            <PageAppBar prevPage="/Profile" />
+            <PageAppBar prevPage="/Profile" tab="Profile" />
 
             <Grid container direction="column" alignItems="center" justifyContent="center" >
                 <Box className={classes.title}>

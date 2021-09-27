@@ -31,7 +31,7 @@ const NewPersonPage = () => {
         <ThemeProvider theme={Theme}>
             <CssBaseline />
 
-            <PageAppBar prevPage="/" tab="People" />
+            <PageAppBar prevPage="/People" tab="People" />
 
             <Grid container direction="column" alignItems="center" justifyContent="center" style={{ minHeight: "90vh" }}>
                 <Box className={classes.title}>
