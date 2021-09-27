@@ -51,6 +51,11 @@ const Theme = createTheme({
       width: "150px",
       height: "55px",
     },
+    secondaryButton: {
+      fontFamily: 'Reem Kufi',
+      fontWeight: '400',
+      variant: "outlined",
+    },
   }
 
 
