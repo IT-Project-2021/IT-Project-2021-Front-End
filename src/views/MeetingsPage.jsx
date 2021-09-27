@@ -97,9 +97,11 @@ const MeetingsPage = () => {
             <MeetingList />
 
             <Box className={classes.addButtonContainer} >
+              <Link to="/CreateMeeting" style={{ textDecoration: 'none' }}>
                 <IconButton aria-label="add" className={classes.addButton} >
                     <AddButton fontSize="large"/>
                 </IconButton>
+              </Link>
             </Box>
 
         </ThemeProvider>
