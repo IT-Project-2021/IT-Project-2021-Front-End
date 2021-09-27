@@ -3,7 +3,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import { Typography, Button, TextField, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Link from '@material-ui/core/Link';
+import { Link } from "react-router-dom";
 
 //general components in use
 import PageAppBar from "../components/PageAppBar"
