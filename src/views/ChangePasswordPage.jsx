@@ -3,7 +3,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import { Typography, Button, TextField, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Link from '@material-ui/core/Link';
+import { Link } from "react-router-dom";
 import PageAppBar from "../components/PageAppBar"
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -33,7 +33,7 @@ const ChangePasswordPage = () => {
         <ThemeProvider theme={Theme}>
             <CssBaseline />
 
-            <PageAppBar prevPage="/" />
+            <PageAppBar prevPage="/Profile" />
 
             <Grid container direction="column" alignItems="center" justifyContent="center" >
                 <Box className={classes.title}>
@@ -43,11 +43,11 @@ const ChangePasswordPage = () => {
                 </Box>
                 <form>
                     <Box className={classes.form}>
-                        <TextField label="Current Password" placeholder="Current Password" required type="password" variant="filled" fullWidth required />
+                        <TextField label="Current Password" placeholder="Current Password" type="password" variant="filled" fullWidth required />
                     </Box>
 
                     <Box className={classes.form}>
-                        <TextField label="New Password" placeholder="New Password" required type="password" type="password" variant="filled" fullWidth />
+                        <TextField label="New Password" placeholder="New Password" type="password" variant="filled" fullWidth />
                     </Box>
 
                     <Box className={classes.form}>
@@ -58,16 +58,14 @@ const ChangePasswordPage = () => {
                 </form>
 
                 <Box className={classes.update}>
-                    <Link to="/HomePage" style={{ textDecoration: 'none' }}>
-                        <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
-                            <Typography variant="button" color="secondary">Update</Typography>
-                        </Button>
-                    </Link>
+                    <Button size="medium" type="submit" variant="outlined" color="secondary">
+                        <Typography variant="button" color="secondary">Update</Typography>
+                    </Button>
                 </Box>
 
 
                 <Box>
-                    <Link href="#" style={{ fontSize: "25px", color: '#0353A4' }}>
+                    <Link to="/Profile" style={{ textDecoration: 'none', fontSize: "25px", color: '#0353A4' }}>
                         Go Back
                     </Link>
                 </Box>

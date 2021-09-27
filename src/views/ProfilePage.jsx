@@ -3,7 +3,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import { Typography, Button, TextField, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Link from '@material-ui/core/Link';
+import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import PageAppBar from "../components/PageAppBar"
 
@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     },
     changePasswordButton: {
         color: palette.primary.main,
-        margin: "50% 10% 100px",
+        margin: "50% 10% 0px 100px",
     },
     delete: {
         color: palette.primary.main,
@@ -64,24 +64,21 @@ const ProfilePage = () => {
                 </form>
 
                 <Box className={classes.update}>
-                    <Link to="/HomePage" style={{ textDecoration: 'none' }}>
-                        <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
-                            <Typography variant="button" color="secondary">Update</Typography>
-                        </Button>
-                    </Link>
+                    <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
+                        <Typography variant="button" color="secondary">Update</Typography>
+                    </Button>
                 </Box>
 
                 <Box className={classes.changePasswordButton}>
-                    <Link to="/HomePage" style={{ textDecoration: 'none' }}>
-                        <Button size="medium" type="submit" variant="contained" color="tertiary">
-                            <Typography variant="button" style={{ color: 'black' }}>Change password</Typography>
+                    <Link to="/ChangePassword" style={{ textDecoration: 'none' }}>
+                        <Button size="medium" variant="outlined" color="secondary">
+                            <Typography variant="button"> Change password </Typography>
                         </Button>
                     </Link>
                 </Box>
 
-
                 <Box className={classes.delete}>
-                    <Link href="#" style={{ fontSize: "25px", color: '#0353A4' }}>
+                    <Link href="#" style={{ textDecoration: 'none', fontSize: "25px", color: '#0353A4' }}>
                         Delete Account
                     </Link>
                 </Box>
