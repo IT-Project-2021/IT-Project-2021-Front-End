@@ -76,7 +76,10 @@ const OptionsBar = () => {
     const classes = useStyles();
     return (
         <Box className={classes.optionsBar}  >
-            <OptionsButton name="Settings" position="left" />
+            
+            <Link to="/Profile" style={{ textDecoration: 'none' }}>
+                <OptionsButton name="Profle" position="left" />
+            </Link>
             <OptionsButton name="Logout" position="right" />
         </Box>
     )
