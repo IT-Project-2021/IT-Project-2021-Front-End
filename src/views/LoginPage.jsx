@@ -14,7 +14,7 @@ const LoginPage = () => {
     <ThemeProvider theme={Theme}>
       <CssBaseline />
 
-      <PageAppBar prevPage="/" />
+      <PageAppBar prevPage="/" tab="Login" />
 
       <Grid container direction="column" alignItems="center" justifyContent="center" style={{minHeight: "90vh"}}>
         <Box marginTop="clamp(120px, 12%, 300px)">
@@ -44,7 +44,7 @@ const LoginPage = () => {
         
 
         <Box marginTop="clamp(10px, 3%, 18px)" >
-          <Link href="#" style={{ fontSize: "16px", color: '#0353A4' }}>
+          <Link to="/ForgotPassword" style={{ textDecoration: 'none', fontSize: "16px", color: '#0353A4' }}>
             Forgot your password?
           </Link>
         </Box>

@@ -1,6 +1,4 @@
 import Theme from "../themes/landingTheme";
-
-//general components in use
 import PageTitle from "../components/PageTitle"
 
 import { ThemeProvider } from "@material-ui/styles";
@@ -79,7 +77,11 @@ const OptionsBar = () => {
             <Link to="/Profile" style={{ textDecoration: 'none' }}>
                 <OptionsButton name="Profle" position="left" />
             </Link>
-            <OptionsButton name="Logout" position="right" />
+
+            <Link to="/" style={{ textDecoration: 'none' }}>
+                <OptionsButton name="Logout" position="right" />
+            </Link>
+
         </Box>
     )
 }

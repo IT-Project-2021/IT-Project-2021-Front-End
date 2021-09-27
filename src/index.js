@@ -34,7 +34,7 @@ ReactDOM.render(
         <Route path="/Login" component={LoginPage} />
         <Route path="/Meetings" component={MeetingsPage} />
         <Route path="/Signup" component={SignupPage} />
-        <Route path="/Forgot" component={ForgotPasswordPage} />
+        <Route path="/ForgotPassword" component={ForgotPasswordPage} />
         <Route path="/Profile" component={ProfilePage} />
         <Route path="/ChangePassword" component={ChangePasswordPage} />
         <Route path="/AddNewPerson" component={NewPersonPage} />
