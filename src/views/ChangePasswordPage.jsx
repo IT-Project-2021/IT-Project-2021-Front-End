@@ -4,12 +4,31 @@ import { Typography, Button, TextField, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Link from '@material-ui/core/Link';
-
-//general components in use
 import PageAppBar from "../components/PageAppBar"
+import { makeStyles } from '@material-ui/core/styles';
 
-const PasswordPage = () => {
+const palette = Theme.palette
+const useStyles = makeStyles({
+    title: {
+      color: palette.primary.main,
+      margin: "20% 20% 100px",
+    },
+    form: {
+        color: palette.primary.main,
+        margin: "20% 0px 0px 0px",
+        width: "30%",
+        minWidth: "400px",
+    },
+    update: {
+        color: palette.primary.main,
+        margin: "60% 0px 10px 0px",
+        width: "50%",
+        minWidth: "400px"
+    },
+})
 
+const ChangePasswordPage = () => {
+    const classes = useStyles();
     return (
         <ThemeProvider theme={Theme}>
             <CssBaseline />
@@ -17,28 +36,28 @@ const PasswordPage = () => {
             <PageAppBar prevPage="/" />
 
             <Grid container direction="column" alignItems="center" justifyContent="center" >
-                <Box marginTop="clamp(50px, 20%, 100px)">
+                <Box className={classes.title}>
                     <Typography variant="h2">
                         Change Password
                     </Typography>
                 </Box>
                 <form>
-                    <Box marginTop="clamp(40px, 18%, 70px)" width="30%" minWidth="400px">
+                    <Box className={classes.form}>
                         <TextField label="Current Password" placeholder="Current Password" required type="password" variant="filled" fullWidth required />
                     </Box>
 
-                    <Box marginTop="clamp(40px, 18%, 70px)" width="30%" minWidth="400px">
+                    <Box className={classes.form}>
                         <TextField label="New Password" placeholder="New Password" required type="password" type="password" variant="filled" fullWidth />
                     </Box>
 
-                    <Box marginTop="clamp(40px, 18%, 70px)" width="30%" minWidth="400px">
+                    <Box className={classes.form}>
                         <TextField label="Confirm New Password" placeholder="Confirm New Password" required type="password" variant="filled" fullWidth />
                     </Box>
                     <br />
 
                 </form>
 
-                <Box px="20px" marginTop="clamp(25px, 12%, 50px)">
+                <Box className={classes.update}>
                     <Link to="/HomePage" style={{ textDecoration: 'none' }}>
                         <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
                             <Typography variant="button" color="secondary">Update</Typography>
@@ -47,7 +66,7 @@ const PasswordPage = () => {
                 </Box>
 
 
-                <Box marginTop="clamp(10px, 3%, 18px)" >
+                <Box>
                     <Link href="#" style={{ fontSize: "25px", color: '#0353A4' }}>
                         Go Back
                     </Link>
@@ -58,4 +77,4 @@ const PasswordPage = () => {
     )
 };
 
-export default PasswordPage;
+export default ChangePasswordPage;
