@@ -10,8 +10,8 @@ import { makeStyles } from '@material-ui/core/styles';
 const palette = Theme.palette
 const useStyles = makeStyles({
     title: {
-      color: palette.primary.main,
-      margin: "0px 0px 20%",
+        color: palette.primary.main,
+        margin: "0px 0px 20%",
     },
     confirm: {
         color: palette.secondary.main,
@@ -62,7 +62,7 @@ const NewPersonPage = () => {
                     </Box>
 
                     <Box className={classes.form}>
-                        <TextField label="optional notes" placeholder="optional notes" variant="filled" fullWidth />
+                        <TextField label="optional notes" placeholder="optional notes" variant="filled" fullWidth multiline rows={4} />
                     </Box>
                     <br />
 
