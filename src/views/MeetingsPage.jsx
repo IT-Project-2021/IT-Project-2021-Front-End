@@ -7,6 +7,8 @@ import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 import AddButton from "@material-ui/icons/Add"
 import IconButton from '@material-ui/core/IconButton';
+import meetingService from "../services/meetings";
+import React, { useState, useEffect } from 'react'
 
 //general components in use
 import PageAppBar from "../components/PageAppBar"
@@ -51,33 +53,35 @@ const useStyles = makeStyles({
     },
 });
 
-const MeetingListItem = () => {
+const MeetingListItem = ({title}) => {
     const classes = useStyles();
     return (
         <Box>        
             <Button className={classes.meetingButton} fullWidth={true}>
-                <Typography variant="h4" className={classes.listedMeeting}> Meetings </Typography>
+                <Typography variant="h4" className={classes.listedMeeting}> {title} </Typography>
             </Button>
             <Divider className={classes.divider} />
         </Box>
     )
 }
 
-const MeetingList = () => {
-    const classes = useStyles();
-    return (
-        <Grid container direction="column" style={{ padding: "20px 0 0 0"}}>
-        <ul className={classes.meetingList}>
-            <li><MeetingListItem /></li>
-            <li><MeetingListItem /></li>
-            <li><MeetingListItem /></li>
-            <li><MeetingListItem /></li>
-        </ul>
-        </Grid>
-    )
-}
-
 const MeetingsPage = () => {
+
+    // maintain list of meetings from the server
+    const [meetingList, setMeetingList] = useState([])
+
+    // retrieve the list of meetings
+    useEffect(() => {
+        meetingService
+            .getAll()
+            .then(response => {
+                setMeetingList(response.data)
+            })
+            .catch(error => {
+                console.log("Failed to retrieve list of meetings from the server:", error)
+            })
+    }, [])
+
     const classes = useStyles();
     return (
         <ThemeProvider theme={Theme}>
@@ -87,11 +91,37 @@ const MeetingsPage = () => {
 
             <Typography variant="h2" className={classes.leftText} >Upcoming</Typography>
 
-            <MeetingList />
+
+            {/* List of future meetings  */}
+            <Grid container direction="column" style={{ padding: "20px 0 0 0"}}>
+            <ul className={classes.meetingList}>
+
+                {meetingList.map(item => 
+                    <li key={item._id}>
+                        <MeetingListItem 
+                            title={item.title}
+                        />
+                    </li>
+                )}
+            </ul>
+            </Grid>
+
 
             <Typography variant="h2" className={classes.leftText} >Past Meetings</Typography>
 
-            <MeetingList />
+            {/* List of past meetings */}
+            <Grid container direction="column" style={{ padding: "20px 0 0 0"}}>
+            <ul className={classes.meetingList}>
+
+                {meetingList.map(item => 
+                    <li key={item._id}>
+                        <MeetingListItem 
+                            title={item.title}
+                        />
+                    </li>
+                )}
+            </ul>
+            </Grid>
 
             <Box className={classes.addButtonContainer} >
                 <IconButton aria-label="add" className={classes.addButton} >
