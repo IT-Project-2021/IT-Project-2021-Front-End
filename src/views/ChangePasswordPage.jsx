@@ -11,19 +11,21 @@ const palette = Theme.palette
 const useStyles = makeStyles({
     title: {
       color: palette.primary.main,
-      margin: "20% 20% 100px",
+      margin: "10vh 0vh 10vh",
     },
     form: {
         color: palette.primary.main,
-        margin: "20% 0px 0px 0px",
-        width: "30%",
+        margin: "3vh 0vh 0vh",
+        width: "30vh",
         minWidth: "400px",
     },
     update: {
         color: palette.primary.main,
-        margin: "60% 0px 10px 0px",
-        width: "50%",
+        margin: "15vh 0vh 0vh",
         minWidth: "400px"
+    },
+    goBackButton: {
+        margin: "2vh 0vh",
     },
 })
 
@@ -35,7 +37,7 @@ const ChangePasswordPage = () => {
 
             <PageAppBar prevPage="/Profile" tab="Profile" />
 
-            <Grid container direction="column" alignItems="center" justifyContent="center" >
+            <Grid container direction="column" justifyContent="center" style={{ minHeight: "90vh" }}>
                 <Box className={classes.title}>
                     <Typography variant="h2">
                         Change Password
@@ -53,8 +55,6 @@ const ChangePasswordPage = () => {
                     <Box className={classes.form}>
                         <TextField label="Confirm New Password" placeholder="Confirm New Password" required type="password" variant="filled" fullWidth />
                     </Box>
-                    <br />
-
                 </form>
 
                 <Box className={classes.update}>
@@ -64,8 +64,8 @@ const ChangePasswordPage = () => {
                 </Box>
 
 
-                <Box>
-                    <Link to="/Profile" style={{ textDecoration: 'none', fontSize: "25px", color: '#0353A4' }}>
+                <Box className={classes.goBackButton}>
+                    <Link to="/Profile" style={{ textDecoration: 'none', color: '#0353A4' }}>
                         Go Back
                     </Link>
                 </Box>

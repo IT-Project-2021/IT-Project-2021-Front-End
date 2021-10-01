@@ -22,7 +22,7 @@ const useStyles = makeStyles({
     margin: "10vh 0vh 0vh",
     width: "50vh",
     minWidth: "400px"
-},
+  },
   forgotPassword: {
     margin: "2vh 0vh",
   },
