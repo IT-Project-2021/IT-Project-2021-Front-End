@@ -11,27 +11,27 @@ const palette = Theme.palette
 const useStyles = makeStyles({
     title: {
       color: palette.primary.main,
-      margin: "10% 20% 10%",
-    },
-    update: {
-        color: palette.primary.main,
-        margin: "10% 10% 100px",
-        width: "50%"
-    },
-    changePasswordButton: {
-        color: palette.primary.main,
-        margin: "10% 10% 0px 100px",
-    },
-    delete: {
-        color: palette.primary.main,
-        margin: "10px 10% 100px",
+      margin: "7vh 0vh 10vh",
     },
     form: {
         color: palette.primary.main,
-        margin: "10% 0px 0px 0px",
-        width: "30%",
+        margin: "3vh 0vh 0vh 0vh",
+        width: "10vh",
         minWidth: "400px",
-    }
+    },
+    update: {
+        color: palette.primary.main,
+        margin: "10vh 0vh 3vh"
+    },
+    changePasswordButton: {
+        color: palette.primary.main,
+        margin: "1vh 0vh 0vh",
+    },
+    delete: {
+        color: palette.primary.main,
+        margin: "0vh 0vh 1vh"
+    },
+    
 });
 
 
@@ -43,7 +43,7 @@ const ProfilePage = () => {
             <CssBaseline />
             <PageAppBar prevPage="/HomePage" tab="Profile" />
 
-            <Grid container direction="column" alignItems="center" justifyContent="center" >
+            <Grid container direction="column" style={{ height: "90vh" }}>
                 <Box className={classes.title} >
                     <Typography variant="h2">
                         Profile
@@ -77,7 +77,7 @@ const ProfilePage = () => {
                 </Box>
 
                 <Box className={classes.delete}>
-                    <Link href="#" style={{ textDecoration: 'none', fontSize: "25px", color: '#0353A4' }}>
+                    <Link style={{ textDecoration: 'none', fontSize: "20px", color: '#0353A4' }}>
                         Delete Account
                     </Link>
                 </Box>

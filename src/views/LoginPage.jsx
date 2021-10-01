@@ -4,12 +4,25 @@ import { Typography, Button, TextField, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Link from '@material-ui/core/Link';
-
-//general components in use
 import PageAppBar from "../components/PageAppBar"
+import { makeStyles } from '@material-ui/core/styles';
+
+const palette = Theme.palette
+const useStyles = makeStyles({
+  loginTitle: {
+    marginBottom: "15vh",
+  },
+  form: {
+    marginBottom: "3vh",
+    width: "40vh"
+  },
+  forgotPassword: {
+    marginBottom: "15vh",
+  },
+});
 
 const LoginPage = () => {
-
+  const classes = useStyles();
   return (
     <ThemeProvider theme={Theme}>
       <CssBaseline />
@@ -17,24 +30,24 @@ const LoginPage = () => {
       <PageAppBar prevPage="/" />
 
       <Grid container direction="column" alignItems="center" justifyContent="center" style={{minHeight: "90vh"}}>
-        <Box marginTop="clamp(120px, 12%, 300px)">
+        <Box className={classes.loginTitle}>
           <Typography variant="h2">
             Login
           </Typography>
         </Box>
         <form>
-          <Box marginTop="clamp(25px, 12%, 50px)" width="30%" minWidth="260px">
-            <TextField label="Email" placeholder="Email" required variant="filled" fullWidth />
+          <Box className={classes.form} >
+            <TextField label="Email" placeholder="Email" required variant="filled" />
           </Box>
 
-          <Box marginTop="clamp(25px, 12%, 50px)" width="30%" minWidth="260px">
-            <TextField label="Password" placeholder="Password" required type="password" variant="filled" fullWidth />
+          <Box className={classes.form} >
+            <TextField label="Password" placeholder="Password" required type="password" variant="filled" />
           </Box>
           <br/>
           
           </form>
 
-        <Box px="20px" marginTop="clamp(25px, 12%, 50px)">
+        <Box className={classes.forgotPassword}>
           <Link to="/HomePage" style={{ textDecoration: 'none' }}>
             <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
               <Typography variant="button" color="secondary">Login</Typography>
@@ -43,7 +56,7 @@ const LoginPage = () => {
         </Box>
         
 
-        <Box marginTop="clamp(10px, 3%, 18px)" >
+        <Box marginTop="clamp(10px, 3vh, 18px)" >
           <Link href="#" style={{ fontSize: "16px", color: '#0353A4' }}>
             Forgot your password?
           </Link>

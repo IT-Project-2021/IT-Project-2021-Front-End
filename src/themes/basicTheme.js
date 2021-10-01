@@ -1,7 +1,8 @@
-import { createTheme } from '@material-ui/core/styles'
+import { createTheme, responsiveFontSizes  } from '@material-ui/core/styles'
 import colours from "./colours"
 
-const Theme = createTheme({
+
+let Theme = createTheme({
     palette: {
         primary: {
             main: colours.white,
@@ -23,13 +24,13 @@ const Theme = createTheme({
     typography: {
         h1: {
             fontFamily: 'Reem Kufi',
-            fontSize: '7rem',
+            fontSize: '6rem',
             color: colours.black
         },
         h2: {
             fontFamily: 'Reem Kufi',
-            fontWeight: '400',
-            fontSize: '2.5rem',
+            fontWeight: '350',
+            fontSize: '4rem',
             color: colours.black,
         },
         body1: {
@@ -40,8 +41,8 @@ const Theme = createTheme({
         },
         button: {
             fontFamily: 'Reem Kufi',
-            fontWeight: '400',
-            fontSize: '1.5rem',
+            fontWeight: '350',
+            fontSize: '1rem',
             color: colours.dark_blue
         },
         secondaryButton: {
@@ -52,5 +53,7 @@ const Theme = createTheme({
 
     }
 });
+
+Theme = responsiveFontSizes(Theme);
 
 export default Theme;

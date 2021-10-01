@@ -1,7 +1,7 @@
-import { createTheme } from '@material-ui/core/styles'
+import { createTheme, responsiveFontSizes } from '@material-ui/core/styles'
 import colours from "./colours"
 
-const Theme = createTheme({
+let Theme = createTheme({
   palette: {
     primary: {
       main: colours.beau_blue,
@@ -19,37 +19,37 @@ const Theme = createTheme({
   typography: {
     h1: {
       fontFamily: 'Reem Kufi',
-      fontSize: '9rem',
+      fontSize: '8rem',
     },
     h2: {
       fontFamily: 'Roboto',
-      fontWeight: '500',
-      fontSize: '2.5rem',
+      fontWeight: '450',
+      fontSize: '2rem',
     },
     h3: {
       fontFamily: 'Roboto',
-      fontSize: '5rem',
-      fontWeight: '500',
+      fontSize: '4rem',
+      fontWeight: '450',
     },
     h4: {
       fontFamily: 'Roboto',
-      fontSize: '2.5rem',
+      fontSize: '1.5rem',
       fontWeight: '500',
     },
     body1: {
       fontFamily: 'Roboto',
-      fontWeight: '400',
-      lineHeight: '1.2',
-      fontSize: '1.5rem',
+      fontWeight: '350',
+      lineHeight: '1',
+      fontSize: '1rem',
     },
     body2: {
       fontFamily: 'Roboto',
-      fontWeight: '700',
+      fontWeight: '650',
       lineHeight: '1.2',
     },
     button: {
-      width: "150px",
-      height: "55px",
+      width: "140px",
+      height: "45px",
     },
     secondaryButton: {
       fontFamily: 'Reem Kufi',
@@ -57,9 +57,9 @@ const Theme = createTheme({
       variant: "outlined",
     },
   }
-
-
-
 });
+
+
+Theme = responsiveFontSizes(Theme);
 
 export default Theme;
