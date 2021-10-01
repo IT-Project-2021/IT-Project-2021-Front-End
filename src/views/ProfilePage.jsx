@@ -11,17 +11,16 @@ const palette = Theme.palette
 const useStyles = makeStyles({
     title: {
       color: palette.primary.main,
-      margin: "20% 20% 100px",
+      margin: "10% 20% 10%",
     },
     update: {
         color: palette.primary.main,
         margin: "10% 10% 100px",
-        width: "50%",
-        minWidth: "400px"
+        width: "50%"
     },
     changePasswordButton: {
         color: palette.primary.main,
-        margin: "50% 10% 0px 100px",
+        margin: "10% 10% 0px 100px",
     },
     delete: {
         color: palette.primary.main,

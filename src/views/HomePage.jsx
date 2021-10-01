@@ -1,8 +1,5 @@
 import Theme from "../themes/landingTheme";
-
-//general components in use
 import PageTitle from "../components/PageTitle"
-
 import { ThemeProvider } from "@material-ui/styles";
 import { Typography, Button, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
@@ -15,10 +12,10 @@ import { Link } from "react-router-dom";
 const palette = Theme.palette
 const useStyles = makeStyles({
     mainButton: {
-        height: "98%",
+        height: "90%",
         justifyContent: "flex-start",
         color: palette.secondary.main,
-        padding: "30px 0 10px 2px",
+        padding: "10px 0 10px 2px",
         marginTop: "2px",
     },
     divider: {
@@ -33,9 +30,9 @@ const useStyles = makeStyles({
     },
     optionsBar: {
         width: "99%",
-        position: "absolute",
         height: "60px",
-        bottom: "0",
+        bottom: "0px",
+        position: "fixed",
     }
 });
 
@@ -102,9 +99,12 @@ const HomePage = () => {
                 </Link>
 
                 <HomePageButton name="Reminders" />
+
+                <OptionsBar />
+
             </Grid>
 
-            <OptionsBar />
+            
         </ThemeProvider>
     )
 };
