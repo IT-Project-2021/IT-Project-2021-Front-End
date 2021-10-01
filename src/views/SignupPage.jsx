@@ -11,18 +11,18 @@ const palette = Theme.palette
 const useStyles = makeStyles({
     title: {
       color: palette.primary.main,
-      margin: "20%",
+      margin: "7vh 0vh 15vh",
     },
     form: {
         color: palette.primary.main,
-        margin: "10% 0px 0px 0px",
-        width: "30%",
+        margin: "3vh 0vh 0vh",
+        width: "30vh",
         minWidth: "400px",
     },
     signup: {
         color: palette.primary.main,
-        margin: "10% 0px 10px 0px",
-        width: "50%",
+        margin: "10vh 0vh 10vh 0vh",
+        width: "50vh",
         minWidth: "400px"
     },
 })
@@ -35,7 +35,7 @@ const SignupPage = () => {
 
             <PageAppBar prevPage="/" tab="" />
 
-            <Grid container direction="column" alignItems="center" style={{ minHeight: "50vh" }}>
+            <Grid container direction="column" alignItems="center" style={{ minHeight: "90vh" }}>
                 <Box className={classes.title}>
                     <Typography variant="h2">
                         Signup

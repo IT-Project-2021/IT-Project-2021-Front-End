@@ -10,14 +10,21 @@ import { makeStyles } from '@material-ui/core/styles';
 const palette = Theme.palette
 const useStyles = makeStyles({
   loginTitle: {
-    marginBottom: "15vh",
+    margin: "10vh 0vh 15vh",
   },
   form: {
-    marginBottom: "3vh",
-    width: "40vh"
+    margin: "3vh 0vh 0vh",
+    width: "30vh",
+    minWidth: "400px",
   },
+  loginButton: {
+    color: palette.primary.main,
+    margin: "10vh 0vh 0vh",
+    width: "50vh",
+    minWidth: "400px"
+},
   forgotPassword: {
-    marginBottom: "15vh",
+    margin: "2vh 0vh",
   },
 });
 
@@ -29,25 +36,26 @@ const LoginPage = () => {
 
       <PageAppBar prevPage="/" tab="Login" />
 
-      <Grid container direction="column" alignItems="center" justifyContent="center" style={{minHeight: "90vh"}}>
+      <Grid container direction="column" alignItems="center" style={{minHeight: "90vh"}}>
         <Box className={classes.loginTitle}>
           <Typography variant="h2">
             Login
           </Typography>
         </Box>
+
         <form>
           <Box className={classes.form} >
-            <TextField label="Email" placeholder="Email" required variant="filled" />
+            <TextField label="Email" placeholder="Email" required variant="filled" fullWidth />
           </Box>
 
           <Box className={classes.form} >
-            <TextField label="Password" placeholder="Password" required type="password" variant="filled" />
+            <TextField label="Password" placeholder="Password" required type="password" variant="filled" fullWidth />
           </Box>
           <br/>
           
           </form>
 
-        <Box className={classes.forgotPassword}>
+        <Box className={classes.loginButton}>
           <Link to="/HomePage" style={{ textDecoration: 'none' }}>
             <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
               <Typography variant="button" color="secondary">Login</Typography>
@@ -56,7 +64,7 @@ const LoginPage = () => {
         </Box>
         
 
-        <Box marginTop="clamp(10px, 3%, 18px)" >
+        <Box className={classes.forgotPassword} >
           <Link to="/ForgotPassword" style={{ textDecoration: 'none', fontSize: "16px", color: '#0353A4' }}>
             Forgot your password?
           </Link>

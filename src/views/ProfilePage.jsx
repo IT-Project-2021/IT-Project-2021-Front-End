@@ -11,7 +11,7 @@ const palette = Theme.palette
 const useStyles = makeStyles({
     title: {
       color: palette.secondary.main,
-      margin: "7vh 0vh 10vh",
+      margin: "12vh 0vh 10vh",
     },
     form: {
         color: palette.primary.main,
