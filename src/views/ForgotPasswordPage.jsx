@@ -11,18 +11,22 @@ const palette = Theme.palette
 const useStyles = makeStyles({
     title: {
       color: palette.primary.secondary,
-      margin: "30% 10% 100px",
+      margin: "10vh 0vh 0vh",
+    },
+    subtitle: {
+        color: palette.primary.secondary,
+        margin: "3vh",
     },
     form: {
         color: palette.primary.main,
-        margin: "60% 0px 0px 0px",
-        width: "30%",
+        margin: "10vh 0vh 0vh",
+        width: "30vh",
         minWidth: "400px",
     },
     reset: {
         color: palette.primary.main,
-        margin: "7% 0px 7% 0px",
-        width: "50%",
+        margin: "7vh 0vh 7vh 0vh",
+        width: "50vh",
         minWidth: "400px"
     },
 })
@@ -33,35 +37,27 @@ const ForgotPasswordPage = () => {
     return (
         <ThemeProvider theme={Theme}>
             <CssBaseline />
-
             <PageAppBar prevPage="/Login" tab="Login" />
-
-            <Grid container direction="column" alignItems="center" style={{ minHeight: "60vh" }}>
-                
-                <Box className={classes.title}>
-                    <Typography variant="h2">
+            <Grid container direction="column" alignItems="center" style={{ minHeight: "90vh" }}>                
+                <Box >
+                    <Typography className={classes.title} variant="h2">
                         Forgot your password?
                     </Typography>
 
-                    <br/>
-
-                    <Typography variant="h5">
+                    <Typography className={classes.subtitle} variant="h5">
                         Tell us your email, and we'll send you instructions to reset your password
                     </Typography>
                 </Box>
-
-            
 
                 <form>
                     <Box className={classes.form}>
                         <TextField label="Email" placeholder="Email" required variant="filled" fullWidth />
                     </Box>
                     <br />
-
                 </form>
 
                 <Box className={classes.reset}>
-                    <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
+                    <Button size="large" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
                         <Typography variant="button" color="secondary">Reset Password</Typography>
                     </Button>
                 </Box>
