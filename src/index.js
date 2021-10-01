@@ -13,10 +13,11 @@ import PeopleListPage from "./views/PeopleListPage"
 import HomePage from "./views/HomePage"
 import LoginPage from "./views/LoginPage"
 import MeetingsPage from "./views/MeetingsPage"
+import SignupPage from "./views/SignupPage"
+import ForgotPasswordPage from "./views/ForgotPasswordPage"
 import ProfilePage from "./views/ProfilePage"
 import ChangePasswordPage from "./views/ChangePasswordPage"
 import NewPersonPage from "./views/NewPersonPage"
-
 
 
 
@@ -32,9 +33,12 @@ ReactDOM.render(
         <Route path="/People" component={PeopleListPage} />
         <Route path="/Login" component={LoginPage} />
         <Route path="/Meetings" component={MeetingsPage} />
+        <Route path="/Signup" component={SignupPage} />
+        <Route path="/ForgotPassword" component={ForgotPasswordPage} />
         <Route path="/Profile" component={ProfilePage} />
         <Route path="/ChangePassword" component={ChangePasswordPage} />
         <Route path="/AddNewPerson" component={NewPersonPage} />
+
       </Box>
     </ThemeProvider>
   </Router>,

@@ -7,8 +7,6 @@ import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 import AddButton from "@material-ui/icons/Add"
 import IconButton from '@material-ui/core/IconButton';
-
-//general components in use
 import PageAppBar from "../components/PageAppBar"
 
 const palette = Theme.palette

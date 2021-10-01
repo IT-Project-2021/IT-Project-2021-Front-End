@@ -15,13 +15,13 @@ const useStyles = makeStyles({
     },
     form: {
         color: palette.primary.main,
-        margin: "20% 0px 0px 0px",
+        margin: "60% 0px 0px 0px",
         width: "30%",
         minWidth: "400px",
     },
     reset: {
         color: palette.primary.main,
-        margin: "500px 0px 10px 0px",
+        margin: "7% 0px 7% 0px",
         width: "50%",
         minWidth: "400px"
     },
@@ -48,9 +48,6 @@ const ForgotPasswordPage = () => {
                     <Typography variant="h5">
                         Tell us your email, and we'll send you instructions to reset your password
                     </Typography>
-                    <Typography variant="h5">
-                        Tell us your email, and we'll send you instructions to reset your password
-                    </Typography>
                 </Box>
 
             
@@ -64,11 +61,9 @@ const ForgotPasswordPage = () => {
                 </form>
 
                 <Box className={classes.reset}>
-                    <Link to="/HomePage" style={{ textDecoration: 'none' }}>
-                        <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
-                            <Typography variant="button" color="secondary">Reset Password</Typography>
-                        </Button>
-                    </Link>
+                    <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
+                        <Typography variant="button" color="secondary">Reset Password</Typography>
+                    </Button>
                 </Box>
 
             </Grid>

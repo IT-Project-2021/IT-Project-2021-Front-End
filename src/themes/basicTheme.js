@@ -45,11 +45,6 @@ let Theme = createTheme({
             fontSize: '1rem',
             color: colours.dark_blue
         },
-        secondaryButton: {
-            fontFamily: 'Reem Kufi',
-            color: "secondary",
-            variant: "outlined",
-        },
 
     }
 });
