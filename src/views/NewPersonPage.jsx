@@ -3,7 +3,6 @@ import { ThemeProvider } from "@material-ui/styles";
 import { Typography, Button, TextField, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { Link } from "react-router-dom";
 import PageAppBar from "../components/PageAppBar"
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -11,17 +10,16 @@ const palette = Theme.palette
 const useStyles = makeStyles({
     title: {
         color: palette.primary.main,
-        margin: "0px 0px 20%",
+        margin: "5vh 0vh 15vh",
     },
     confirm: {
         color: palette.secondary.main,
-        margin: "20% 0px 0px",
+        margin: "10vh 0vh 2vh",
     },
     form: {
         color: palette.secondary.main,
-        margin: "10%",
-        width: "65%",
-        minWidth: "260px"
+        margin: "3vh 0vh 0vh 0vh",
+        width: "40vh"
     },
 })
 
@@ -33,38 +31,42 @@ const NewPersonPage = () => {
 
             <PageAppBar prevPage="/People" tab="People" />
 
-            <Grid container direction="column" alignItems="center" justifyContent="center" style={{ minHeight: "90vh" }}>
+            <Grid container direction="column" justifyContent="center" style={{ minHeight: "90vh" }}>
                 <Box className={classes.title}>
                     <Typography variant="h2">
                         New Person
                     </Typography>
                 </Box>
+                
                 <form>
-                    <Box width="60%" minWidth="260px" component="span">
-                        <TextField label="First Name" placeholder="First Name" required variant="filled" display="inline" />
-                        <Box component="span" margin="10px"></Box>
-                        <TextField label="Last Name" placeholder="Last Name" required variant="filled" display="inline" />
+                    <Box>
+                        <Box component="span" margin="5px"> 
+                            <TextField label="First Name" placeholder="First Name" required variant="filled"  />
+                        </Box>
+                        <Box component="span" margin="5px"> 
+                            <TextField label="Last Name" placeholder="Last Name" required variant="filled"  />
+                        </Box>
                     </Box>
 
                     <Box className={classes.form}>
-                        <TextField label="Company" placeholder="Company" variant="filled" fullWidth />
-                    </Box>
-                    <Box className={classes.form}>
-                        <TextField label="Position" placeholder="Position" variant="filled" fullWidth />
+                        <TextField label="Company" placeholder="Company" variant="filled"  />
                     </Box>
 
                     <Box className={classes.form}>
-                        <TextField label="Email" placeholder="Email" variant="filled" fullWidth />
+                        <TextField label="Position" placeholder="Position" variant="filled"  />
                     </Box>
 
                     <Box className={classes.form}>
-                        <TextField label="Phone number" placeholder="Phone number" type="number" variant="filled" fullWidth />
+                        <TextField label="Email" placeholder="Email" variant="filled"  />
                     </Box>
 
                     <Box className={classes.form}>
-                        <TextField label="optional notes" placeholder="optional notes" variant="filled" fullWidth multiline rows={4} />
+                        <TextField label="Phone number" placeholder="Phone number" type="number" variant="filled"  />
                     </Box>
-                    <br />
+
+                    <Box className={classes.form}>
+                        <TextField label="Optional Notes" multiline rows={4} placeholder="Optional Notes" variant="filled"  />
+                    </Box>
 
                 </form>
 

@@ -11,7 +11,7 @@ const palette = Theme.palette
 const useStyles = makeStyles({
     title: {
       color: palette.secondary.main,
-      margin: "7vh 0vh 7vh",
+      margin: "7vh 0vh 10vh",
     },
     form: {
         color: palette.primary.main,
@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     },
     update: {
         color: palette.primary.main,
-        margin: "3vh 0vh 7vh"
+        margin: "3vh 0vh 10vh",
     },
     changePasswordButton: {
         color: palette.primary.main,
@@ -41,7 +41,7 @@ const ProfilePage = () => {
             <CssBaseline />
             <PageAppBar prevPage="/HomePage" tab="Profile" />
 
-            <Grid container direction="column" justifyContent="center" style={{ height: "90vh" }}>
+            <Grid container direction="column" style={{ minHeight: "90vh" }}>
                 <Box className={classes.title} >
                     <Typography variant="h2">
                         Profile
