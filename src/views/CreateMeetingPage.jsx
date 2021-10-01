@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import PageAppBar from "../components/PageAppBar"
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import Link from '@material-ui/core/Link';
 
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -19,6 +20,7 @@ import AddIcon from '@material-ui/icons/Add';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
+
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -233,10 +235,14 @@ const CreateMeetingPage = () => {
               <ParticipantsAndTopics />
             </div>
           </div>
-
-          <Box className={classes.editButtonContainer} >
-            <ConfirmButton fontSize="large" className={classes.editButton}/>
-          </Box>
+        
+          <Box px="20px" marginTop="clamp(25px, 12%, 50px)">
+          <Link to="/Meetings" style={{ textDecoration: 'none' }}>
+            <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
+              <Typography variant="button" color="secondary">Confirm</Typography>
+            </Button>
+          </Link>
+        </Box>
 
 
         </Grid>
