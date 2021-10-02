@@ -6,6 +6,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { Link } from "react-router-dom";
 import PageAppBar from "../components/PageAppBar"
 import { makeStyles } from '@material-ui/core/styles';
+import React, { useState } from "react";
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -30,13 +31,16 @@ const useStyles = makeStyles({
 
 const LoginPage = () => {
   const classes = useStyles();
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
+
   return (
     <ThemeProvider theme={Theme}>
       <CssBaseline />
 
       <PageAppBar prevPage="/" tab="Login" />
 
-      <Grid container direction="column" alignItems="center" style={{minHeight: "90vh"}}>
+      <Grid container direction="column" alignItems="center" style={{ minHeight: "90vh" }}>
         <Box className={classes.loginTitle}>
           <Typography variant="h2">
             Login
@@ -45,24 +49,23 @@ const LoginPage = () => {
 
         <form>
           <Box className={classes.form} >
-            <TextField label="Email" placeholder="Email" required variant="filled" fullWidth />
+            <TextField label="Email" placeholder="Email" required variant="filled" fullWidth onChange={(e) => { setEmail(e.target.value); }} />
           </Box>
 
           <Box className={classes.form} >
-            <TextField label="Password" placeholder="Password" required type="password" variant="filled" fullWidth />
+            <TextField label="Password" placeholder="Password" required type="password" variant="filled" fullWidth onChange={(e) => { setPass(e.target.value); }} />
           </Box>
-          <br/>
-          
-          </form>
+          <br />
+          <Box className={classes.loginButton}>
+            <Link to="/HomePage" style={{ textDecoration: 'none' }}>
+              <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
+                <Typography variant="button" color="secondary">Login</Typography>
+              </Button>
+            </Link>
+          </Box>
 
-        <Box className={classes.loginButton}>
-          <Link to="/HomePage" style={{ textDecoration: 'none' }}>
-            <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
-              <Typography variant="button" color="secondary">Login</Typography>
-            </Button>
-          </Link>
-        </Box>
-        
+        </form>
+
 
         <Box className={classes.forgotPassword} >
           <Link to="/ForgotPassword" style={{ textDecoration: 'none', fontSize: "16px", color: '#0353A4' }}>

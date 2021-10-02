@@ -6,12 +6,13 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { Link } from "react-router-dom";
 import PageAppBar from "../components/PageAppBar"
 import { makeStyles } from '@material-ui/core/styles';
+import React, { useState } from "react";
 
 const palette = Theme.palette
 const useStyles = makeStyles({
     title: {
-      color: palette.primary.main,
-      margin: "10vh 0vh 10vh",
+        color: palette.primary.main,
+        margin: "10vh 0vh 10vh",
     },
     form: {
         color: palette.primary.main,
@@ -31,6 +32,9 @@ const useStyles = makeStyles({
 
 const ChangePasswordPage = () => {
     const classes = useStyles();
+    const [current, setCurrent] = useState("");
+    const [newPass, setNewPass] = useState("");
+    const [confirm, setConfirm] = useState("");
     return (
         <ThemeProvider theme={Theme}>
             <CssBaseline />
@@ -45,23 +49,25 @@ const ChangePasswordPage = () => {
                 </Box>
                 <form>
                     <Box className={classes.form}>
-                        <TextField label="Current Password" placeholder="Current Password" type="password" variant="filled" fullWidth required />
+                        <TextField label="Current Password" placeholder="Current Password" type="password" variant="filled" fullWidth required onChange={(e) => { setCurrent(e.target.value); }} />
                     </Box>
 
                     <Box className={classes.form}>
-                        <TextField label="New Password" placeholder="New Password" type="password" variant="filled" fullWidth />
+                        <TextField label="New Password" placeholder="New Password" type="password" variant="filled" fullWidth required onChange={(e) => { setNewPass(e.target.value); }} />
                     </Box>
 
                     <Box className={classes.form}>
-                        <TextField label="Confirm New Password" placeholder="Confirm New Password" required type="password" variant="filled" fullWidth />
+                        <TextField label="Confirm New Password" placeholder="Confirm New Password" required type="password" required variant="filled" fullWidth onChange={(e) => { setConfirm(e.target.value); }} />
+                    </Box>
+
+                    <Box className={classes.update}>
+                        <Button size="medium" type="submit" variant="outlined" color="secondary">
+                            <Typography variant="button" color="secondary">Update</Typography>
+                        </Button>
                     </Box>
                 </form>
 
-                <Box className={classes.update}>
-                    <Button size="medium" type="submit" variant="outlined" color="secondary">
-                        <Typography variant="button" color="secondary">Update</Typography>
-                    </Button>
-                </Box>
+
 
 
                 <Box className={classes.goBackButton}>
