@@ -1,7 +1,5 @@
-import React from 'react';
-
+import React, { useState } from 'react';
 import Theme from "../themes/basicTheme";
-
 import { ThemeProvider } from "@material-ui/styles";
 import { Typography, Button, TextField, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
@@ -67,26 +65,32 @@ const useStyles = makeStyles({
 const MeetingDetails = () => {
 
   const classes = useStyles();
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   return (
     <Box >
-      <Box className={classes.meetingDetails}>
-        <TextField
-          hiddenLabel
-          id="meeting-title"
-          placeholder="Enter Title"
-          size="large"
-          inputProps={{style: {fontSize: 40, fontWeight: 'bold'}}} // font size of input text
-        />
-      </Box>
+      <form>
+        <Box className={classes.meetingDetails}>
+          <TextField
+            hiddenLabel
+            id="meeting-title"
+            placeholder="Enter Title"
+            size="large"
+            inputProps={{style: {fontSize: 40, fontWeight: 'bold'}}}
+            onChange={(e) => { setTitle(e.target.value); }}
+          />
+        </Box>
 
-      <Box className={classes.meetingDescription}>
-        <TextField
-          id="meeting-description"
-          placeholder="Enter meeting description here..."
-          multiline
-          variant="filled"
-        />
-      </Box>
+        <Box className={classes.meetingDescription}>
+          <TextField
+            id="meeting-description"
+            placeholder="Enter meeting description here..."
+            multiline
+            variant="filled"
+            onChange={(e) => { setDescription(e.target.value); }}
+          />
+        </Box>
+      </form>
     </Box>
   )
 }
@@ -132,6 +136,7 @@ const MeetingQuestions = () => {
 const MeetingAnswers = () => {
 
   const [value, setValue] = React.useState(new Date());
+  const [location, setLocation] = useState("");
 
   return (
     <Box mt="40px">
@@ -148,14 +153,15 @@ const MeetingAnswers = () => {
         </LocalizationProvider>
       </Box>
       
-
-      <Box mb="40px">
-        <TextField
-          hiddenLabel
-          id="meeting-location"
-          placeholder="Enter Location"
-        />
-      </Box>
+      <form> 
+        <Box mb="40px">
+          <TextField
+            hiddenLabel
+            id="meeting-location"
+            placeholder="Enter Location"
+          />
+        </Box>
+      </form>
 
       <Box>
         <Select labelId="label" id="select" value="60">
