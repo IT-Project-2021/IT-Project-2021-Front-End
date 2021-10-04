@@ -179,33 +179,33 @@ const MeetingAnswers = () => {
   )
 }
 
-const ParticipantsAndTopics = ({numParticipants, participants, changeNumParticipants, addParticipant}) => {
+const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAgenda}) => {
 
-  console.log("numParticipants (from child):", numParticipants)
-  console.log("participants (from child):", participants)
-  console.log("0th participant:", participants[0])
+  console.log("agendaLength (from child):", agendaLength)
+  console.log("agenda (from child):", agenda)
+  console.log("0th agenda:", agenda[0])
 
-  const handleParticipantChange = (event) => {
+  const handleAgendaChange = (event) => {
     console.log("value:", event.target.value)
     console.log("target:", event.target)
 
-    // TODO update "participants" with new name
+    // TODO update "agenda" with new item
 
-    // add a new participant if the edited participant was the last in the list
+    // add a new item if the edited item was the last in the list
     console.log("event.target.id =", event.target.id)
-    console.log("numParticipants =", numParticipants)
+    console.log("agendaLength =", agendaLength)
 
-    if (parseInt(event.target.id) === numParticipants) {
+    if (parseInt(event.target.id) === agendaLength) {
 
-      // add an element to the participants array
+      // add an element to the agenda array
       let newItem = {
         name: "",
-        id: (numParticipants + 1).toString()
+        id: (agendaLength + 1).toString()
       }
-      addParticipant(newItem)
+      addAgenda(newItem)
 
-      // increase number of participants
-      changeNumParticipants(numParticipants + 1);
+      // increase number of items
+      changeAgendaLength(agendaLength + 1);
 
     }
   }
@@ -220,14 +220,11 @@ const ParticipantsAndTopics = ({numParticipants, participants, changeNumParticip
       </Box>
       
       <Box mb="40px" ml="20px">
-        {participants.map(participant => 
-          <TextField
-            hiddenLabel
-            id={participant.id}
-            placeholder="+ add participant"
-            onChange={handleParticipantChange}
-          />
-        )}
+        <TextField
+          hiddenLabel
+          id="participants"
+          placeholder="+ add participant"
+        />
       </Box>
 
       <Box mb="40px">
@@ -237,11 +234,14 @@ const ParticipantsAndTopics = ({numParticipants, participants, changeNumParticip
       </Box>
 
       <Box mb="40px" ml="20px">
-        <TextField
-          hiddenLabel
-          id="agenda"
-          placeholder="+ add topic"
-        />
+        {agenda.map(item => 
+          <TextField
+            hiddenLabel
+            id={item.id}
+            placeholder="+ add topic"
+            onChange={handleAgendaChange}
+          />
+        )}
       </Box>
 
     </Box>
@@ -250,21 +250,21 @@ const ParticipantsAndTopics = ({numParticipants, participants, changeNumParticip
 
 const CreateMeetingPage = () => {
 
-  const [numParticipants, setNumParticipants] = useState(1)
-  const [participants, setParticipants] = useState([{name: "", id: "1"}])
-  console.log("num participants (from parent):", numParticipants)
-  console.log("participants (from parent):", participants)
+  const [agendaLength, setAgendaLength] = useState(1)
+  const [agenda, setAgenda] = useState([{name: "", id: "1"}])
+  console.log("agenda length (from parent):", agendaLength)
+  console.log("agenda (from parent):", agenda)
 
-  const changeNumParticipants = (newNum) => {
-    setNumParticipants(newNum)
-    console.log("there are now", newNum, "participants")
+  const changeAgendaLength = (newNum) => {
+    setAgendaLength(newNum)
+    console.log("there are now", newNum, "items in agenda")
   } 
 
-  const addParticipant = (newParticipant) => {
-    console.log("participants BEFORE:", participants)
-    console.log("trying to add participant:", newParticipant)
-    setParticipants(participants.concat(newParticipant))
-    console.log("participants AFTER:", participants)
+  const addAgenda = (newItem) => {
+    console.log("agenda BEFORE:", agenda)
+    console.log("trying to add item:", newItem)
+    setAgenda(agenda.concat(newItem))
+    console.log("agenda AFTER:", agenda)
   }
 
   const classes = useStyles();
@@ -290,10 +290,10 @@ const CreateMeetingPage = () => {
           <div className={classes.row}>
             <div className={classes.meetingQuestions}>
               <ParticipantsAndTopics 
-                numParticipants={numParticipants} 
-                participants={participants} 
-                changeNumParticipants={changeNumParticipants}
-                addParticipant={addParticipant}
+                agendaLength={agendaLength} 
+                agenda={agenda} 
+                changeAgendaLength={changeAgendaLength}
+                addAgenda={addAgenda}
               />
             </div>
           </div>
