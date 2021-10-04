@@ -6,7 +6,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { Link } from "react-router-dom";
 import PageAppBar from "../components/PageAppBar"
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import axios from "axios";
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -33,6 +34,24 @@ const LoginPage = () => {
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+
+  async function login(e) {
+    e.preventDefault();
+
+    try {
+      const loginData = {
+        email,
+        pass,
+      };
+
+      await axios.get(
+        "address",
+        loginData
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   return (
     <ThemeProvider theme={Theme}>
