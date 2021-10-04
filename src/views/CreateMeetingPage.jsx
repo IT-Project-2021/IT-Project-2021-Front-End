@@ -14,6 +14,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import Autocomplete from '@mui/material/Autocomplete';
 import peopleService from "../services/people"
+import meetingService from "../services/meetings"
 
 
 const palette = Theme.palette
@@ -288,6 +289,33 @@ const CreateMeetingPage = () => {
     console.log("People list:", peopleList)
 
 
+  // submit the meeting to the database when the user clicks confirm
+  const submitMeeting = () => {
+    // TODO use pieces of state to create a meaningful database entry
+    const newMeeting = {
+      participants: ["613f0231f4b84d61cdafb953", "613f0885655d8265172abcbd"],
+      agenda: ["discuss testing", "discuss implementation"],
+      title: "First meeting with Jane",
+      details: "Yeet will be arriving 10 minutes late",
+      date: Date.now(),
+      location: "Meeting room 69",
+      alerts: [
+        {alertTime: Date.now(), alertSetting: "email"}
+      ],
+    }
+
+    // submit the entry
+    meetingService
+      .create(newMeeting)
+      .then(response => {
+        console.log("RESPONSE:", response)
+
+      })
+      .catch(error => {
+        console.log("Something went wrong submitting the meeting:", error)
+      })
+
+  }
 
   const classes = useStyles();
   return (
@@ -322,12 +350,12 @@ const CreateMeetingPage = () => {
           </div>
         
           <Box px="20px" marginTop="clamp(25px, 12%, 50px)">
-          <Link to="/Meetings" style={{ textDecoration: 'none' }}>
-            <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
-              <Typography variant="button" color="secondary">Confirm</Typography>
-            </Button>
-          </Link>
-        </Box>
+
+              <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
+                <Typography variant="button" color="secondary" onClick={submitMeeting}>Confirm</Typography>
+              </Button>
+
+          </Box>
 
 
         </Grid>
