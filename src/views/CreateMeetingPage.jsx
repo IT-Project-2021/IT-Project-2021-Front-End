@@ -179,7 +179,37 @@ const MeetingAnswers = () => {
   )
 }
 
-const ParticipantsAndTopics = () => {
+const ParticipantsAndTopics = ({numParticipants, participants, changeNumParticipants, addParticipant}) => {
+
+  console.log("numParticipants (from child):", numParticipants)
+  console.log("participants (from child):", participants)
+  console.log("0th participant:", participants[0])
+
+  const handleParticipantChange = (event) => {
+    console.log("value:", event.target.value)
+    console.log("target:", event.target)
+
+    // TODO update "participants" with new name
+
+    // add a new participant if the edited participant was the last in the list
+    console.log("event.target.id =", event.target.id)
+    console.log("numParticipants =", numParticipants)
+
+    if (parseInt(event.target.id) === numParticipants) {
+
+      // add an element to the participants array
+      let newItem = {
+        name: "",
+        id: (numParticipants + 1).toString()
+      }
+      addParticipant(newItem)
+
+      // increase number of participants
+      changeNumParticipants(numParticipants + 1);
+
+    }
+  }
+
   return (
     <Box mt="40px">
 
@@ -190,11 +220,14 @@ const ParticipantsAndTopics = () => {
       </Box>
       
       <Box mb="40px" ml="20px">
-        <TextField
-          hiddenLabel
-          id="participant"
-          placeholder="+ add participant"
-        />
+        {participants.map(participant => 
+          <TextField
+            hiddenLabel
+            id={participant.id}
+            placeholder="+ add participant"
+            onChange={handleParticipantChange}
+          />
+        )}
       </Box>
 
       <Box mb="40px">
@@ -216,6 +249,24 @@ const ParticipantsAndTopics = () => {
 }
 
 const CreateMeetingPage = () => {
+
+  const [numParticipants, setNumParticipants] = useState(1)
+  const [participants, setParticipants] = useState([{name: "", id: "1"}])
+  console.log("num participants (from parent):", numParticipants)
+  console.log("participants (from parent):", participants)
+
+  const changeNumParticipants = (newNum) => {
+    setNumParticipants(newNum)
+    console.log("there are now", newNum, "participants")
+  } 
+
+  const addParticipant = (newParticipant) => {
+    console.log("participants BEFORE:", participants)
+    console.log("trying to add participant:", newParticipant)
+    setParticipants(participants.concat(newParticipant))
+    console.log("participants AFTER:", participants)
+  }
+
   const classes = useStyles();
   return (
     <ThemeProvider theme={Theme}>
@@ -238,7 +289,12 @@ const CreateMeetingPage = () => {
 
           <div className={classes.row}>
             <div className={classes.meetingQuestions}>
-              <ParticipantsAndTopics />
+              <ParticipantsAndTopics 
+                numParticipants={numParticipants} 
+                participants={participants} 
+                changeNumParticipants={changeNumParticipants}
+                addParticipant={addParticipant}
+              />
             </div>
           </div>
         
