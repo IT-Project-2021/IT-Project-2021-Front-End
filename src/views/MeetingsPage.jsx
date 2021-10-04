@@ -7,7 +7,8 @@ import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 import AddButton from "@material-ui/icons/Add"
 import IconButton from '@material-ui/core/IconButton';
-import PageAppBar from "../components/PageAppBar"
+import PageAppBar from "../components/PageAppBar";
+import { Link } from "react-router-dom";
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -52,10 +53,12 @@ const useStyles = makeStyles({
 const MeetingListItem = () => {
     const classes = useStyles();
     return (
-        <Box>        
-            <Button className={classes.meetingButton} fullWidth={true}>
-                <Typography variant="h4" className={classes.listedMeeting}> Meetings </Typography>
-            </Button>
+        <Box>
+            <Link to="/MeetingInformation" className={classes.meetingLink} >
+                <Button className={classes.meetingButton} fullWidth={true}>
+                    <Typography variant="h4" className={classes.listedMeeting}> Meetings </Typography>
+                </Button>
+            </Link>
             <Divider className={classes.divider} />
         </Box>
     )
@@ -92,9 +95,11 @@ const MeetingsPage = () => {
             <MeetingList />
 
             <Box className={classes.addButtonContainer} >
+              <Link to="/CreateMeeting" style={{ textDecoration: 'none' }}>
                 <IconButton aria-label="add" className={classes.addButton} >
                     <AddButton fontSize="large"/>
                 </IconButton>
+              </Link>
             </Box>
 
         </ThemeProvider>
