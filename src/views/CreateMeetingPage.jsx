@@ -57,7 +57,7 @@ const useStyles = makeStyles({
     padding: "3vh 1vh 0vh",
   },
   meetingAnswers: {
-    padding: "3vh 1vh 0vh",
+    padding: "3vh 1vh 1vh",
     textAlign: "left",
   },
   bold: {
@@ -169,7 +169,6 @@ const MeetingAnswers = () => {
 
       <Box className={classes.meetingAnswers}>
       <FormControl>
-          <InputLabel id="open-select-label">Reminder</InputLabel>
           <Select label="Reminder" id="select" labelId="open-select-label">
             <MenuItem value=""><em>None</em></MenuItem>
             <MenuItem value={5}>5 minutes before</MenuItem> 

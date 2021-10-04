@@ -138,7 +138,6 @@ const MeetingAnswers = () => {
 
       <Box className={classes.meetingAnswers}>
         <FormControl>
-          <InputLabel id="open-select-label">Reminder</InputLabel>
           <Select label="Reminder" id="select" labelId="open-select-label">
             <MenuItem value=""><em>None</em></MenuItem>
             <MenuItem value={5}>5 minutes before</MenuItem> 
