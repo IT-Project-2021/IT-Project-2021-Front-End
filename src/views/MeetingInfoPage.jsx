@@ -157,15 +157,14 @@ const ParticipantsAndTopics = () => {
   const classes = useStyles();
   return (
     
-    <Box mt="40px">
-
+    <Box>
       <Box className={classes.meetingQuestions}> 
         <Typography variant="h3" className={classes.bold}>
           Participants
         </Typography>
       </Box>
       
-      <Box className={classes.meetingAnswers}>
+      <Box>
         <Typography variant="h3" className={classes.listItems}>
           John Doe
           <IconButton edge="end" aria-label="delete">
@@ -195,7 +194,7 @@ const ParticipantsAndTopics = () => {
         </Typography>
       </Box>
 
-      <Box className={classes.meetingAnswers}>
+      <Box>
         <Typography variant="h3" className={classes.listItems}>
           Topic 1
           <IconButton edge="end" aria-label="delete">
@@ -233,7 +232,7 @@ const MeetingInfoPage = () => {
 
       <PageAppBar prevPage="/Meetings" tab="Meetings"/>
 
-        <Grid container direction="column" justifyContent="center" style={{ minHeight: "80vh" }}>
+        <Grid container direction="column" justifyContent="center" style={{ minHeight: "70vh" }}>
           
           <MeetingDetails />
 

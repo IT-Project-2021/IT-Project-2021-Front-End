@@ -84,7 +84,7 @@ const MeetingDetails = () => {
             placeholder="Enter Title"
             variant="filled"
             size="large"
-            inputProps={{style: {fontSize: 40, fontWeight: 'bold'}}}
+            inputProps={{style: {fontSize: 50, fontWeight: 'bold'}}}
             onChange={(e) => { setTitle(e.target.value); }}
           />
         </Box>
@@ -218,7 +218,7 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
   const classes = useStyles();
 
   return (
-    <Box mt="40px">
+    <Box>
 
       <Box className={classes.meetingQuestions}> 
         <Typography variant="h3" className={classes.bold}>
@@ -281,7 +281,7 @@ const CreateMeetingPage = () => {
 
       <PageAppBar prevPage="/Meetings" tab="Meetings"/>
 
-        <Grid container direction="column" justifyContent="center" style={{ minHeight: "70vh" }}>
+        <Grid container direction="column" justifyContent="center" style={{ minHeight: "65vh" }}>
           
           <MeetingDetails />
 
