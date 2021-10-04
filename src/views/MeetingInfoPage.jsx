@@ -1,4 +1,4 @@
-
+import * as React from 'react';
 import Theme from "../themes/basicTheme";
 import { ThemeProvider } from "@material-ui/styles";
 import { Typography, Button, Grid } from "@material-ui/core";
@@ -20,27 +20,25 @@ const useStyles = makeStyles({
       color: palette.tertiary.main,
     },
     meetingDescription: {
-      color: palette.tertiary.main,
-      padding: "3vh 0vh 3vh",
+      padding: "3vh 3vh 0vh",
       textAlign: "left",
-    },
-    editButtonContainer: {
-        position: "fixed", 
-        bottom: "0vh",
-        width: "95%",
-        justifyContent: "flex-end",
-        display: "flex",
-        padding: "4vh",
-        
-    },
-    editButton: {
-        fontSize: "medium",
-        color: palette.tertiary.main,
-        backgroundColor: palette.quarternary.main
     },
     meetingDetails: {
       textAlign: "left",
-      padding: "3vh 3vh 0vh"
+      padding: "3vh 2vh 0vh"
+    },
+    editButtonContainer: {
+      position: "fixed", 
+      bottom: "0vh",
+      width: "95%",
+      justifyContent: "flex-end",
+      display: "flex",
+      padding: "4vh",        
+    },
+    editButton: {
+      fontSize: "medium",
+      color: palette.tertiary.main,
+      backgroundColor: palette.quarternary.main
     },
     row: {
       display: "flex",
@@ -56,7 +54,11 @@ const useStyles = makeStyles({
     },
     bold: {
       fontWeight: 600
-    }
+    },
+    listItems: {
+      padding: "1vh 3vh 0vh",
+      textAlign: "left",
+    },
 });
 
 const MeetingDetails = () => {
@@ -68,7 +70,7 @@ const MeetingDetails = () => {
         <Typography variant="h1">Meeting 1</Typography>
       </Box>
 
-      <Box className={classes.meetingDetails}>
+      <Box className={classes.meetingDescription}>
         <Typography variant="body1">
             Meeting Description
         </Typography>
@@ -116,7 +118,8 @@ const MeetingQuestions = () => {
 };
 
 const MeetingAnswers = () => {
-  
+  const [reminder] = React.useState('');
+
   const classes = useStyles();
   return (
     <Box>
@@ -134,9 +137,9 @@ const MeetingAnswers = () => {
       </Box>
 
       <Box className={classes.meetingAnswers}>
-        <FormControl sx={{ m: 1, minWidth: 120 }}>
+        {/* <FormControl>
           <InputLabel id="open-select-label">Reminder</InputLabel>
-          <Select labelId="label" id="select" labelId="open-select-label" id="-open-select">
+          <Select label="Reminder" id="select" labelId="open-select-label">
             <MenuItem value=""><em>None</em></MenuItem>
             <MenuItem value={5}>5 minutes before</MenuItem> 
             <MenuItem value={15}>15 minutes before</MenuItem>
@@ -145,7 +148,25 @@ const MeetingAnswers = () => {
             <MenuItem value={120}>2 hours before</MenuItem>
             <MenuItem value={1440}>1 day before</MenuItem>
           </Select>    
-        </FormControl>
+        </FormControl> */}
+
+          <FormControl required className={classes.formControl}>
+            <InputLabel shrink htmlFor="circle">
+              Circle
+            </InputLabel>
+            <Select
+              displayEmpty
+            >
+              <MenuItem value="">
+                <em>select the value</em>
+              </MenuItem>
+
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
+            <FormHelperText>Some important helper text</FormHelperText>
+          </FormControl>
       </Box>
     </Box>
   )
@@ -164,21 +185,21 @@ const ParticipantsAndTopics = () => {
       </Box>
       
       <Box className={classes.meetingAnswers}>
-        <Typography variant="h3">
+        <Typography variant="h3" className={classes.listItems}>
           John Doe
           <IconButton edge="end" aria-label="delete">
             <DeleteIcon />
           </IconButton>
         </Typography>
         
-        <Typography variant="h3">
+        <Typography variant="h3" className={classes.listItems}>
           Jane Doe
           <IconButton edge="end" aria-label="delete">
             <DeleteIcon />
           </IconButton>
         </Typography>
         
-        <Button> 
+        <Button  className={classes.listItems}> 
           <IconButton edge="end" aria-label="add">
             <AddIcon /> Add Participant
           </IconButton>
@@ -192,21 +213,21 @@ const ParticipantsAndTopics = () => {
       </Box>
 
       <Box className={classes.meetingAnswers}>
-        <Typography variant="h3">
+        <Typography variant="h3" className={classes.listItems}>
           Topic 1
           <IconButton edge="end" aria-label="delete">
             <DeleteIcon />
           </IconButton>
         </Typography>
         
-        <Typography variant="h3">
+        <Typography variant="h3" className={classes.listItems}>
           Topic 2
           <IconButton edge="end" aria-label="delete">
             <DeleteIcon />
           </IconButton>
         </Typography>
         
-        <Button> 
+        <Button  className={classes.listItems}> 
           <IconButton edge="end" aria-label="add">
             <AddIcon /> Add Topic
           </IconButton>
