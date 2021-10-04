@@ -59,11 +59,17 @@ const useStyles = makeStyles({
     },
 });
 
-const MeetingDetails = () => {
+const MeetingDetails = ({handleTitleChange, handleDescChange}) => {
+
+  const changeTitle = (event) => {
+    handleTitleChange(event.target.value)
+  }
+
+  const changeDesc = (event) => {
+    handleDescChange(event.target.value)
+  }
 
   const classes = useStyles();
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
   return (
     <Box >
       <form>
@@ -74,7 +80,7 @@ const MeetingDetails = () => {
             placeholder="Enter Title"
             size="large"
             inputProps={{style: {fontSize: 40, fontWeight: 'bold'}}}
-            onChange={(e) => { setTitle(e.target.value); }}
+            onChange={changeTitle}
           />
         </Box>
 
@@ -84,7 +90,7 @@ const MeetingDetails = () => {
             placeholder="Enter meeting description here..."
             multiline
             variant="filled"
-            onChange={(e) => { setDescription(e.target.value); }}
+            onChange={changeDesc}
           />
         </Box>
       </form>
@@ -130,10 +136,18 @@ const MeetingQuestions = () => {
 
 
 
-const MeetingAnswers = () => {
+const MeetingAnswers = ({handleTimeChange, handleLocationChange, handleAlertSettingChange}) => {
 
-  const [value, setValue] = React.useState(new Date());
-  const [location, setLocation] = useState("");
+  const [time, setTime] = React.useState(new Date());
+
+  const changeMeetingTime = (event) => {
+    setTime(event)
+    handleTimeChange(event)
+  }
+
+  const changeAlert = (event) => {
+    console.log("new alert setting:", event.target.value)
+  }
 
   return (
     <Box mt="40px">
@@ -142,10 +156,8 @@ const MeetingAnswers = () => {
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DateTimePicker
             renderInput={(props) => <TextField {...props} />}
-            value={value}
-            onChange={(newValue) => {
-              setValue(newValue);
-            }}
+            value={time}
+            onChange={changeMeetingTime}
           />
         </LocalizationProvider>
       </Box>
@@ -156,6 +168,7 @@ const MeetingAnswers = () => {
             hiddenLabel
             id="meeting-location"
             placeholder="Enter Location"
+            onChange={(event) => handleLocationChange(event.target.value)}
           />
         </Box>
       </form>
@@ -168,6 +181,7 @@ const MeetingAnswers = () => {
           <MenuItem value="60">1 hour before</MenuItem>
           <MenuItem value="120">2 hours before</MenuItem>
           <MenuItem value="1440">1 day before</MenuItem>
+          onChange={changeAlert}
         </Select>    
       </Box>
 
@@ -176,17 +190,17 @@ const MeetingAnswers = () => {
   )
 }
 
-const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAgenda, contacts}) => {
-
-  console.log("agendaLength (from child):", agendaLength)
-  console.log("agenda (from child):", agenda)
-  console.log("0th agenda:", agenda[0])
+const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAgenda, contacts, changeParticipants}) => {
 
   const handleAgendaChange = (event) => {
-    console.log("value:", event.target.value)
-    console.log("target:", event.target)
 
-    // TODO update "agenda" with new item
+    // update "agenda" with new item
+    let updatedItem = agenda.filter(item => item.id === event.target.id)[0]
+    updatedItem.name = event.target.value
+    console.log("UPDATED ITEM:", updatedItem)
+
+
+    // TODO save the new agenda
 
     // add a new item if the edited item was the last in the list
     console.log("event.target.id =", event.target.id)
@@ -205,6 +219,10 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
       changeAgendaLength(agendaLength + 1);
 
     }
+  }
+
+  const handleParticipantChange = (event, value) => {
+    changeParticipants(value)
   }
 
   return (
@@ -226,7 +244,7 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
 
           placeholder="+ add participant"
           renderInput={(params) => <TextField {...params} placeholder="+ add participant" />}
-          onChange={(event, value) => console.log(value)}
+          onChange={handleParticipantChange}
         />
 
       </Box>
@@ -256,53 +274,76 @@ const CreateMeetingPage = () => {
 
   const [agendaLength, setAgendaLength] = useState(1)
   const [agenda, setAgenda] = useState([{name: "", id: "1"}])
-  console.log("agenda length (from parent):", agendaLength)
-  console.log("agenda (from parent):", agenda)
+  const [peopleList, setPeopleList] = useState([])
+  const [participants, setParticipants] = useState([])
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [time, setTime] = useState(new Date());
+  const [location, setLocation] = useState("")
+  const [alertSetting, setAlertSetting] = useState("")
 
+  // get the list of contacts from the database
+  useEffect(() => {
+    peopleService
+      .getAll()
+      .then(response => {
+        setPeopleList(response.data)
+      })
+      .catch(error => {
+        console.log("Failed to retrieve list of people from the server:", error)
+      })
+  }, [])
+
+  // change the number of items in the meeting agenda
   const changeAgendaLength = (newNum) => {
     setAgendaLength(newNum)
-    console.log("there are now", newNum, "items in agenda")
   } 
-
+  // add an item to the agenda
   const addAgenda = (newItem) => {
-    console.log("agenda BEFORE:", agenda)
-    console.log("trying to add item:", newItem)
     setAgenda(agenda.concat(newItem))
-    console.log("agenda AFTER:", agenda)
+  }
+  // update the participant list
+  const changeParticipants = (newList) => {
+    setParticipants(newList)
+  }
+  const handleTitleChange = (newTitle) => {
+    setTitle(newTitle)
+  }
+  const handleDescChange = (newDesc) => {
+    setDescription(newDesc)
+  }
+  const handleTimeChange = (newTime) => {
+    setTime(newTime)
+  }
+  const handleLocationChange = (newLocation) => {
+    setLocation(newLocation)
+  }
+  const handleAlertSettingChange = (newSetting) => {
+    setAlertSetting(newSetting)
   }
 
-  // maintain list of people from the server
-  const [peopleList, setPeopleList] = useState([])
-
-    // retrieve the list of people
-    useEffect(() => {
-      peopleService
-        .getAll()
-        .then(response => {
-          setPeopleList(response.data)
-        })
-        .catch(error => {
-          console.log("Failed to retrieve list of people from the server:", error)
-        })
-    }, [])
-    console.log("Number of people:", peopleList.length)
-    console.log("People list:", peopleList)
-
+  const getAlertTime = (alertSetting, eventTime) => {
+    return new Date()
+  }
 
   // submit the meeting to the database when the user clicks confirm
   const submitMeeting = () => {
+
     // TODO use pieces of state to create a meaningful database entry
     const newMeeting = {
-      participants: ["613f0231f4b84d61cdafb953", "613f0885655d8265172abcbd"],
-      agenda: ["discuss testing", "discuss implementation"],
-      title: "First meeting with Jane",
-      details: "Yeet will be arriving 10 minutes late",
-      date: Date.now(),
-      location: "Meeting room 69",
+      participants: participants.map(item => item._id),
+      agenda: agenda.map(item => item.name).filter(item => item),
+      title: title,
+      details: description,
+      date: time,
+      location: location,
+      //TODO fix alert time
       alerts: [
-        {alertTime: Date.now(), alertSetting: "email"}
+        {alertTime: getAlertTime(), alertSetting: "email"}
       ],
     }
+
+    console.log("SUBMISSION:", newMeeting)
 
     // submit the entry
     meetingService
@@ -326,14 +367,20 @@ const CreateMeetingPage = () => {
 
         <Grid style={{minHeight: "90vh"}}>
           
-          <MeetingDetails />
+          <MeetingDetails 
+            handleTitleChange={handleTitleChange}
+            handleDescChange={handleDescChange}
+          />
 
           <div className={classes.row}>
             <div className={classes.meetingQuestions}>
               <MeetingQuestions />
             </div>
             <div className={classes.meetingAnswers}>
-              <MeetingAnswers />
+              <MeetingAnswers 
+                handleTimeChange={handleTimeChange}
+                handleLocationChange={handleLocationChange}
+              />
             </div>
           </div>
 
@@ -345,6 +392,7 @@ const CreateMeetingPage = () => {
                 changeAgendaLength={changeAgendaLength}
                 addAgenda={addAgenda}
                 contacts={peopleList}
+                changeParticipants={changeParticipants}
               />
             </div>
           </div>
