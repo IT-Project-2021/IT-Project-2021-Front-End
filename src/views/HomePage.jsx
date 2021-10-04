@@ -93,7 +93,6 @@ const HomePage = () => {
             <Grid container direction="column" justifyContent="center" style={{ minHeight: "90vh" }}>
 
                 <PageTitle />
-
                 <Link to="/Meetings" style={{ textDecoration: 'none' }}>
                     <HomePageButton name="Meetings"/>
                 </Link>
