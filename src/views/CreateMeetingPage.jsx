@@ -33,7 +33,7 @@ const useStyles = makeStyles({
   },
   meetingDetails: {
     textAlign: "left",
-    padding: "3vh 3vh 0vh"
+    padding: "3vh 2vh 0vh"
   },
   confirmButtonContainer: {
     position: "fixed", 

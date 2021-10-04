@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Theme from "../themes/basicTheme";
 import { ThemeProvider } from "@material-ui/styles";
-import { Typography, Button, Grid } from "@material-ui/core";
+import { Typography, Button, Grid, TextField } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from '@material-ui/core/styles';
@@ -147,25 +147,7 @@ const MeetingAnswers = () => {
             <MenuItem value={120}>2 hours before</MenuItem>
             <MenuItem value={1440}>1 day before</MenuItem>
           </Select>    
-        </FormControl>
-
-          {/* <FormControl required className={classes.formControl}>
-            <InputLabel shrink htmlFor="circle">
-              Circle
-            </InputLabel>
-            <Select
-              displayEmpty
-            >
-              <MenuItem value="">
-                <em>select the value</em>
-              </MenuItem>
-
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-            <FormHelperText>Some important helper text</FormHelperText>
-          </FormControl> */}
+        </FormControl>          
       </Box>
     </Box>
   )
@@ -198,11 +180,13 @@ const ParticipantsAndTopics = () => {
           </IconButton>
         </Typography>
         
-        <Button  className={classes.listItems}> 
-          <IconButton edge="end" aria-label="add">
-            <AddIcon /> Add Participant
-          </IconButton>
-        </Button>
+        <Box>
+          <TextField className={classes.listItems}
+            hiddenLabel
+            id="participants"
+            placeholder="+ add participant"
+          />
+        </Box>
       </Box>
 
       <Box className={classes.meetingQuestions}>
@@ -226,12 +210,16 @@ const ParticipantsAndTopics = () => {
           </IconButton>
         </Typography>
         
-        <Button  className={classes.listItems}> 
-          <IconButton edge="end" aria-label="add">
-            <AddIcon /> Add Topic
-          </IconButton>
-        </Button>
+        <Box>
+          <TextField className={classes.listItems}
+            hiddenLabel
+            id="participants"
+            placeholder="+ add topic"
+          />
+        </Box>
       </Box>
+
+      < br/>
 
     </Box>
   )
