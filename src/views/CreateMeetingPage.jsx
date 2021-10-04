@@ -64,7 +64,7 @@ const useStyles = makeStyles({
     fontWeight: 600
   },
   listItems: {
-    padding: "1vh 3vh 0vh",
+    padding: "1vh 3vh 2vh",
     textAlign: "left",
   },
 });
@@ -226,7 +226,7 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
         </Typography>
       </Box>
       
-      <Box className={classes.meetingAnswers}>
+      <Box className={classes.listItems}>
         <TextField
           hiddenLabel
           id="participants"
@@ -240,7 +240,7 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
         </Typography>
       </Box>
 
-      <Box className={classes.meetingAnswers}>
+      <Box className={classes.listItems}>
         {agenda.map(item => 
           <TextField
             hiddenLabel
