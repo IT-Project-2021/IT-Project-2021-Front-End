@@ -96,16 +96,12 @@ const HomePage = () => {
                 <Link to="/Meetings" style={{ textDecoration: 'none' }}>
                     <HomePageButton name="Meetings"/>
                 </Link>
+
                 <HomePageButton name="Reminders" />
+                
                 <Link to="/People" style={{ textDecoration: 'none' }}>
                     <HomePageButton name="People" />
                 </Link>
-
-                <Link to="/Meetings" style={{ textDecoration: 'none' }}>
-                    <HomePageButton name="Meetings" />
-                </Link>
-
-                <HomePageButton name="Reminders" />
 
                 <OptionsBar />
 

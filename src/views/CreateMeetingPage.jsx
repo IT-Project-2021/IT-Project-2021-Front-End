@@ -82,6 +82,7 @@ const MeetingDetails = () => {
             hiddenLabel
             id="meeting-title"
             placeholder="Enter Title"
+            variant="filled"
             size="large"
             inputProps={{style: {fontSize: 40, fontWeight: 'bold'}}}
             onChange={(e) => { setTitle(e.target.value); }}
@@ -93,7 +94,7 @@ const MeetingDetails = () => {
             id="meeting-description"
             placeholder="Enter description"
             multiline
-            variant="filled"
+            
             onChange={(e) => { setDescription(e.target.value); }}
           />
         </Box>
