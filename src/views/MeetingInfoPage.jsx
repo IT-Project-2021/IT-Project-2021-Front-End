@@ -137,7 +137,7 @@ const MeetingAnswers = () => {
       </Box>
 
       <Box className={classes.meetingAnswers}>
-        {/* <FormControl>
+        <FormControl>
           <InputLabel id="open-select-label">Reminder</InputLabel>
           <Select label="Reminder" id="select" labelId="open-select-label">
             <MenuItem value=""><em>None</em></MenuItem>
@@ -148,9 +148,9 @@ const MeetingAnswers = () => {
             <MenuItem value={120}>2 hours before</MenuItem>
             <MenuItem value={1440}>1 day before</MenuItem>
           </Select>    
-        </FormControl> */}
+        </FormControl>
 
-          <FormControl required className={classes.formControl}>
+          {/* <FormControl required className={classes.formControl}>
             <InputLabel shrink htmlFor="circle">
               Circle
             </InputLabel>
@@ -166,7 +166,7 @@ const MeetingAnswers = () => {
               <MenuItem value={30}>Thirty</MenuItem>
             </Select>
             <FormHelperText>Some important helper text</FormHelperText>
-          </FormControl>
+          </FormControl> */}
       </Box>
     </Box>
   )
