@@ -1,10 +1,7 @@
 import Theme from "../themes/landingTheme";
-
-//general components in use
 import PageTitle from "../components/PageTitle"
-
 import { ThemeProvider } from "@material-ui/styles";
-import { Typography, Button,Grid } from "@material-ui/core";
+import { Typography, Button, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from '@material-ui/core/Divider';
@@ -15,11 +12,10 @@ import { Link } from "react-router-dom";
 const palette = Theme.palette
 const useStyles = makeStyles({
     mainButton: {
-        height: "98%",
+        height: "90%",
         justifyContent: "flex-start",
         color: palette.secondary.main,
-        padding: "30px 0 10px 2px",
-        marginLeft: "1%",
+        padding: "10px 0 10px 2px",
         marginTop: "2px",
     },
     divider: {
@@ -34,15 +30,15 @@ const useStyles = makeStyles({
     },
     optionsBar: {
         width: "99%",
-        position: "absolute",
         height: "60px",
-        bottom: "0",
+        bottom: "0px",
+        position: "fixed",
     }
 });
 
 
 // the main buttons on the homepage (e.g. People, Meetings)
-const HomePageButton = ({name, linkedComponent}) => {
+const HomePageButton = ({ name, linkedComponent }) => {
     const classes = useStyles();
     return (
         <Box marginLeft="1%">
@@ -55,7 +51,7 @@ const HomePageButton = ({name, linkedComponent}) => {
 }
 
 // buttons to navigate to various site options (e.g. Settings, Logout)
-const OptionsButton = ({name, position}) => {
+const OptionsButton = ({ name, position }) => {
     // interpret position of the text
     let justifyFlex = "flex-start"
     if (position === "right") {
@@ -64,7 +60,7 @@ const OptionsButton = ({name, position}) => {
 
     const classes = useStyles();
     return (
-        <Button className={classes.optionsButton} style={{justifyContent: justifyFlex}}>
+        <Button className={classes.optionsButton} style={{ justifyContent: justifyFlex }}>
             <Typography variant="h5">{name}</Typography>
         </Button>
     )
@@ -76,8 +72,15 @@ const OptionsBar = () => {
     const classes = useStyles();
     return (
         <Box className={classes.optionsBar}  >
-            <OptionsButton name="Settings" position="left" />
-            <OptionsButton name="Logout" position="right" />
+            
+            <Link to="/Profile" style={{ textDecoration: 'none' }}>
+                <OptionsButton name="Profle" position="left" />
+            </Link>
+
+            <Link to="/" style={{ textDecoration: 'none' }}>
+                <OptionsButton name="Logout" position="right" />
+            </Link>
+
         </Box>
     )
 }
@@ -86,25 +89,28 @@ const HomePage = () => {
     return (
         <ThemeProvider theme={Theme}>
             <CssBaseline />
-            
+
             <Grid container direction="column" justifyContent="center" style={{ minHeight: "90vh" }}>
-      
-            <PageTitle />
 
-            <Link to="/People" style={{ textDecoration: 'none' }}>
-                <HomePageButton name="People"/>
-            </Link>
+                <PageTitle />
 
-            <Link to="/Meetings" style={{ textDecoration: 'none' }}>
-                <HomePageButton name="Meetings"/>
-            </Link>
-            <HomePageButton name="Reminders" />
+                <Link to="/People" style={{ textDecoration: 'none' }}>
+                    <HomePageButton name="People" />
+                </Link>
+
+                <Link to="/Meetings" style={{ textDecoration: 'none' }}>
+                    <HomePageButton name="Meetings" />
+                </Link>
+
+                <HomePageButton name="Reminders" />
+
+                <OptionsBar />
             </Grid>
 
-            <OptionsBar />
+            
         </ThemeProvider>
     )
 };
 
-
 export default HomePage
+

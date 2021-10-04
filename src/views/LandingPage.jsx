@@ -43,7 +43,7 @@ const SignUpButton = () => {
   const classes = useStyles();
   return (
     <Box mt="30px">
-       <Link to="/HomePage" style={{ textDecoration: 'none' }}>
+       <Link to="/SignUp" style={{ textDecoration: 'none' }}>
         <Button className = {classes.signupButton} variant="contained" type="submit" >
           <Typography variant="h2">Sign Up</Typography>
         </Button>
