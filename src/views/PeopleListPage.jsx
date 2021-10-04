@@ -8,9 +8,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Link } from "react-router-dom";
 import AddButton from "@material-ui/icons/Add"
 import IconButton from '@material-ui/core/IconButton';
-
-//general components in use
 import PageAppBar from "../components/PageAppBar"
+import peopleService from "../services/people"
+import React, { useState, useEffect } from 'react'
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -42,19 +42,20 @@ const useStyles = makeStyles({
         display: "flex"
     },
     addButton: {
-        fontSize: "large",
+        fontSize: "100px",
         color: palette.tertiary.main,
         backgroundColor: palette.quarternary.main
     }
 });
 
-const PersonListItem = () => {
+const PersonListItem = ({name, id}) => {
     const classes = useStyles();
+    const detailsURL = "/PeopleInformation/" + id;
     return (
         <Box>
-            <Link to="/PeopleInformation" className={classes.personLink} >
+            <Link to={detailsURL} className={classes.personLink} >
                 <Button className={classes.personButton} fullWidth={true}>
-                    <Typography variant="h4" className={classes.listedPerson}> Person </Typography>
+                    <Typography variant="h4" className={classes.listedPerson}> {name} </Typography>
                 </Button>
             </Link>
             <Divider className={classes.divider} />
@@ -62,33 +63,26 @@ const PersonListItem = () => {
     )
 }
 
-const PersonList = () => {
-    const classes = useStyles();
-    return (
-        <Grid container direction="column" style={{ minHeight: "80vh", padding: "20px 0 0 0"}}>
-        <ul className={classes.personList}>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-            <li><PersonListItem /></li>
-        </ul>
-        </Grid>
-    )
-}
-
 const PeopleListPage = () => {
+
+    // maintain list of people from the server
+    const [peopleList, setPeopleList] = useState([])
+
+    // retrieve the list of people
+    useEffect(() => {
+        peopleService
+            .getAll()
+            .then(response => {
+                setPeopleList(response.data)
+            })
+            .catch(error => {
+                console.log("Failed to retrieve list of people from the server:", error)
+            })
+    }, [])
+    console.log("Number of people:", peopleList.length)
+    console.log("People list:", peopleList)
+
+    
     const classes = useStyles();
     return (
         <ThemeProvider theme={Theme}>
@@ -96,12 +90,27 @@ const PeopleListPage = () => {
 
             <PageAppBar prevPage="/HomePage" tab="People"/>
 
-            <PersonList />
+
+            <Grid container direction="column" style={{ minHeight: "80vh", padding: "20px 0 0 0"}}>
+            <ul className={classes.personList}>
+                {peopleList.map(item => 
+                    <li key={item._id}>
+                        <PersonListItem 
+                            name={item.first_name + " " + item.last_name}
+                            id={item._id} 
+                        />
+                    </li>
+                )}
+            </ul>
+            </Grid>
+
 
             <Box className={classes.addButtonContainer} >
-                <IconButton aria-label="add" className={classes.addButton} >
-                    <AddButton fontSize="large"/>
-                </IconButton>
+                <Link to="/AddNewPerson">
+                    <IconButton aria-label="add" className={classes.addButton} >
+                        <AddButton fontSize="large"/>
+                    </IconButton>
+                </Link>
             </Box>
 
         </ThemeProvider>
