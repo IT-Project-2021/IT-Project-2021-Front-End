@@ -108,9 +108,8 @@ const HomePage = () => {
                 <HomePageButton name="Reminders" />
 
                 <OptionsBar />
-            </Grid>
 
-            
+            </Grid>
         </ThemeProvider>
     )
 };
