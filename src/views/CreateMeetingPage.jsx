@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'
 import Theme from "../themes/basicTheme";
 import { ThemeProvider } from "@material-ui/styles";
 import { Typography, Button, TextField, Grid } from "@material-ui/core";
@@ -13,6 +13,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import Autocomplete from '@mui/material/Autocomplete';
+import peopleService from "../services/people"
 
 
 const palette = Theme.palette
@@ -174,7 +175,7 @@ const MeetingAnswers = () => {
   )
 }
 
-const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAgenda}) => {
+const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAgenda, contacts}) => {
 
   console.log("agendaLength (from child):", agendaLength)
   console.log("agenda (from child):", agenda)
@@ -205,16 +206,6 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
     }
   }
 
-  // SAMPLE: Contents of the user's contacts
-  // TODO replace with a database query
-  const contacts = [
-    {label: "Isobel Byars", notes: "abc"},
-    {label: "Daniel Fink", notes: "def"},
-    {label: "Jamie Chin", notes: "ghi"},
-    {label: "Emaad Beig", notes: "jkl"},
-    {label: "Luke Castleman", notes: "mno"}
-  ]
-
   return (
     <Box mt="40px">
 
@@ -228,9 +219,8 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
 
         <Autocomplete
           multiple
-          id="participant-list"
           options={contacts}
-          getOptionLabel={(option) => option.label}
+          getOptionLabel={(option) => (option.first_name + " " + option.last_name)}
           sx={{ width: 300 }}
 
           placeholder="+ add participant"
@@ -280,6 +270,25 @@ const CreateMeetingPage = () => {
     console.log("agenda AFTER:", agenda)
   }
 
+  // maintain list of people from the server
+  const [peopleList, setPeopleList] = useState([])
+
+    // retrieve the list of people
+    useEffect(() => {
+      peopleService
+        .getAll()
+        .then(response => {
+          setPeopleList(response.data)
+        })
+        .catch(error => {
+          console.log("Failed to retrieve list of people from the server:", error)
+        })
+    }, [])
+    console.log("Number of people:", peopleList.length)
+    console.log("People list:", peopleList)
+
+
+
   const classes = useStyles();
   return (
     <ThemeProvider theme={Theme}>
@@ -307,6 +316,7 @@ const CreateMeetingPage = () => {
                 agenda={agenda} 
                 changeAgendaLength={changeAgendaLength}
                 addAgenda={addAgenda}
+                contacts={peopleList}
               />
             </div>
           </div>
