@@ -5,19 +5,14 @@ import { Typography, Button, TextField, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from '@material-ui/core/styles';
-//general components in use
 import PageAppBar from "../components/PageAppBar"
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Link from '@material-ui/core/Link';
-
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import AddIcon from '@material-ui/icons/Add';
-
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
+import Autocomplete from '@mui/material/Autocomplete';
 
 
 const palette = Theme.palette
@@ -210,6 +205,16 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
     }
   }
 
+  // SAMPLE: Contents of the user's contacts
+  // TODO replace with a database query
+  const contacts = [
+    {label: "Isobel Byars", notes: "abc"},
+    {label: "Daniel Fink", notes: "def"},
+    {label: "Jamie Chin", notes: "ghi"},
+    {label: "Emaad Beig", notes: "jkl"},
+    {label: "Luke Castleman", notes: "mno"}
+  ]
+
   return (
     <Box mt="40px">
 
@@ -220,11 +225,19 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
       </Box>
       
       <Box mb="40px" ml="20px">
-        <TextField
-          hiddenLabel
-          id="participants"
+
+        <Autocomplete
+          multiple
+          id="participant-list"
+          options={contacts}
+          getOptionLabel={(option) => option.label}
+          sx={{ width: 300 }}
+
           placeholder="+ add participant"
+          renderInput={(params) => <TextField {...params} placeholder="+ add participant" />}
+          onChange={(event, value) => console.log(value)}
         />
+
       </Box>
 
       <Box mb="40px">
