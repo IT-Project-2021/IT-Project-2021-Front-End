@@ -21,8 +21,6 @@ import ProfilePage from "./views/ProfilePage"
 import ChangePasswordPage from "./views/ChangePasswordPage"
 import NewPersonPage from "./views/NewPersonPage"
 
-
-
 var hist = createBrowserHistory();
 
 ReactDOM.render(
@@ -42,8 +40,6 @@ ReactDOM.render(
         <Route path="/Profile" component={ProfilePage} />
         <Route path="/ChangePassword" component={ChangePasswordPage} />
         <Route path="/AddNewPerson" component={NewPersonPage} />
-
-
       </Box>
     </ThemeProvider>
   </Router>,

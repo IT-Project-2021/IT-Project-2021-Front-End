@@ -47,8 +47,6 @@ const PageAppBar = ({prevPage, tab}) => {
                 </IconButton>
                 </Link>
 
-                {/* not sure why this is here???? */}
-                
                 {/* <Select labelId="label" id="select">
                     
                     <MenuItem value="">

@@ -15,48 +15,55 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import Autocomplete from '@mui/material/Autocomplete';
 import peopleService from "../services/people"
 import meetingService from "../services/meetings"
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
 
 
 const palette = Theme.palette
 const useStyles = makeStyles({
-    contactDetails: {
-      color: palette.tertiary.main,
-    },
-    meetingDescription: {
-      color: palette.tertiary.main,
-      padding: "20px 00px 00px 33px",
-      textAlign: "left",
-    },
-    editButtonContainer: {
-        position: "fixed", 
-        bottom: 0,
-        width: "100%",
-        justifyContent: "flex-end",
-        display: "flex",
-        padding: "4em",
-        
-    },
-    editButton: {
-        fontSize: "large",
-        color: palette.tertiary.main,
-        backgroundColor: palette.quarternary.main
-    },
-    meetingDetails: {
-        textAlign: "left",
-        padding: "30px 00px 0px 33px"
-    },
-    row: {
-      display: "flex",
-      flexDirection: "row",
-    },
-    meetingQuestions: {
-      textAlign: "left",
-      padding: "30px 50px 0px 50px"
-    },
-    meetingAnswers: {
-      textAlign: "left",
-      padding: "40px 120px 0px 120px"
-    },
+  contactDetails: {
+    color: palette.tertiary.main,
+  },
+  meetingDescription: {
+    padding: "3vh 3vh 0vh",
+    textAlign: "left",
+  },
+  meetingDetails: {
+    textAlign: "left",
+    padding: "3vh 2vh 0vh"
+  },
+  confirmButtonContainer: {
+    position: "fixed", 
+    bottom: "0vh",
+    width: "95%",
+    justifyContent: "flex-end",
+    display: "flex",
+    padding: "4vh",        
+  },
+  confirmButton: {
+    fontSize: "medium",
+    color: palette.tertiary.main,
+    backgroundColor: palette.quarternary.main
+  },
+  row: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  meetingQuestions: {
+    textAlign: "left",
+    padding: "3vh 1vh 0vh",
+  },
+  meetingAnswers: {
+    padding: "3vh 1vh 1vh",
+    textAlign: "left",
+  },
+  bold: {
+    fontWeight: 600
+  },
+  listItems: {
+    padding: "1vh 3vh 2vh",
+    textAlign: "left",
+  },
 });
 
 const MeetingDetails = ({handleTitleChange, handleDescChange}) => {
@@ -78,19 +85,21 @@ const MeetingDetails = ({handleTitleChange, handleDescChange}) => {
             hiddenLabel
             id="meeting-title"
             placeholder="Enter Title"
+            variant="filled"
             size="large"
             inputProps={{style: {fontSize: 40, fontWeight: 'bold'}}}
             onChange={changeTitle}
+
           />
         </Box>
 
         <Box className={classes.meetingDescription}>
           <TextField
             id="meeting-description"
-            placeholder="Enter meeting description here..."
+            placeholder="Enter description"
             multiline
-            variant="filled"
             onChange={changeDesc}
+
           />
         </Box>
       </form>
@@ -98,41 +107,41 @@ const MeetingDetails = ({handleTitleChange, handleDescChange}) => {
   )
 }
 
-const ConfirmButton = () => {
+const ConfirmButton = ({submitMeeting}) => {
   const classes = useStyles();
   return (
-    <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
-      <Typography variant="button" color="secondary">Confirm</Typography>
+    <Button className={classes.confirmButton} variant="contained" type="submit" >
+      <Typography variant="button" onClick={submitMeeting}>Confirm</Typography>
     </Button>
   )
 }
 
 const MeetingQuestions = () => {
+  const classes = useStyles();
   return (
       
-    <Box mt="40px">
-      <Box mb="40px">
-        <Typography variant="h2">
+    <Box> 
+      <Box className={classes.meetingQuestions}>
+        <Typography variant="h3" className={classes.bold}>
           Date/Time: 
         </Typography>
       </Box>
       
-      <Box mb="40px">
-        <Typography variant="h2">
+      <Box className={classes.meetingQuestions}>
+        <Typography variant="h3" className={classes.bold}>
           Location:
         </Typography>
       </Box>
       
-      <Box>
-        <Typography variant="h2">
+      <Box className={classes.meetingQuestions}>
+        <Typography variant="h3" className={classes.bold}>
           Reminder:
         </Typography>
       </Box>
-
-      
     </Box>
   )
 };
+
 
 
 
@@ -145,14 +154,17 @@ const MeetingAnswers = ({handleTimeChange, handleLocationChange, handleAlertSett
     handleTimeChange(event)
   }
 
+
+  const classes = useStyles();
+
+
   const changeAlert = (event) => {
     console.log("new alert setting:", event.target.value)
   }
 
   return (
-    <Box mt="40px">
-      
-      <Box mb="40px">
+    <Box>
+      <Box className={classes.meetingAnswers}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DateTimePicker
             renderInput={(props) => <TextField {...props} />}
@@ -163,7 +175,7 @@ const MeetingAnswers = ({handleTimeChange, handleLocationChange, handleAlertSett
       </Box>
       
       <form> 
-        <Box mb="40px">
+        <Box className={classes.meetingAnswers}>
           <TextField
             hiddenLabel
             id="meeting-location"
@@ -173,19 +185,20 @@ const MeetingAnswers = ({handleTimeChange, handleLocationChange, handleAlertSett
         </Box>
       </form>
 
-      <Box>
-        <Select labelId="label" id="select" value="60">
-          <MenuItem value="5">5 minutes before</MenuItem> 
-          <MenuItem value="15">15 minutes before</MenuItem>
-          <MenuItem value="30">30 minutes before</MenuItem>
-          <MenuItem value="60">1 hour before</MenuItem>
-          <MenuItem value="120">2 hours before</MenuItem>
-          <MenuItem value="1440">1 day before</MenuItem>
-          onChange={changeAlert}
-        </Select>    
-      </Box>
 
-      
+      <Box className={classes.meetingAnswers}>
+      <FormControl>
+          <Select label="Reminder" id="select" labelId="open-select-label">
+            <MenuItem value=""><em>None</em></MenuItem>
+            <MenuItem value={5}>5 minutes before</MenuItem> 
+            <MenuItem value={15}>15 minutes before</MenuItem>
+            <MenuItem value={30}>30 minutes before</MenuItem>
+            <MenuItem value={60}>1 hour before</MenuItem>
+            <MenuItem value={120}>2 hours before</MenuItem>
+            <MenuItem value={1440}>1 day before</MenuItem>
+          </Select>    
+        </FormControl>  
+      </Box>
     </Box>
   )
 }
@@ -195,13 +208,12 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
   const handleAgendaChange = (event) => {
 
     // update "agenda" with new item
+    // NOTE this might be causing strange behaviour, check here if there's problems
     let updatedItem = agenda.filter(item => item.id === event.target.id)[0]
     updatedItem.name = event.target.value
     console.log("UPDATED ITEM:", updatedItem)
 
-
-    // TODO save the new agenda
-
+    
     // add a new item if the edited item was the last in the list
     console.log("event.target.id =", event.target.id)
     console.log("agendaLength =", agendaLength)
@@ -220,28 +232,28 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
 
     }
   }
+  const classes = useStyles();
 
   const handleParticipantChange = (event, value) => {
     changeParticipants(value)
   }
 
   return (
-    <Box mt="40px">
+    <Box>
 
-      <Box mb="40px"> 
-        <Typography variant="h2">
+      <Box className={classes.meetingQuestions}> 
+        <Typography variant="h3" className={classes.bold}>
           Participants
         </Typography>
       </Box>
       
-      <Box mb="40px" ml="20px">
+      <Box className={classes.listItems}>
 
         <Autocomplete
           multiple
           options={contacts}
           getOptionLabel={(option) => (option.first_name + " " + option.last_name)}
           sx={{ width: 300 }}
-
           placeholder="+ add participant"
           renderInput={(params) => <TextField {...params} placeholder="+ add participant" />}
           onChange={handleParticipantChange}
@@ -249,13 +261,13 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
 
       </Box>
 
-      <Box mb="40px">
-        <Typography variant="h2">
+      <Box className={classes.meetingQuestions}> 
+        <Typography variant="h3" className={classes.bold}>
           Agenda
         </Typography>
       </Box>
 
-      <Box mb="40px" ml="20px">
+      <Box className={classes.listItems}>
         {agenda.map(item => 
           <TextField
             hiddenLabel
@@ -365,7 +377,7 @@ const CreateMeetingPage = () => {
 
       <PageAppBar prevPage="/Meetings" tab="Meetings"/>
 
-        <Grid style={{minHeight: "90vh"}}>
+        <Grid container direction="column" justifyContent="center" style={{ minHeight: "65vh" }}>
           
           <MeetingDetails 
             handleTitleChange={handleTitleChange}
@@ -396,13 +408,11 @@ const CreateMeetingPage = () => {
               />
             </div>
           </div>
-        
-          <Box px="20px" marginTop="clamp(25px, 12%, 50px)">
 
-              <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
-                <Typography variant="button" color="secondary" onClick={submitMeeting}>Confirm</Typography>
-              </Button>
-
+          <Box className={classes.confirmButtonContainer} >
+            <Link to="/Meetings" style={{ textDecoration: 'none' }}>
+              <ConfirmButton fontSize="large" className={classes.confirmButton} submitMeeting={submitMeeting}/>
+            </Link>
           </Box>
 
 

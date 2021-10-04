@@ -1,19 +1,18 @@
-
+import * as React from 'react';
 import Theme from "../themes/basicTheme";
-
 import { ThemeProvider } from "@material-ui/styles";
-import { Typography, Button, Grid } from "@material-ui/core";
+import { Typography, Button, Grid, TextField } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from '@material-ui/core/styles';
-//general components in use
 import PageAppBar from "../components/PageAppBar"
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -21,27 +20,25 @@ const useStyles = makeStyles({
       color: palette.tertiary.main,
     },
     meetingDescription: {
-      color: palette.tertiary.main,
-      padding: "20px 00px 0px 33px",
+      padding: "3vh 3vh 0vh",
       textAlign: "left",
     },
+    meetingDetails: {
+      textAlign: "left",
+      padding: "3vh 2vh 0vh"
+    },
     editButtonContainer: {
-        position: "fixed", 
-        bottom: 0,
-        width: "100%",
-        justifyContent: "flex-end",
-        display: "flex",
-        padding: "4em",
-        
+      position: "fixed", 
+      bottom: "0vh",
+      width: "95%",
+      justifyContent: "flex-end",
+      display: "flex",
+      padding: "4vh",        
     },
     editButton: {
-        fontSize: "large",
-        color: palette.tertiary.main,
-        backgroundColor: palette.quarternary.main
-    },
-    meetingDetails: {
-        textAlign: "left",
-        padding: "30px 00px 0px 33px"
+      fontSize: "medium",
+      color: palette.tertiary.main,
+      backgroundColor: palette.quarternary.main
     },
     row: {
       display: "flex",
@@ -49,10 +46,18 @@ const useStyles = makeStyles({
     },
     meetingQuestions: {
       textAlign: "left",
-      padding: "30px 50px 0px 50px"
+      padding: "3vh 1vh 0vh",
     },
     meetingAnswers: {
-      padding: "30px 120px 0px 120px"
+      padding: "3vh 1vh 0vh",
+      textAlign: "left",
+    },
+    bold: {
+      fontWeight: 600
+    },
+    listItems: {
+      padding: "1vh 3vh 0vh",
+      textAlign: "left",
     },
 });
 
@@ -65,7 +70,7 @@ const MeetingDetails = () => {
         <Typography variant="h1">Meeting 1</Typography>
       </Box>
 
-      <Box className={classes.meetingDetails}>
+      <Box className={classes.meetingDescription}>
         <Typography variant="body1">
             Meeting Description
         </Typography>
@@ -84,23 +89,25 @@ const EditDetailsButton = () => {
 }
 
 const MeetingQuestions = () => {
+  
+  const classes = useStyles();
   return (
       
-    <Box mt="40px">
-      <Box mb="40px">
-        <Typography variant="h2">
+    <Box > 
+      <Box className={classes.meetingQuestions}>
+        <Typography variant="h3" className={classes.bold}>
           Date/Time: 
         </Typography>
       </Box>
       
-      <Box mb="40px">
-        <Typography variant="h2">
+      <Box className={classes.meetingQuestions}>
+        <Typography variant="h3" className={classes.bold}>
           Location:
         </Typography>
       </Box>
       
-      <Box>
-        <Typography variant="h2">
+      <Box className={classes.meetingQuestions}>
+        <Typography variant="h3" className={classes.bold}>
           Reminder:
         </Typography>
       </Box>
@@ -111,97 +118,107 @@ const MeetingQuestions = () => {
 };
 
 const MeetingAnswers = () => {
+  const [reminder] = React.useState('');
+
+  const classes = useStyles();
   return (
-    <Box mt="40px">
-      
-      <Box mb="40px">
-        <Typography variant="h2">
+    <Box>
+      <Box className={classes.meetingAnswers}>
+        <Typography variant="h3">
           8/8/2021 3PM 
         </Typography>
       </Box>
       
 
-      <Box mb="40px">
-        <Typography variant="h2">
+      <Box className={classes.meetingAnswers}>
+        <Typography variant="h3">
           Melbourne
         </Typography>
       </Box>
 
-      <Box>
-        <Select labelId="label" id="select" value="60">
-          <MenuItem value="5">5 minutes before</MenuItem> 
-          <MenuItem value="15">15 minutes before</MenuItem>
-          <MenuItem value="30">30 minutes before</MenuItem>
-          <MenuItem value="60">1 hour before</MenuItem>
-          <MenuItem value="120">2 hours before</MenuItem>
-          <MenuItem value="1440">1 day before</MenuItem>
-        </Select>    
+      <Box className={classes.meetingAnswers}>
+        <FormControl>
+          <Select label="Reminder" id="select" labelId="open-select-label">
+            <MenuItem value=""><em>None</em></MenuItem>
+            <MenuItem value={5}>5 minutes before</MenuItem> 
+            <MenuItem value={15}>15 minutes before</MenuItem>
+            <MenuItem value={30}>30 minutes before</MenuItem>
+            <MenuItem value={60}>1 hour before</MenuItem>
+            <MenuItem value={120}>2 hours before</MenuItem>
+            <MenuItem value={1440}>1 day before</MenuItem>
+          </Select>    
+        </FormControl>          
       </Box>
-
-      
     </Box>
   )
 }
 
 const ParticipantsAndTopics = () => {
+  const classes = useStyles();
   return (
-    <Box mt="40px">
-
-      <Box mb="40px"> 
-        <Typography variant="h2">
+    
+    <Box>
+      <Box className={classes.meetingQuestions}> 
+        <Typography variant="h3" className={classes.bold}>
           Participants
         </Typography>
       </Box>
       
-      <Box mb="40px" ml="20px">
-        <Typography variant="h2">
+      <Box>
+        <Typography variant="h3" className={classes.listItems}>
           John Doe
           <IconButton edge="end" aria-label="delete">
             <DeleteIcon />
           </IconButton>
         </Typography>
         
-        <Typography variant="h2">
+        <Typography variant="h3" className={classes.listItems}>
           Jane Doe
           <IconButton edge="end" aria-label="delete">
             <DeleteIcon />
           </IconButton>
         </Typography>
         
-        <Button> 
-          <IconButton edge="end" aria-label="add">
-            <AddIcon /> Add Participant
-          </IconButton>
-        </Button>
+        <Box>
+          <TextField className={classes.listItems}
+            hiddenLabel
+            id="participants"
+            placeholder="+ add participant"
+          />
+        </Box>
       </Box>
 
-      <Box mb="40px">
-        <Typography variant="h2">
+      <Box className={classes.meetingQuestions}>
+        <Typography variant="h3" className={classes.bold}>
           Agenda
         </Typography>
       </Box>
 
-      <Box mb="40px" ml="20px">
-        <Typography variant="h2">
+      <Box>
+        <Typography variant="h3" className={classes.listItems}>
           Topic 1
           <IconButton edge="end" aria-label="delete">
             <DeleteIcon />
           </IconButton>
         </Typography>
         
-        <Typography variant="h2">
+        <Typography variant="h3" className={classes.listItems}>
           Topic 2
           <IconButton edge="end" aria-label="delete">
             <DeleteIcon />
           </IconButton>
         </Typography>
         
-        <Button> 
-          <IconButton edge="end" aria-label="add">
-            <AddIcon /> Add Topic
-          </IconButton>
-        </Button>
+        <Box>
+          <TextField className={classes.listItems}
+            hiddenLabel
+            id="participants"
+            placeholder="+ add topic"
+          />
+        </Box>
       </Box>
+
+      < br/>
 
     </Box>
   )
@@ -215,7 +232,7 @@ const MeetingInfoPage = () => {
 
       <PageAppBar prevPage="/Meetings" tab="Meetings"/>
 
-        <Grid style={{minHeight: "90vh"}}>
+        <Grid container direction="column" justifyContent="center" style={{ minHeight: "70vh" }}>
           
           <MeetingDetails />
 
