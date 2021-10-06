@@ -17,6 +17,7 @@ const useStyles = makeStyles({
     meetingButton: {
       color: palette.tertiary.main,
       justifyContent: "flex-start",
+      flexDirection: "column",
     },
     divider: {
         background: palette.quarternary.main,
@@ -24,10 +25,12 @@ const useStyles = makeStyles({
     },
     meetingLink: {
         textDecoration: "none",
+        justifyContent: "flex-start",
+        flexDirection: "column"
     },
     listedMeeting: {
         textTransform: "none",
-        padding: "22px 20px 15px 15px"
+        padding: "22px 20px 15px 15px",
     },
     meetingList: {
         listStyleType: "none",
@@ -54,12 +57,47 @@ const useStyles = makeStyles({
 
 const MeetingListItem = ({title, date}) => {
     const classes = useStyles();
-    const meetingTime = new Date(date)
+
+    let meetTimeTest = (new Date(date)).toString()
+
+    const formatMeetingTime = (date) => {
+        let meetTime = new Date(date)
+        
+        let day = meetTime.getDate()
+        let month = meetTime.getMonth() + 1
+        let year = meetTime.getFullYear().toString().slice(2)
+
+        let hour = meetTime.getHours()
+
+        let minutes = meetTime.getMinutes()
+        // formatting for minutes
+        if (minutes <= 9) {
+            minutes = 0 + minutes.toString()
+        }
+        
+        let amOrPm = "AM"
+        // formatting for am or pm
+        if (hour === 12) {
+            // midday
+            amOrPm = "PM"
+        } else if (hour === 0) {
+            // midnight
+            hour = 12
+        } else if (hour > 12) {
+            // after midday
+            hour -= 12
+            amOrPm = "PM"
+        }
+
+        return `${day}/${month}/${year} ${hour}:${minutes} ${amOrPm}`
+    }
+
     return (
         <Box>
             <Link to="/MeetingInformation" className={classes.meetingLink} >
-                <Button className={classes.meetingButton} fullWidth={true}>
-                    <Typography variant="h4" className={classes.listedMeeting}> {title} ({meetingTime.toString()}) </Typography>
+                <Button className={classes.meetingButton} fullWidth={true} >
+                    <Typography variant="h6" className={classes.listedMeeting}> {formatMeetingTime(date)} </Typography>
+                    <Typography variant="h4" className={classes.listedMeeting}> {title} </Typography>
                 </Button>
             </Link>
             <Divider className={classes.divider} />
