@@ -84,6 +84,12 @@ const MeetingsPage = () => {
     const isFutureMeeting = (date) => {
         return getTimeOffset(date) > 0
     }
+    const sortFutureMeetings = (i, j) => {
+        return getTimeOffset(i.date) - getTimeOffset(j.date)
+    }
+    const sortPastMeetings = (i, j) => {
+        return getTimeOffset(j.date) - getTimeOffset(i.date)
+    }
 
     // retrieve the list of meetings
     useEffect(() => {
@@ -113,6 +119,7 @@ const MeetingsPage = () => {
             <ul className={classes.meetingList}>
                 {meetingList
                     .filter(item => isFutureMeeting(item.date))
+                    .sort(sortFutureMeetings)
                     .map(item => 
                     <li key={item._id}>
                         <MeetingListItem 
@@ -131,6 +138,7 @@ const MeetingsPage = () => {
             <ul className={classes.meetingList}>
                 {meetingList
                     .filter(item => !isFutureMeeting(item.date))
+                    .sort(sortPastMeetings)
                     .map(item => 
                     <li key={item._id}>
                         <MeetingListItem 
