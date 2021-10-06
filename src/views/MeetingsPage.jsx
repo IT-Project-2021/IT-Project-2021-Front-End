@@ -54,11 +54,12 @@ const useStyles = makeStyles({
 
 const MeetingListItem = ({title, date}) => {
     const classes = useStyles();
+    const meetingTime = new Date(date)
     return (
         <Box>
             <Link to="/MeetingInformation" className={classes.meetingLink} >
                 <Button className={classes.meetingButton} fullWidth={true}>
-                    <Typography variant="h4" className={classes.listedMeeting}> {title} - {(new Date(date)).toString()} </Typography>
+                    <Typography variant="h4" className={classes.listedMeeting}> {title} ({meetingTime.toString()}) </Typography>
                 </Button>
             </Link>
             <Divider className={classes.divider} />
@@ -68,17 +69,33 @@ const MeetingListItem = ({title, date}) => {
 
 const MeetingsPage = () => {
 
+    // time the page was loaded
+    const curTime = new Date()
+
     // maintain list of meetings from the server
     const [meetingList, setMeetingList] = useState([])
     const [futureMeetings, setFutureMeetings] = useState([])
     const [pastMeetings, setPastMeetings] = useState([])
+
+    const isFutureMeeting = (date) => {
+        let meetingTime = new Date(date)
+        return (meetingTime - curTime) > 0
+    }
 
     // retrieve the list of meetings
     useEffect(() => {
         meetingService
             .getAll()
             .then(response => {
+                // get the list of all meetings
                 setMeetingList(response.data)
+
+                // filter the meeting list into past and future meetings
+                setFutureMeetings(meetingList.filter(item => isFutureMeeting(item.date)));
+                setPastMeetings(meetingList.filter(item => !isFutureMeeting(item.date)));
+
+                // this log is required to make the page work. Something to do with React rendering rules????
+                console.log("retrieved meetings:", meetingList)
             })
             .catch(error => {
                 console.log("Failed to retrieve list of meetings from the server:", error)
@@ -98,7 +115,7 @@ const MeetingsPage = () => {
             <Grid container direction="column" style={{ padding: "20px 0 0 0"}}>
             <ul className={classes.meetingList}>
 
-                {meetingList.map(item => 
+                {futureMeetings.map(item => 
                     <li key={item._id}>
                         <MeetingListItem 
                             title={item.title}
@@ -115,7 +132,7 @@ const MeetingsPage = () => {
             <Grid container direction="column" style={{ padding: "20px 0 0 0"}}>
             <ul className={classes.meetingList}>
 
-                {meetingList.map(item => 
+                {pastMeetings.map(item => 
                     <li key={item._id}>
                         <MeetingListItem 
                             title={item.title}
