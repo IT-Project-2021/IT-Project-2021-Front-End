@@ -74,12 +74,15 @@ const MeetingsPage = () => {
 
     // maintain list of meetings from the server
     const [meetingList, setMeetingList] = useState([])
-    const [futureMeetings, setFutureMeetings] = useState([])
-    const [pastMeetings, setPastMeetings] = useState([])
 
-    const isFutureMeeting = (date) => {
+    // functions for determining when a meeting occurs
+    // future meetings have a timeOffset > 0. timeOffsets closer to 0 should appear nearer to the top of the list.
+    const getTimeOffset = (date) => {
         let meetingTime = new Date(date)
-        return (meetingTime - curTime) > 0
+        return meetingTime - curTime
+    }
+    const isFutureMeeting = (date) => {
+        return getTimeOffset(date) > 0
     }
 
     // retrieve the list of meetings
@@ -90,12 +93,6 @@ const MeetingsPage = () => {
                 // get the list of all meetings
                 setMeetingList(response.data)
 
-                // filter the meeting list into past and future meetings
-                setFutureMeetings(meetingList.filter(item => isFutureMeeting(item.date)));
-                setPastMeetings(meetingList.filter(item => !isFutureMeeting(item.date)));
-
-                // this log is required to make the page work. Something to do with React rendering rules????
-                console.log("retrieved meetings:", meetingList)
             })
             .catch(error => {
                 console.log("Failed to retrieve list of meetings from the server:", error)
@@ -114,8 +111,9 @@ const MeetingsPage = () => {
             {/* List of future meetings  */}
             <Grid container direction="column" style={{ padding: "20px 0 0 0"}}>
             <ul className={classes.meetingList}>
-
-                {futureMeetings.map(item => 
+                {meetingList
+                    .filter(item => isFutureMeeting(item.date))
+                    .map(item => 
                     <li key={item._id}>
                         <MeetingListItem 
                             title={item.title}
@@ -131,8 +129,9 @@ const MeetingsPage = () => {
             {/* List of past meetings  */}
             <Grid container direction="column" style={{ padding: "20px 0 0 0"}}>
             <ul className={classes.meetingList}>
-
-                {pastMeetings.map(item => 
+                {meetingList
+                    .filter(item => !isFutureMeeting(item.date))
+                    .map(item => 
                     <li key={item._id}>
                         <MeetingListItem 
                             title={item.title}
