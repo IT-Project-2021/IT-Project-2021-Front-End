@@ -334,6 +334,7 @@ const CreateMeetingPage = () => {
     setAlertSetting(newSetting)
   }
 
+  // TODO
   const getAlertTime = (alertSetting, eventTime) => {
     return new Date()
   }
