@@ -34,19 +34,39 @@ const useStyles = makeStyles({
 
 const PersonDetails = ({details}) => {
 
+  // change display of company information based on information available
+  const CompanyInfo = () => {
+    if (details.company === undefined && details.position === undefined) {
+      return null
+    } else if (details.company === undefined) {
+      return (<Typography variant="h2">{details.position}</Typography>)
+    } else if (details.position === undefined) {
+      return (<Typography variant="h2">{details.company}</Typography>)
+    } else {
+      return (<Typography variant="h2">{details.company} • {details.position}</Typography>)
+    }
+  }
+
+  // change display of notes based on information available
+  const PersonNotes = () => {
+    if (details.notes === undefined) {
+      return null
+    } else {
+      return (<Typography variant="body1">{details.notes}</Typography>)
+    }
+  }
+
   console.log("details:", details)
   const classes = useStyles();
   return (
     <Box >
       <Box className={classes.contactDetails}>
         <Typography variant="h1">{details.first_name + " " + details.last_name}</Typography>
-        <Typography variant="h2">Company • Position</Typography>
+        <CompanyInfo />
       </Box>
 
       <Box className={classes.contactNotes}>
-        <Typography variant="body1">
-            Optional notes about the contact.
-        </Typography>
+        <PersonNotes />
       </Box>
 
       <Box className={classes.contactNumbers}>
@@ -143,7 +163,7 @@ const PeopleInfoPage = () => {
     <ThemeProvider theme={Theme}>
       <CssBaseline />
 
-      <PageAppBar prevPage="/People"/>
+      <PageAppBar prevPage="/People" tab="People"/>
 
         <Grid container direction="column" justifyContent="center" style={{minHeight: "90vh"}}>
           

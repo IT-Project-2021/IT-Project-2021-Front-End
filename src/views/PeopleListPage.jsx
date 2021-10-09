@@ -106,9 +106,11 @@ const PeopleListPage = () => {
 
 
             <Box className={classes.addButtonContainer} >
-                <IconButton aria-label="add" className={classes.addButton}>
-                    <AddButton fontSize="inherit"/>
-                </IconButton>
+                <Link to="/AddNewPerson">
+                    <IconButton aria-label="add" className={classes.addButton} >
+                        <AddButton fontSize="large"/>
+                    </IconButton>
+                </Link>
             </Box>
 
         </ThemeProvider>
