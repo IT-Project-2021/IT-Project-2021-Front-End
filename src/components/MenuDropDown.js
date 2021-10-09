@@ -1,7 +1,7 @@
 import Theme from "../themes/landingTheme";
 import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography } from "@material-ui/core";
+import { Typography, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -35,58 +35,46 @@ const useStyles = makeStyles({
     },
     optionsBar: {
         color: palette.secondary.main,
-        margin: "10vh 2vh 0vh",
+        margin: "35vh 2vh 0vh",
+        justifyContent: "space-between",
+        display: "flex",
     },
     logoutButton: {
         color: palette.secondary.main,
-        top: "50vh",
         float: "right",
-        position: "relative",
-        transform: "translateY(-50vh)",
         textAlign: "left",
+        margin: "20vh 2vh 0vh",
     },
     profileButton: {
         color: palette.secondary.main,
-        top: "50vh",
         float: "left",
-        position: "relative",
-        transform: "translateY(-50vh)",
         textAlign: "left",
+        margin: "20vh 2vh 0vh",
     },
     row: {
-        display: "flex",
-        flexDirection: "row",
-    },
-    bottomText: {
         display: "flex",
         flexDirection: "row",
     },
 });
 
 
-const OptionsBar = () => {
+const BottomRow = () => {
 
     const classes = useStyles();
     return (
 
-        <Box className={classes.optionsBar} bottom="0px" >
-            <Box className={classes.row}>
-                <Box>
-                    <Link to="/Profile" style={{ textDecoration: 'none' }}>
-                        <Button variant="text" className={classes.profileButton}> 
-                            <Typography variant="h4" className={classes.dropDownText}> Profile </Typography>
-                        </Button>
-                    </Link>
-                </Box>
-
-                <Box>
-                    <Link to="/" style={{ textDecoration: 'none' }}>
-                        <Button variant="text" className={classes.logoutButton}> 
-                            <Typography variant="h4" className={classes.dropDownText}> Logout </Typography>
-                        </Button>
-                    </Link>   
-                </Box>
-            </Box>
+        <Box component="span" m={1} className={classes.optionsBar} >
+            <Link to="/Profile" style={{ textDecoration: 'none' }}>
+                <Button variant="text" className={classes.profileButton}> 
+                    <Typography variant="h4" className={classes.dropDownText}> Profile </Typography>
+                </Button>
+            </Link>
+            
+            <Link to="/" style={{ textDecoration: 'none' }}>
+                <Button variant="text" className={classes.logoutButton}> 
+                    <Typography variant="h4" className={classes.dropDownText}> Logout </Typography>
+                </Button>
+            </Link>   
         </Box>
     )
 }
@@ -104,6 +92,7 @@ export default function PositionedMenu() {
   };
 
   return (
+      
     <div>
       <Button
         id="demo-positioned-button"
@@ -122,7 +111,6 @@ export default function PositionedMenu() {
         PaperProps={{
           style: {
             width: "100%",
-            height: "70%",
             backgroundColor: palette.background.default
           }
         }}
@@ -143,8 +131,6 @@ export default function PositionedMenu() {
             <CloseIcon />
         </IconButton>
 
-    
-        
         <Link to="/People" style={{ textDecoration: 'none' }}>
             <MenuItem>
                 <Typography variant="h3" className={classes.dropDownText}> People </Typography>
@@ -161,11 +147,8 @@ export default function PositionedMenu() {
             <Typography variant="h3" className={classes.dropDownText}> Reminders </Typography>
         </MenuItem>
 
-        <Box className={classes.bottomText}>            
-            <OptionsBar />  
-        </Box>
+        <BottomRow />  
 
-        
       </Menu>
     </div>
   );
