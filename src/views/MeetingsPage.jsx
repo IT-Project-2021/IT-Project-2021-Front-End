@@ -28,9 +28,14 @@ const useStyles = makeStyles({
         justifyContent: "flex-start",
         flexDirection: "column"
     },
-    listedMeeting: {
+    listedMeetingTitle: {
         textTransform: "none",
-        padding: "22px 20px 15px 15px",
+        padding: "22px 20px 25px 15px",
+    },
+    listedMeetingTime: {
+        textTransform: "none",
+        padding: "2px 10px 0",
+        textAlign: "left",
     },
     meetingList: {
         listStyleType: "none",
@@ -96,8 +101,10 @@ const MeetingListItem = ({title, date}) => {
         <Box>
             <Link to="/MeetingInformation" className={classes.meetingLink} >
                 <Button className={classes.meetingButton} fullWidth={true} >
-                    <Typography variant="h6" className={classes.listedMeeting}> {formatMeetingTime(date)} </Typography>
-                    <Typography variant="h4" className={classes.listedMeeting}> {title} </Typography>
+                    <div>
+                        <Typography variant="h6" className={classes.listedMeetingTime}> {formatMeetingTime(date)} </Typography>
+                        <Typography variant="h4" className={classes.listedMeetingTitle}> {title} </Typography>
+                    </div>
                 </Button>
             </Link>
             <Divider className={classes.divider} />
