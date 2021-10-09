@@ -20,7 +20,6 @@ import ForgotPasswordPage from "./views/ForgotPasswordPage"
 import ProfilePage from "./views/ProfilePage"
 import ChangePasswordPage from "./views/ChangePasswordPage"
 import NewPersonPage from "./views/NewPersonPage"
-
 import MenuBar from './views/Menubar';
 
 var hist = createBrowserHistory();
@@ -30,10 +29,6 @@ ReactDOM.render(
     <ThemeProvider theme={Theme}>
       <Box align="center" height="100%">
         <Route exact path="/" component={LandingPage} />
-
-        <Route path="/people_info" component={PeopleInfoPage} />
-        <Route path="/menubar" component={MenuBar}/>
-
         <Route path="/PeopleInformation/:id" component={PeopleInfoPage} />
         <Route path="/HomePage" component={HomePage} />
         <Route path="/People" component={PeopleListPage} />
