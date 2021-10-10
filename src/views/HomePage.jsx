@@ -102,7 +102,10 @@ const HomePage = () => {
                     <HomePageButton name="Meetings" />
                 </Link>
 
-                <HomePageButton name="Reminders" />
+
+                <Link to="/Reminders" style={{ textDecoration: 'none' }}>
+                    <HomePageButton name="Reminders" />
+                </Link>
 
                 <OptionsBar />
 

@@ -20,6 +20,7 @@ import ForgotPasswordPage from "./views/ForgotPasswordPage"
 import ProfilePage from "./views/ProfilePage"
 import ChangePasswordPage from "./views/ChangePasswordPage"
 import NewPersonPage from "./views/NewPersonPage"
+import RemindersPage from './views/RemindersPage';
 
 
 
@@ -42,6 +43,7 @@ ReactDOM.render(
         <Route path="/Profile" component={ProfilePage} />
         <Route path="/ChangePassword" component={ChangePasswordPage} />
         <Route path="/AddNewPerson" component={NewPersonPage} />
+        <Route path="/Reminders" component={RemindersPage} />
 
 
       </Box>
