@@ -6,6 +6,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import PageAppBar from "../components/PageAppBar"
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from "react";
+import axios from "axios";
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -33,6 +34,31 @@ const NewPersonPage = () => {
     const [phone, setPhone] = useState("");
     const [position, setPosition] = useState("");
     const [notes, setNotes] = useState("");
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+
+        try {
+            const data = {
+                first_name: first,
+                last_name: last,
+                email: email,
+                company: company,
+                phone_num: phone,
+                position: position,
+                notes: notes,
+            };
+            //need to add token referende to post
+            await axios.post("/api/people", data, {
+                withCredentials: true,
+            })
+
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+
     return (
         <ThemeProvider theme={Theme}>
             <CssBaseline />
@@ -46,7 +72,7 @@ const NewPersonPage = () => {
                     </Typography>
                 </Box>
 
-                <form>
+                <form onSubmit={handleSubmit}>
                     <Box>
                         <Box component="span" margin="5px">
                             <TextField label="First Name" placeholder="First Name" required variant="filled" onChange={(e) => { setFirst(e.target.value); }} />

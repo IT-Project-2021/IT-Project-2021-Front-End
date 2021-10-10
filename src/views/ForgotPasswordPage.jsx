@@ -55,7 +55,6 @@ const ForgotPasswordPage = () => {
                     <Box className={classes.form}>
                         <TextField label="Email" placeholder="Email" required variant="filled" fullWidth onChange={(e) => { setEmail(e.target.value); }} />
                     </Box>
-                    <br />
                     <Box className={classes.reset}>
                         <Button size="large" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
                             <Typography variant="button" color="secondary">Reset Password</Typography>

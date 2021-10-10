@@ -35,19 +35,19 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
 
-  async function login(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     try {
-      const loginData = {
-        email,
-        pass,
+      const data = {
+        email: email,
+        password_hash: pass,
       };
 
-      await axios.get(
-        "address",
-        loginData
-      );
+      await axios.post("/api/auth/login", data, {
+        withCredentials: true,
+      })
+
     } catch (err) {
       console.error(err);
     }
@@ -66,7 +66,7 @@ const LoginPage = () => {
           </Typography>
         </Box>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <Box className={classes.form} >
             <TextField label="Email" placeholder="Email" required variant="filled" fullWidth onChange={(e) => { setEmail(e.target.value); }} />
           </Box>

@@ -40,23 +40,25 @@ const SignupPage = () => {
     const [confirm, setConfirm] = useState("");
     const [passwordError, setPassError] = useState(false);
 
-    //doesn't work properly yet
+    //const { getLoggedIn } = useContext(AuthContext);
+
     async function handleSubmit(e) {
         e.preventDefault();
+        setPassError(false);
         if (pass !== confirm) {
             setPassError(true);
         }
         try {
-            const User = {
+            const data = {
                 first_name: first,
                 last_name: last,
                 email: email,
                 password_hash: pass,
             };
-            await axios.post(
-                "place holder",
-                User
-            );
+            await axios.post("/api/users/:userId", data, {
+                withCredentials: true,
+            })
+
         } catch (err) {
             console.error(err);
         }
@@ -92,7 +94,6 @@ const SignupPage = () => {
                     <Box className={classes.form}>
                         <TextField label="Confirm Password" placeholder="Password" required type="password" variant="filled" fullWidth onChange={(e) => { setConfirm(e.target.value); }} error={passwordError} />
                     </Box>
-                    <br />
 
                     <Box className={classes.signup}>
                         <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
