@@ -86,7 +86,6 @@ const MeetingDetails = ({handleTitleChange, handleDescChange}) => {
             id="meeting-title"
             placeholder="Enter Title"
             variant="filled"
-            size="large"
             inputProps={{style: {fontSize: 40, fontWeight: 'bold'}}}
             onChange={changeTitle}
 

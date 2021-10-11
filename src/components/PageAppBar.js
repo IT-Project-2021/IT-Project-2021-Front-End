@@ -13,11 +13,6 @@ import ArrowBack from '@material-ui/icons/ArrowBackIos'
 import Notifications from '@material-ui/icons/Notifications'
 import Share from '@material-ui/icons/Share'
 import Search from '@material-ui/icons/Search'
-import Menu from '@material-ui/icons/Menu'
-
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-
 import MenuDropDown from "./MenuDropDown";
 
 const palette = Theme.palette
