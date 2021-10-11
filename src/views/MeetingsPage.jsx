@@ -9,12 +9,15 @@ import AddButton from "@material-ui/icons/Add"
 import IconButton from '@material-ui/core/IconButton';
 import PageAppBar from "../components/PageAppBar"
 import { Link } from "react-router-dom";
+import meetingService from "../services/meetings"
+import React, { useState, useEffect } from 'react'
 
 const palette = Theme.palette
 const useStyles = makeStyles({
     meetingButton: {
       color: palette.tertiary.main,
       justifyContent: "flex-start",
+      flexDirection: "column",
     },
     divider: {
         background: palette.quarternary.main,
@@ -22,10 +25,17 @@ const useStyles = makeStyles({
     },
     meetingLink: {
         textDecoration: "none",
+        justifyContent: "flex-start",
+        flexDirection: "column"
     },
-    listedMeeting: {
+    listedMeetingTitle: {
         textTransform: "none",
-        padding: "22px 20px 15px 15px"
+        padding: "22px 20px 25px 15px",
+    },
+    listedMeetingTime: {
+        textTransform: "none",
+        padding: "2px 10px 0",
+        textAlign: "left",
     },
     meetingList: {
         listStyleType: "none",
@@ -50,13 +60,51 @@ const useStyles = makeStyles({
     },
 });
 
-const MeetingListItem = () => {
+const MeetingListItem = ({title, date}) => {
     const classes = useStyles();
+
+    let meetTimeTest = (new Date(date)).toString()
+
+    const formatMeetingTime = (date) => {
+        let meetTime = new Date(date)
+        
+        let day = meetTime.getDate()
+        let month = meetTime.getMonth() + 1
+        let year = meetTime.getFullYear().toString().slice(2)
+
+        let hour = meetTime.getHours()
+
+        let minutes = meetTime.getMinutes()
+        // formatting for minutes
+        if (minutes <= 9) {
+            minutes = 0 + minutes.toString()
+        }
+        
+        let amOrPm = "AM"
+        // formatting for am or pm
+        if (hour === 12) {
+            // midday
+            amOrPm = "PM"
+        } else if (hour === 0) {
+            // midnight
+            hour = 12
+        } else if (hour > 12) {
+            // after midday
+            hour -= 12
+            amOrPm = "PM"
+        }
+
+        return `${day}/${month}/${year} ${hour}:${minutes} ${amOrPm}`
+    }
+
     return (
         <Box>
             <Link to="/MeetingInformation" className={classes.meetingLink} >
-                <Button className={classes.meetingButton} fullWidth={true}>
-                    <Typography variant="h4" className={classes.listedMeeting}> Meetings </Typography>
+                <Button className={classes.meetingButton} fullWidth={true} >
+                    <div>
+                        <Typography variant="h6" className={classes.listedMeetingTime}> {formatMeetingTime(date)} </Typography>
+                        <Typography variant="h4" className={classes.listedMeetingTitle}> {title} </Typography>
+                    </div>
                 </Button>
             </Link>
             <Divider className={classes.divider} />
@@ -64,21 +112,44 @@ const MeetingListItem = () => {
     )
 }
 
-const MeetingList = () => {
-    const classes = useStyles();
-    return (
-        <Grid container direction="column" style={{ padding: "20px 0 0 0"}}>
-        <ul className={classes.meetingList}>
-            <li><MeetingListItem /></li>
-            <li><MeetingListItem /></li>
-            <li><MeetingListItem /></li>
-            <li><MeetingListItem /></li>
-        </ul>
-        </Grid>
-    )
-}
-
 const MeetingsPage = () => {
+
+    // time the page was loaded
+    const curTime = new Date()
+
+    // maintain list of meetings from the server
+    const [meetingList, setMeetingList] = useState([])
+
+    // functions for determining when a meeting occurs
+    // future meetings have a timeOffset > 0. timeOffsets closer to 0 should appear nearer to the top of the list.
+    const getTimeOffset = (date) => {
+        let meetingTime = new Date(date)
+        return meetingTime - curTime
+    }
+    const isFutureMeeting = (date) => {
+        return getTimeOffset(date) > 0
+    }
+    const sortFutureMeetings = (i, j) => {
+        return getTimeOffset(i.date) - getTimeOffset(j.date)
+    }
+    const sortPastMeetings = (i, j) => {
+        return getTimeOffset(j.date) - getTimeOffset(i.date)
+    }
+
+    // retrieve the list of meetings
+    useEffect(() => {
+        meetingService
+            .getAll()
+            .then(response => {
+                // get the list of all meetings
+                setMeetingList(response.data)
+
+            })
+            .catch(error => {
+                console.log("Failed to retrieve list of meetings from the server:", error)
+            })
+    }, [])
+
     const classes = useStyles();
     return (
         <ThemeProvider theme={Theme}>
@@ -88,11 +159,41 @@ const MeetingsPage = () => {
 
             <Typography variant="h2" className={classes.leftText} >Upcoming</Typography>
 
-            <MeetingList />
+            {/* List of future meetings  */}
+            <Grid container direction="column" style={{ padding: "20px 0 0 0"}}>
+            <ul className={classes.meetingList}>
+                {meetingList
+                    .filter(item => isFutureMeeting(item.date))
+                    .sort(sortFutureMeetings)
+                    .map(item => 
+                    <li key={item._id}>
+                        <MeetingListItem 
+                            title={item.title}
+                            date={item.date}
+                        />
+                    </li>
+                )}
+            </ul>
+            </Grid>
 
             <Typography variant="h2" className={classes.leftText} >Past Meetings</Typography>
 
-            <MeetingList />
+            {/* List of past meetings  */}
+            <Grid container direction="column" style={{ padding: "20px 0 0 0"}}>
+            <ul className={classes.meetingList}>
+                {meetingList
+                    .filter(item => !isFutureMeeting(item.date))
+                    .sort(sortPastMeetings)
+                    .map(item => 
+                    <li key={item._id}>
+                        <MeetingListItem 
+                            title={item.title}
+                            date={item.date}
+                        />
+                    </li>
+                )}
+            </ul>
+            </Grid>
 
             <Box className={classes.addButtonContainer} >
               <Link to="/CreateMeeting" style={{ textDecoration: 'none' }}>
