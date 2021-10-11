@@ -250,11 +250,18 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
         <Autocomplete
           multiple
           options={contacts}
-          getOptionLabel={(option) => (option.first_name + " " + option.last_name)}
+          getOptionLabel={(option) => (option.first_name + " " + option.last_name + " (" + option.position + " at " + option.company + ")")}
           sx={{ width: 300 }}
           placeholder="+ add participant"
           renderInput={(params) => <TextField {...params} placeholder="+ add participant" />}
           onChange={handleParticipantChange}
+          renderOption={(props, option) => {
+            return (
+              <li {...props} key={option._id}>
+                {option.first_name + " " + option.last_name + " (" + option.position + " at " + option.company + ")"}
+              </li>
+            );
+          }}
         />
 
       </Box>
