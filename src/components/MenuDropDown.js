@@ -135,9 +135,11 @@ export default function PositionedMenu() {
             </MenuItem>
         </Link>
 
-        <MenuItem>
-            <Typography variant="h3" className={classes.dropDownText}> Reminders </Typography>
-        </MenuItem>
+        <Link to="/Reminders" style={{ textDecoration: 'none' }}>
+            <MenuItem>
+                <Typography variant="h3" className={classes.dropDownText}> Reminders </Typography>
+            </MenuItem>
+        </Link>
 
         <BottomRow />  
 

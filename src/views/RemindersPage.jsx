@@ -59,16 +59,16 @@ const MeetingListItem = () => {
     const classes = useStyles();
     return (
         <Box>
-            <Link to="/MeetingInformation" className={classes.meetingLink} >
-                <Button className={classes.meetingButton} fullWidth={true}>
-                    <Grid container justify="space-between">  
-                        <div>
-                            <Typography variant="h6" className={classes.listedMeetingTime}> 10/10/21 3:00 PM </Typography>
-                            <Typography variant="h4" className={classes.listedMeetingTitle}> Meeting name </Typography>
-                        </div>
-                    </Grid>
-                </Button>
-            </Link>
+            
+            <Button className={classes.meetingButton} fullWidth={true}>
+                <Grid container justify="space-between">  
+                    <div>
+                        <Typography variant="h6" className={classes.listedMeetingTime}> 10/10/21 3:00 PM </Typography>
+                        <Typography variant="h4" className={classes.listedMeetingTitle}> Meeting name </Typography>
+                    </div>
+                </Grid>
+            </Button>
+            
             <Divider className={classes.divider} />
         </Box>
     )
@@ -94,17 +94,9 @@ const RemindersPage = () => {
         <ThemeProvider theme={Theme}>
         <CssBaseline />
 
-            <PageAppBar prevPage="/HomePage" tab="Reminders"/>
+            <PageAppBar prevPage="/HomePage" tab="Reminders" type="Menu"/>
 
             <MeetingList />
-
-            <Box className={classes.addButtonContainer} >
-              <Link to="/CreateMeeting" style={{ textDecoration: 'none' }}>
-                <IconButton aria-label="add" className={classes.addButton} >
-                    <AddButton fontSize="large"/>
-                </IconButton>
-              </Link>
-            </Box>
 
         </ThemeProvider>
     )
