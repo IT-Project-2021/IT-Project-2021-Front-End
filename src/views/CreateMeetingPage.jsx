@@ -279,6 +279,7 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
             id={item.id}
             placeholder="+ add topic"
             onChange={handleAgendaChange}
+            key={item.id}
           />
         )}
       </Box>
