@@ -23,9 +23,14 @@ const useStyles = makeStyles({
     meetingLink: {
         textDecoration: "none",
     },
-    listedMeeting: {
+    listedMeetingTitle: {
         textTransform: "none",
-        padding: "22px 20px 15px 15px"
+        padding: "22px 20px 25px 15px",
+    },
+    listedMeetingTime: {
+        textTransform: "none",
+        padding: "2px 10px 0",
+        textAlign: "left",
     },
     meetingList: {
         listStyleType: "none",
@@ -57,8 +62,10 @@ const MeetingListItem = () => {
             <Link to="/MeetingInformation" className={classes.meetingLink} >
                 <Button className={classes.meetingButton} fullWidth={true}>
                     <Grid container justify="space-between">  
-                        <Typography variant="h4" align= "left" className={classes.listedMeeting}> Meetings </Typography>
-                        <Typography variant="overline" display="block" align="right" gutterBottom > 10/10/21 3:00 PM </Typography>
+                        <div>
+                            <Typography variant="h6" className={classes.listedMeetingTime}> 10/10/21 3:00 PM </Typography>
+                            <Typography variant="h4" className={classes.listedMeetingTitle}> Meeting name </Typography>
+                        </div>
                     </Grid>
                 </Button>
             </Link>
