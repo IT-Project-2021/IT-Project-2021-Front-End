@@ -42,7 +42,7 @@ const SignupPage = () => {
         <ThemeProvider theme={Theme}>
             <CssBaseline />
 
-            <PageAppBar prevPage="/" tab="" />
+            <PageAppBar prevPage="/" tab="" type="Back"/>
 
             <Grid container direction="column" alignItems="center" style={{ minHeight: "90vh" }}>
                 <Box className={classes.title}>

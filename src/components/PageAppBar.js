@@ -39,29 +39,23 @@ const useStyles = makeStyles({
 
 });
 
-const PageAppBar = ({prevPage, tab}) => {
+const PageAppBar = ({prevPage, tab, type}) => {
+    const appBarType = type;
     const classes = useStyles();
     return (
         <AppBar className={classes.root} color="secondary">
         
             <Toolbar className={classes.toolbar}>
 
+                {appBarType == "Back" && 
                 <Link to={prevPage}>
                     <IconButton edge="start" aria-label="back" className={classes.toolbar}>
                         <ArrowBack />
                     </IconButton>
                 </Link>
+                }
 
-                {/* <Link to={prevPage}>
-                    <IconButton edge="start" aria-label="back" className={classes.menu}>
-                        <Menu />
-                    </IconButton>
-                </Link>   */}
-
-                <MenuDropDown/>            
-
-
-                
+                {appBarType == "Menu" && <MenuDropDown/> }                          
 
                 <Typography variant="h4">
                     {tab}
@@ -89,7 +83,6 @@ const PageAppBar = ({prevPage, tab}) => {
                 
             
             </Toolbar>
-
         </AppBar>
     )
 }

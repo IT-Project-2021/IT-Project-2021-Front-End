@@ -375,7 +375,7 @@ const CreateMeetingPage = () => {
     <ThemeProvider theme={Theme}>
       <CssBaseline />
 
-      <PageAppBar prevPage="/Meetings" tab="Meetings"/>
+      <PageAppBar prevPage="/Meetings" tab="Meetings" type="Back"/>
 
         <Grid container direction="column" justifyContent="center" style={{ minHeight: "65vh" }}>
           
