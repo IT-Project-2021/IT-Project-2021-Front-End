@@ -155,7 +155,7 @@ const MeetingsPage = () => {
         <ThemeProvider theme={Theme}>
         <CssBaseline />
 
-            <PageAppBar prevPage="/HomePage" tab="Meetings"/>
+            <PageAppBar prevPage="/HomePage" tab="Meetings" type="Menu"/>
 
             <Typography variant="h2" className={classes.leftText} >Upcoming</Typography>
 
