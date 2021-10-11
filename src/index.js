@@ -20,7 +20,6 @@ import ForgotPasswordPage from "./views/ForgotPasswordPage"
 import ProfilePage from "./views/ProfilePage"
 import ChangePasswordPage from "./views/ChangePasswordPage"
 import NewPersonPage from "./views/NewPersonPage"
-import MenuBar from './views/Menubar';
 
 var hist = createBrowserHistory();
 

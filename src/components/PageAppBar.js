@@ -1,7 +1,5 @@
 import Theme from "../themes/landingTheme";
-
 import { Link } from "react-router-dom";
-
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
@@ -42,7 +40,7 @@ const PageAppBar = ({prevPage, tab, type}) => {
         
             <Toolbar className={classes.toolbar}>
 
-                {appBarType == "Back" && 
+                {appBarType === "Back" && 
                 <Link to={prevPage}>
                     <IconButton edge="start" aria-label="back" className={classes.toolbar}>
                         <ArrowBack />
@@ -50,7 +48,7 @@ const PageAppBar = ({prevPage, tab, type}) => {
                 </Link>
                 }
 
-                {appBarType == "Menu" && <MenuDropDown/> }                          
+                {appBarType === "Menu" && <MenuDropDown/> }                          
 
                 <Typography variant="h4">
                     {tab}

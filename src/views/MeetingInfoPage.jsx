@@ -8,14 +8,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import PageAppBar from "../components/PageAppBar"
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import Link from '@material-ui/core/Link';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import Autocomplete from '@mui/material/Autocomplete';
 import peopleService from "../services/people"
 import meetingService from "../services/meetings"
-import InputLabel from '@material-ui/core/InputLabel';
+
 import FormControl from '@material-ui/core/FormControl';
 
 const palette = Theme.palette
