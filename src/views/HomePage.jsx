@@ -93,25 +93,21 @@ const HomePage = () => {
             <Grid container direction="column" justifyContent="center" style={{ minHeight: "90vh" }}>
 
                 <PageTitle />
-
-                <Link to="/People" style={{ textDecoration: 'none' }}>
-                    <HomePageButton name="People" />
-                </Link>
-
                 <Link to="/Meetings" style={{ textDecoration: 'none' }}>
-                    <HomePageButton name="Meetings" />
+                    <HomePageButton name="Meetings"/>
                 </Link>
-
 
                 <Link to="/Reminders" style={{ textDecoration: 'none' }}>
                     <HomePageButton name="Reminders" />
+                </Link>
+                
+                <Link to="/People" style={{ textDecoration: 'none' }}>
+                    <HomePageButton name="People" />
                 </Link>
 
                 <OptionsBar />
 
             </Grid>
-
-            
         </ThemeProvider>
     )
 };

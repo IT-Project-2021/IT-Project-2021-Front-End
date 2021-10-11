@@ -163,7 +163,7 @@ const PeopleInfoPage = () => {
     <ThemeProvider theme={Theme}>
       <CssBaseline />
 
-      <PageAppBar prevPage="/People" tab="People"/>
+      <PageAppBar prevPage="/People" tab="People" type="Back"/>
 
         <Grid container direction="column" justifyContent="center" style={{minHeight: "90vh"}}>
           

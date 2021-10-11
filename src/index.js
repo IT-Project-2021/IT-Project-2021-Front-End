@@ -22,8 +22,6 @@ import ChangePasswordPage from "./views/ChangePasswordPage"
 import NewPersonPage from "./views/NewPersonPage"
 import RemindersPage from './views/RemindersPage';
 
-
-
 var hist = createBrowserHistory();
 
 ReactDOM.render(

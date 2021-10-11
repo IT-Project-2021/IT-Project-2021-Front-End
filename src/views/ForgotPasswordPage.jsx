@@ -3,7 +3,6 @@ import { ThemeProvider } from "@material-ui/styles";
 import { Typography, Button, TextField, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { Link } from "react-router-dom";
 import PageAppBar from "../components/PageAppBar"
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from "react";
@@ -39,7 +38,7 @@ const ForgotPasswordPage = () => {
     return (
         <ThemeProvider theme={Theme}>
             <CssBaseline />
-            <PageAppBar prevPage="/Login" tab="Login" />
+            <PageAppBar prevPage="/Login" tab="Login" type="Back"/>
             <Grid container direction="column" alignItems="center" style={{ minHeight: "90vh" }}>
                 <Box >
                     <Typography className={classes.title} variant="h2">

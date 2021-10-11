@@ -3,7 +3,6 @@ import { ThemeProvider } from "@material-ui/styles";
 import { Typography, Button, TextField, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import PageAppBar from "../components/PageAppBar";
 import React, { useState } from "react";
@@ -42,7 +41,7 @@ const SignupPage = () => {
         <ThemeProvider theme={Theme}>
             <CssBaseline />
 
-            <PageAppBar prevPage="/" tab="" />
+            <PageAppBar prevPage="/" tab="" type="Back"/>
 
             <Grid container direction="column" alignItems="center" style={{ minHeight: "90vh" }}>
                 <Box className={classes.title}>
