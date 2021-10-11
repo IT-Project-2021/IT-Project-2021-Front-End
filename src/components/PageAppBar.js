@@ -1,7 +1,5 @@
 import Theme from "../themes/landingTheme";
-
 import { Link } from "react-router-dom";
-
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
@@ -13,10 +11,6 @@ import ArrowBack from '@material-ui/icons/ArrowBackIos'
 import Notifications from '@material-ui/icons/Notifications'
 import Share from '@material-ui/icons/Share'
 import Search from '@material-ui/icons/Search'
-import Menu from '@material-ui/icons/Menu'
-
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 
 import MenuDropDown from "./MenuDropDown";
 
@@ -47,7 +41,7 @@ const PageAppBar = ({prevPage, tab, type}) => {
         
             <Toolbar className={classes.toolbar}>
 
-                {appBarType == "Back" && 
+                {appBarType === "Back" && 
                 <Link to={prevPage}>
                     <IconButton edge="start" aria-label="back" className={classes.toolbar}>
                         <ArrowBack />
@@ -55,7 +49,7 @@ const PageAppBar = ({prevPage, tab, type}) => {
                 </Link>
                 }
 
-                {appBarType == "Menu" && <MenuDropDown/> }                          
+                {appBarType === "Menu" && <MenuDropDown/> }                          
 
                 <Typography variant="h4">
                     {tab}

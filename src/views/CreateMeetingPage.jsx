@@ -15,7 +15,6 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import Autocomplete from '@mui/material/Autocomplete';
 import peopleService from "../services/people"
 import meetingService from "../services/meetings"
-import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 
 
@@ -86,7 +85,6 @@ const MeetingDetails = ({handleTitleChange, handleDescChange}) => {
             id="meeting-title"
             placeholder="Enter Title"
             variant="filled"
-            size="large"
             inputProps={{style: {fontSize: 40, fontWeight: 'bold'}}}
             onChange={changeTitle}
 
@@ -188,7 +186,7 @@ const MeetingAnswers = ({handleTimeChange, handleLocationChange, handleAlertSett
 
       <Box className={classes.meetingAnswers}>
       <FormControl>
-          <Select label="Reminder" id="select" labelId="open-select-label">
+          <Select defaultValue="" label="Reminder" id="select" labelId="open-select-label">
             <MenuItem value=""><em>None</em></MenuItem>
             <MenuItem value={5}>5 minutes before</MenuItem> 
             <MenuItem value={15}>15 minutes before</MenuItem>
