@@ -11,6 +11,7 @@ import peopleService from "../services/people"
 import meetingService from "../services/meetings"
 import React, { useState, useEffect } from 'react'
 import Divider from '@material-ui/core/Divider';
+import { Link } from "react-router-dom";
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -38,6 +39,17 @@ const useStyles = makeStyles({
     divider: {
       background: palette.quarternary.main,
     },
+    meetingButton: {
+      color: palette.tertiary.main,
+      justifyContent: "flex-start",
+      flexDirection: "column",
+      textTransform: "none",
+    },
+    meetingLink: {
+      textDecoration: "none",
+      justifyContent: "flex-start",
+      flexDirection: "column"
+    },
 });
 
 const PersonDetails = ({details}) => {
@@ -57,7 +69,7 @@ const PersonDetails = ({details}) => {
 
   // change display of notes based on information available
   const PersonNotes = () => {
-    if (details.notes === undefined) {
+    if (details.notes === undefined || details.notes === "") {
       return null
     } else {
       return (<Typography variant="body1">{details.notes}</Typography>)
@@ -167,21 +179,44 @@ const PastMeeting = ({meeting}) => {
 
   const classes = useStyles();
   return (
+
+
     <Box>
-      <Box ml="30px" mt="30px">
-          <Typography variant="body1" align="left">
-            <em>{formatDate(meeting.date)}</em> <br></br> {meeting.title}
-          </Typography>
-      </Box>
+        <Link to="/MeetingInformation" className={classes.meetingLink} >
+            <Button className={classes.meetingButton} fullWidth={true} >
+                <div>
+                  <Box ml="30px" mt="30px">
+                      <Typography variant="body1" align="left">
+                        <em>{formatDate(meeting.date)}</em> <br></br> {meeting.title}
+                      </Typography>
+                  </Box>
 
-      <Box ml="60px">
-        <Typography variant="body1" align="left">
-            {formatParticipants(meeting.participants)}
-        </Typography>   
-      </Box>
-
-      <Divider className={classes.divider} />
+                  <Box ml="60px">
+                    <Typography variant="body1" align="left">
+                        {formatParticipants(meeting.participants)}
+                    </Typography>   
+                  </Box>
+                </div>
+            </Button>
+        </Link>
+        <Divider className={classes.divider} />
     </Box>
+
+    // <Box>
+      // <Box ml="30px" mt="30px">
+      //     <Typography variant="body1" align="left">
+      //       <em>{formatDate(meeting.date)}</em> <br></br> {meeting.title}
+      //     </Typography>
+      // </Box>
+
+      // <Box ml="60px">
+      //   <Typography variant="body1" align="left">
+      //       {formatParticipants(meeting.participants)}
+      //   </Typography>   
+      // </Box>
+
+    //   <Divider className={classes.divider} />
+    // </Box>
   )
 }
 
