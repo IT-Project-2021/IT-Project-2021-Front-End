@@ -76,7 +76,6 @@ const PersonDetails = ({details}) => {
     }
   }
 
-  console.log("details:", details)
   const classes = useStyles();
   return (
     <Box >
@@ -130,17 +129,18 @@ const PastMeeting = ({meeting, people}) => {
   const formatParticipants = (participants) => {
 
     // extract participant names from previous database call
-    console.log("PARTICIPANTS:", participants)
-    console.log("PEOPLE:", people)
-
+    // if a participant code cannot be resolved (e.g. because the entry was deleted from the database), omit it
     let participantObjects = []
     for (let i=0; i<participants.length; i++) {
       let nextItem = people.find((person) => person._id === participants[i])
-      console.log("NEXT ITEM:", nextItem)
-      participantObjects.push(nextItem)
+      if (nextItem) {
+        participantObjects.push(nextItem)
+      }
     }
 
-    if (participantObjects.length === 1) {
+    if (participantObjects.length === 0) {
+      return ""
+    } else if (participantObjects.length === 1) {
       return "• with " + getName(participantObjects[0])
     } else if (participantObjects.length === 2) {
       return "• with " + getName(participantObjects[0]) + " and " + getName(participantObjects[1])
@@ -152,7 +152,6 @@ const PastMeeting = ({meeting, people}) => {
       formatted += "and " + getName(participantObjects[participantObjects.length - 1])
       return formatted
     }
-    return ""
   }
 
   // format meeting date/time
@@ -192,7 +191,6 @@ const PastMeeting = ({meeting, people}) => {
   const classes = useStyles();
   return (
 
-
     <Box>
         <Link to="/MeetingInformation" className={classes.meetingLink} >
             <Button className={classes.meetingButton} fullWidth={true} >
@@ -214,34 +212,10 @@ const PastMeeting = ({meeting, people}) => {
         <Divider className={classes.divider} />
     </Box>
 
-    // <Box>
-      // <Box ml="30px" mt="30px">
-      //     <Typography variant="body1" align="left">
-      //       <em>{formatDate(meeting.date)}</em> <br></br> {meeting.title}
-      //     </Typography>
-      // </Box>
-
-      // <Box ml="60px">
-      //   <Typography variant="body1" align="left">
-      //       {formatParticipants(meeting.participants)}
-      //   </Typography>   
-      // </Box>
-
-    //   <Divider className={classes.divider} />
-    // </Box>
   )
 }
 
 const MeetingHistory = ({meetings}) => {
-
-  console.log("meeting history (from child):", meetings)
-
-  // Find all unique participants
-  // let participantCodes = []
-  // for (let i = 0; i<meetings.length; i++) {
-  //   participantCodes = participantCodes.concat(meetings[i].participants)
-  // }
-  // participantCodes = [...new Set(participantCodes)]
 
   // Make database request to resolve participant names
   const [allPeople, setAllPeople] = useState([])
@@ -250,13 +224,6 @@ const MeetingHistory = ({meetings}) => {
       .getAll()
       .then(response => {
         setAllPeople(response.data)
-        console.log("all people:", allPeople)
-
-        // resolve names
-        // for (let i=0; i<participantCodes.length; i++) {
-        //   let nextItem = allPeople.find((person) => person._id === participantCodes[i])
-        //   console.log("NEXT ITEM:", nextItem)
-        // }
       })
       .catch(error => {
         console.log("Failed to retrieve people list from the server")
@@ -302,7 +269,6 @@ const PeopleInfoPage = () => {
   const [meetingHistory, setMeetingHistory] = useState([])
 
   // get user info and meeting history from server
-  console.log("person id:", id);
   useEffect(() => {
     peopleService
       .getByID(id)
@@ -316,16 +282,11 @@ const PeopleInfoPage = () => {
     .getByParticipant(id)
     .then(response => {
       setMeetingHistory(response.data)
-      console.log("meeting history:", response.data)
     })
     .catch(error => {
       console.log("Failed to retrieve meeting history from the server")
     })
   }, [id])
-  console.log("meetingHistory:", meetingHistory)
-  console.log("TEST MAPPING:", meetingHistory.map(meeting => meeting.title) )
-
-
 
   // maintain list of people from the server
   const [peopleList, setPeopleList] = useState([])
@@ -341,7 +302,6 @@ const PeopleInfoPage = () => {
               console.log("Failed to retrieve list of people from the server:", error)
           })
   }, [])
-  console.log("peopleList:", peopleList)
 
   return (
     <ThemeProvider theme={Theme}>
