@@ -119,7 +119,7 @@ const EditDetailsButton = () => {
   )
 }
 
-const PastMeeting = ({meeting}) => {
+const PastMeeting = ({meeting, people}) => {
 
   // extract contact name
   const getName = (participant) => {
@@ -128,16 +128,28 @@ const PastMeeting = ({meeting}) => {
 
   // format the list of participants
   const formatParticipants = (participants) => {
-    if (participants.length === 1) {
-      return "• with " + getName(participants[0])
-    } else if (participants.length === 2) {
-      return "• with " + getName(participants[0]) + " and " + getName(participants[1])
+
+    // extract participant names from previous database call
+    console.log("PARTICIPANTS:", participants)
+    console.log("PEOPLE:", people)
+
+    let participantObjects = []
+    for (let i=0; i<participants.length; i++) {
+      let nextItem = people.find((person) => person._id === participants[i])
+      console.log("NEXT ITEM:", nextItem)
+      participantObjects.push(nextItem)
+    }
+
+    if (participantObjects.length === 1) {
+      return "• with " + getName(participantObjects[0])
+    } else if (participantObjects.length === 2) {
+      return "• with " + getName(participantObjects[0]) + " and " + getName(participantObjects[1])
     } else {
       let formatted = "• with "
-      for (let i = 0; i<participants.length - 1; i++) {
-        formatted += getName(participants[i]) + ", "
+      for (let i = 0; i<participantObjects.length - 1; i++) {
+        formatted += getName(participantObjects[i]) + ", "
       }
-      formatted += "and " + getName(participants[participants.length - 1])
+      formatted += "and " + getName(participantObjects[participantObjects.length - 1])
       return formatted
     }
     return ""
@@ -223,7 +235,34 @@ const PastMeeting = ({meeting}) => {
 const MeetingHistory = ({meetings}) => {
 
   console.log("meeting history (from child):", meetings)
-  console.log("meeting mapping:", meetings.map(meeting => meeting.title))
+
+  // Find all unique participants
+  // let participantCodes = []
+  // for (let i = 0; i<meetings.length; i++) {
+  //   participantCodes = participantCodes.concat(meetings[i].participants)
+  // }
+  // participantCodes = [...new Set(participantCodes)]
+
+  // Make database request to resolve participant names
+  const [allPeople, setAllPeople] = useState([])
+  useEffect(() => {
+    peopleService
+      .getAll()
+      .then(response => {
+        setAllPeople(response.data)
+        console.log("all people:", allPeople)
+
+        // resolve names
+        // for (let i=0; i<participantCodes.length; i++) {
+        //   let nextItem = allPeople.find((person) => person._id === participantCodes[i])
+        //   console.log("NEXT ITEM:", nextItem)
+        // }
+      })
+      .catch(error => {
+        console.log("Failed to retrieve people list from the server")
+      })
+  }, [])
+
 
   const classes = useStyles();
   return (
@@ -238,7 +277,7 @@ const MeetingHistory = ({meetings}) => {
       <ul className={classes.meetingList}>
         {meetings.map(item => 
             <li key={item._id}>
-              <PastMeeting meeting={item}/>
+              <PastMeeting meeting={item} people={allPeople}/>
             </li>
         )}
       </ul>
