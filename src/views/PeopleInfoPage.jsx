@@ -8,6 +8,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from '@material-ui/core/styles';
 import PageAppBar from "../components/PageAppBar"
 import peopleService from "../services/people"
+import meetingService from "../services/meetings"
 import React, { useState, useEffect } from 'react'
 
 const palette = Theme.palette
@@ -99,36 +100,70 @@ const EditDetailsButton = () => {
   )
 }
 
-const PastMeeting = () => {
+const PastMeeting = ({meeting}) => {
+
+  // extract contact name
+  const getName = (participant) => {
+    return participant.first_name + " " + participant.last_name
+  }
+
+  // format the list of participants
+  const formatParticipants = (participants) => {
+    if (participants.length === 1) {
+      return "• with " + getName(participants[0])
+    } else if (participants.length === 2) {
+      return "• with " + getName(participants[0]) + " and " + getName(participants[1])
+    } else {
+      let formatted = "• with "
+      for (let i = 0; i<participants.length - 1; i++) {
+        formatted += getName(participants[i]) + ", "
+      }
+      formatted += "and " + getName(participants[participants.length - 1])
+      return formatted
+    }
+    return ""
+  }
+
+  console.log("TEST:", meeting.participants)
+
   return (
     <Box>
       <Box ml="30px" mt="30px">
           <Typography variant="body1" align="left">
-            08/08/2021, 3:00pm <br></br> Discuss XYZ 
+            {meeting.date} (Upcoming) <br></br> {meeting.title}
           </Typography>
       </Box>
 
       <Box ml="60px">
         <Typography variant="body1" align="left">
-            • with Contact, Contact
+            {formatParticipants(meeting.participants)}
         </Typography>   
       </Box>
     </Box>
   )
 }
 
-const MeetingHistory = () => {
+const MeetingHistory = ({meetings}) => {
+
+  console.log("meeting history (from child):", meetings)
+  console.log("meeting mapping:", meetings.map(meeting => meeting.title))
+
   return (
     <Box>
+
       <Box mt="40px">
         <Typography variant="h2" align="center">
           Meeting History
         </Typography>
       </Box>
 
-    <ul>
-      <li><PastMeeting /></li>
-    </ul>
+      <ul>
+        {meetings.map(item => 
+            <li key={item._id}>
+              <PastMeeting meeting={item}/>
+            </li>
+        )}
+      </ul>
       
     </Box>
   )
@@ -143,10 +178,13 @@ const PeopleInfoPage = () => {
     email: "",
     phone_num: "",
   }
-  const [contactInfo, setContactInfo] = useState(dummyInfo)
 
-  // get user info from server
+  // info to load from backend
   let {id} = useParams();
+  const [contactInfo, setContactInfo] = useState(dummyInfo)
+  const [meetingHistory, setMeetingHistory] = useState([])
+
+  // get user info and meeting history from server
   console.log("person id:", id);
   useEffect(() => {
     peopleService
@@ -157,7 +195,36 @@ const PeopleInfoPage = () => {
       .catch(error => {
         console.log("Failed to retrieve person info from the server")
       })
+    meetingService
+    .getByParticipant(id)
+    .then(response => {
+      setMeetingHistory(response.data)
+      console.log("meeting history:", response.data)
+    })
+    .catch(error => {
+      console.log("Failed to retrieve meeting history from the server")
+    })
   }, [id])
+  console.log("meetingHistory:", meetingHistory)
+  console.log("TEST MAPPING:", meetingHistory.map(meeting => meeting.title) )
+
+
+
+  // maintain list of people from the server
+  const [peopleList, setPeopleList] = useState([])
+
+  // retrieve the list of people
+  useEffect(() => {
+      peopleService
+          .getAll()
+          .then(response => {
+              setPeopleList(response.data)
+          })
+          .catch(error => {
+              console.log("Failed to retrieve list of people from the server:", error)
+          })
+  }, [])
+  console.log("peopleList:", peopleList)
 
   return (
     <ThemeProvider theme={Theme}>
@@ -166,7 +233,7 @@ const PeopleInfoPage = () => {
       <PageAppBar prevPage="/People" tab="People" type="Back"/>
 
         <Grid container direction="column" justifyContent="center" style={{minHeight: "90vh"}}>
-          
+
           <PersonDetails details={contactInfo}/>
 
           <Box display="inline" px="20px">
@@ -174,7 +241,8 @@ const PeopleInfoPage = () => {
             <EditDetailsButton />
           </Box>
 
-        <MeetingHistory />
+          <MeetingHistory meetings={meetingHistory}/>
+
 
         </Grid>
 
