@@ -10,6 +10,7 @@ import PageAppBar from "../components/PageAppBar"
 import peopleService from "../services/people"
 import meetingService from "../services/meetings"
 import React, { useState, useEffect } from 'react'
+import Divider from '@material-ui/core/Divider';
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -30,18 +31,24 @@ const useStyles = makeStyles({
       color: palette.secondary.main,
       backgroundColor: palette.primary.main,
       margin: "10px"
-    }
+    },
+    meetingList: {
+      listStyleType: "none"
+    },
+    divider: {
+      background: palette.quarternary.main,
+    },
 });
 
 const PersonDetails = ({details}) => {
 
   // change display of company information based on information available
   const CompanyInfo = () => {
-    if (details.company === undefined && details.position === undefined) {
+    if ((details.company === undefined && details.position === undefined) || (details.company === "" && details.position === "")) {
       return null
-    } else if (details.company === undefined) {
+    } else if ((details.company === undefined) || (details.company === "")) {
       return (<Typography variant="h2">{details.position}</Typography>)
-    } else if (details.position === undefined) {
+    } else if ((details.position === undefined) || (details.position === "")) {
       return (<Typography variant="h2">{details.company}</Typography>)
     } else {
       return (<Typography variant="h2">{details.company} • {details.position}</Typography>)
@@ -124,13 +131,46 @@ const PastMeeting = ({meeting}) => {
     return ""
   }
 
-  console.log("TEST:", meeting.participants)
+  // format meeting date/time
+  const formatDate = (dateString) => {
+    let meetTime = new Date(dateString)
+        
+    let day = meetTime.getDate()
+    let month = meetTime.getMonth() + 1
+    let year = meetTime.getFullYear().toString().slice(2)
 
+    let hour = meetTime.getHours()
+
+    let minutes = meetTime.getMinutes()
+    // formatting for minutes
+    if (minutes <= 9) {
+        minutes = 0 + minutes.toString()
+    }
+    
+    let amOrPm = "AM"
+    // formatting for am or pm
+    if (hour === 12) {
+        // midday
+        amOrPm = "PM"
+    } else if (hour === 0) {
+        // midnight
+        hour = 12
+    } else if (hour > 12) {
+        // after midday
+        hour -= 12
+        amOrPm = "PM"
+    }
+
+    return `${day}/${month}/${year} ${hour}:${minutes} ${amOrPm}`
+  }
+
+
+  const classes = useStyles();
   return (
     <Box>
       <Box ml="30px" mt="30px">
           <Typography variant="body1" align="left">
-            {meeting.date} (Upcoming) <br></br> {meeting.title}
+            <em>{formatDate(meeting.date)}</em> <br></br> {meeting.title}
           </Typography>
       </Box>
 
@@ -139,6 +179,8 @@ const PastMeeting = ({meeting}) => {
             {formatParticipants(meeting.participants)}
         </Typography>   
       </Box>
+
+      <Divider className={classes.divider} />
     </Box>
   )
 }
@@ -148,6 +190,7 @@ const MeetingHistory = ({meetings}) => {
   console.log("meeting history (from child):", meetings)
   console.log("meeting mapping:", meetings.map(meeting => meeting.title))
 
+  const classes = useStyles();
   return (
     <Box>
 
@@ -157,7 +200,7 @@ const MeetingHistory = ({meetings}) => {
         </Typography>
       </Box>
 
-      <ul>
+      <ul className={classes.meetingList}>
         {meetings.map(item => 
             <li key={item._id}>
               <PastMeeting meeting={item}/>
