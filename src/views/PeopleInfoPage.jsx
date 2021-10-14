@@ -56,11 +56,14 @@ const PersonDetails = ({details}) => {
 
   // change display of company information based on information available
   const CompanyInfo = () => {
-    if ((details.company === undefined && details.position === undefined) || (details.company === "" && details.position === "")) {
+
+    if (!details.company && !details.position) {
       return null
-    } else if ((details.company === undefined) || (details.company === "")) {
+    } else if (details.company === "" && details.position === "") {
+      return null
+    } else if (details.company === "") {
       return (<Typography variant="h2">{details.position}</Typography>)
-    } else if ((details.position === undefined) || (details.position === "")) {
+    } else if (details.position === "") {
       return (<Typography variant="h2">{details.company}</Typography>)
     } else {
       return (<Typography variant="h2">{details.company} • {details.position}</Typography>)
@@ -69,7 +72,8 @@ const PersonDetails = ({details}) => {
 
   // change display of notes based on information available
   const PersonNotes = () => {
-    if (details.notes === undefined || details.notes === "") {
+    if (!details.notes || details.notes === "") {
+
       return null
     } else {
       return (<Typography variant="body1">{details.notes}</Typography>)
