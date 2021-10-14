@@ -8,7 +8,10 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from '@material-ui/core/styles';
 import PageAppBar from "../components/PageAppBar"
 import peopleService from "../services/people"
+import meetingService from "../services/meetings"
 import React, { useState, useEffect } from 'react'
+import Divider from '@material-ui/core/Divider';
+import { Link } from "react-router-dom";
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -29,13 +32,31 @@ const useStyles = makeStyles({
       color: palette.secondary.main,
       backgroundColor: palette.primary.main,
       margin: "10px"
-    }
+    },
+    meetingList: {
+      listStyleType: "none"
+    },
+    divider: {
+      background: palette.quarternary.main,
+    },
+    meetingButton: {
+      color: palette.tertiary.main,
+      justifyContent: "flex-start",
+      flexDirection: "column",
+      textTransform: "none",
+    },
+    meetingLink: {
+      textDecoration: "none",
+      justifyContent: "flex-start",
+      flexDirection: "column"
+    },
 });
 
 const PersonDetails = ({details}) => {
 
   // change display of company information based on information available
   const CompanyInfo = () => {
+
     if (!details.company && !details.position) {
       return null
     } else if (details.company === "" && details.position === "") {
@@ -52,13 +73,13 @@ const PersonDetails = ({details}) => {
   // change display of notes based on information available
   const PersonNotes = () => {
     if (!details.notes || details.notes === "") {
+
       return null
     } else {
       return (<Typography variant="body1">{details.notes}</Typography>)
     }
   }
 
-  console.log("details:", details)
   const classes = useStyles();
   return (
     <Box >
@@ -101,36 +122,140 @@ const EditDetailsButton = () => {
   )
 }
 
-const PastMeeting = () => {
-  return (
-    <Box>
-      <Box ml="30px" mt="30px">
-          <Typography variant="body1" align="left">
-            08/08/2021, 3:00pm <br></br> Discuss XYZ 
-          </Typography>
-      </Box>
+const PastMeeting = ({meeting, people}) => {
 
-      <Box ml="60px">
-        <Typography variant="body1" align="left">
-            • with Contact, Contact
-        </Typography>   
-      </Box>
+  // extract contact name
+  const getName = (participant) => {
+    return participant.first_name + " " + participant.last_name
+  }
+
+  // format the list of participants
+  const formatParticipants = (participants) => {
+
+    // extract participant names from previous database call
+    // if a participant code cannot be resolved (e.g. because the entry was deleted from the database), omit it
+    let participantObjects = []
+    for (let i=0; i<participants.length; i++) {
+      let nextItem = people.find((person) => person._id === participants[i])
+      if (nextItem) {
+        participantObjects.push(nextItem)
+      }
+    }
+
+    if (participantObjects.length === 0) {
+      return ""
+    } else if (participantObjects.length === 1) {
+      return "• with " + getName(participantObjects[0])
+    } else if (participantObjects.length === 2) {
+      return "• with " + getName(participantObjects[0]) + " and " + getName(participantObjects[1])
+    } else {
+      let formatted = "• with "
+      for (let i = 0; i<participantObjects.length - 1; i++) {
+        formatted += getName(participantObjects[i]) + ", "
+      }
+      formatted += "and " + getName(participantObjects[participantObjects.length - 1])
+      return formatted
+    }
+  }
+
+  // format meeting date/time
+  const formatDate = (dateString) => {
+    let meetTime = new Date(dateString)
+        
+    let day = meetTime.getDate()
+    let month = meetTime.getMonth() + 1
+    let year = meetTime.getFullYear().toString().slice(2)
+
+    let hour = meetTime.getHours()
+
+    let minutes = meetTime.getMinutes()
+    // formatting for minutes
+    if (minutes <= 9) {
+        minutes = 0 + minutes.toString()
+    }
+    
+    let amOrPm = "AM"
+    // formatting for am or pm
+    if (hour === 12) {
+        // midday
+        amOrPm = "PM"
+    } else if (hour === 0) {
+        // midnight
+        hour = 12
+    } else if (hour > 12) {
+        // after midday
+        hour -= 12
+        amOrPm = "PM"
+    }
+
+    return `${day}/${month}/${year} ${hour}:${minutes} ${amOrPm}`
+  }
+
+  // get link to the meeting information page
+  const getLink = (meeting) => {
+    return "/MeetingInformation/" + meeting._id
+  }
+
+  const classes = useStyles();
+  return (
+
+    <Box>
+        <Link to={getLink(meeting)} className={classes.meetingLink} >
+            <Button className={classes.meetingButton} fullWidth={true} >
+                <div>
+                  <Box ml="30px" mt="30px">
+                      <Typography variant="body1" align="left">
+                        <em>{formatDate(meeting.date)}</em> <br></br> {meeting.title}
+                      </Typography>
+                  </Box>
+
+                  <Box ml="60px">
+                    <Typography variant="body1" align="left">
+                        {formatParticipants(meeting.participants)}
+                    </Typography>   
+                  </Box>
+                </div>
+            </Button>
+        </Link>
+        <Divider className={classes.divider} />
     </Box>
+
   )
 }
 
-const MeetingHistory = () => {
+const MeetingHistory = ({meetings}) => {
+
+  // Make database request to resolve participant names
+  const [allPeople, setAllPeople] = useState([])
+  useEffect(() => {
+    peopleService
+      .getAll()
+      .then(response => {
+        setAllPeople(response.data)
+      })
+      .catch(error => {
+        console.log("Failed to retrieve people list from the server")
+      })
+  }, [])
+
+
+  const classes = useStyles();
   return (
     <Box>
+
       <Box mt="40px">
         <Typography variant="h2" align="center">
           Meeting History
         </Typography>
       </Box>
 
-    <ul>
-      <li><PastMeeting /></li>
-    </ul>
+      <ul className={classes.meetingList}>
+        {meetings.map(item => 
+            <li key={item._id}>
+              <PastMeeting meeting={item} people={allPeople}/>
+            </li>
+        )}
+      </ul>
       
     </Box>
   )
@@ -145,11 +270,13 @@ const PeopleInfoPage = () => {
     email: "",
     phone_num: "",
   }
-  const [contactInfo, setContactInfo] = useState(dummyInfo)
 
-  // get user info from server
+  // info to load from backend
   let {id} = useParams();
-  console.log("person id:", id);
+  const [contactInfo, setContactInfo] = useState(dummyInfo)
+  const [meetingHistory, setMeetingHistory] = useState([])
+
+  // get user info and meeting history from server
   useEffect(() => {
     peopleService
       .getByID(id)
@@ -159,7 +286,30 @@ const PeopleInfoPage = () => {
       .catch(error => {
         console.log("Failed to retrieve person info from the server")
       })
+    meetingService
+    .getByParticipant(id)
+    .then(response => {
+      setMeetingHistory(response.data)
+    })
+    .catch(error => {
+      console.log("Failed to retrieve meeting history from the server")
+    })
   }, [id])
+
+  // maintain list of people from the server
+  const [peopleList, setPeopleList] = useState([])
+
+  // retrieve the list of people
+  useEffect(() => {
+      peopleService
+          .getAll()
+          .then(response => {
+              setPeopleList(response.data)
+          })
+          .catch(error => {
+              console.log("Failed to retrieve list of people from the server:", error)
+          })
+  }, [])
 
   return (
     <ThemeProvider theme={Theme}>
@@ -168,7 +318,7 @@ const PeopleInfoPage = () => {
       <PageAppBar prevPage="/People" tab="People" type="Back"/>
 
         <Grid container direction="column" justifyContent="center" style={{minHeight: "90vh"}}>
-          
+
           <PersonDetails details={contactInfo}/>
 
           <Box display="inline" px="20px">
@@ -176,7 +326,8 @@ const PeopleInfoPage = () => {
             <EditDetailsButton />
           </Box>
 
-        <MeetingHistory />
+          <MeetingHistory meetings={meetingHistory}/>
+
 
         </Grid>
 

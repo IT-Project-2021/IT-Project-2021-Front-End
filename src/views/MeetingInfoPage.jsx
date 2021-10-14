@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Theme from "../themes/basicTheme";
 import { ThemeProvider } from "@material-ui/styles";
 import { Typography, Button, Grid, TextField } from "@material-ui/core";
@@ -11,6 +10,10 @@ import Select from '@material-ui/core/Select';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FormControl from '@material-ui/core/FormControl';
+import { Link, useParams } from "react-router-dom"
+import React, { useState, useEffect } from 'react'
+import meetingService from '../services/meetings'
+import peopleService from "../services/people"
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -59,18 +62,18 @@ const useStyles = makeStyles({
     },
 });
 
-const MeetingDetails = () => {
+const MeetingDetails = ({meeting}) => {
 
   const classes = useStyles();
   return (
     <Box >
       <Box className={classes.meetingDetails}>
-        <Typography variant="h1">Meeting 1</Typography>
+        <Typography variant="h1">{meeting.title}</Typography>
       </Box>
 
       <Box className={classes.meetingDescription}>
         <Typography variant="body1">
-            Meeting Description
+            {meeting.details}
         </Typography>
       </Box>
     </Box>
@@ -115,43 +118,115 @@ const MeetingQuestions = () => {
   )
 };
 
-const MeetingAnswers = () => {
+const MeetingAnswers = ({meeting}) => {
   const [reminder] = React.useState('');
+
+  const formatMeetingTime = (date) => {
+    let meetTime = new Date(date)
+    
+    let day = meetTime.getDate()
+    let month = meetTime.getMonth() + 1
+    let year = meetTime.getFullYear().toString().slice(2)
+
+    let hour = meetTime.getHours()
+
+    let minutes = meetTime.getMinutes()
+    // formatting for minutes
+    if (minutes <= 9) {
+        minutes = 0 + minutes.toString()
+    }
+    
+    let amOrPm = "AM"
+    // formatting for am or pm
+    if (hour === 12) {
+        // midday
+        amOrPm = "PM"
+    } else if (hour === 0) {
+        // midnight
+        hour = 12
+    } else if (hour > 12) {
+        // after midday
+        hour -= 12
+        amOrPm = "PM"
+    }
+
+    return `${day}/${month}/${year} ${hour}:${minutes} ${amOrPm}`
+}
 
   const classes = useStyles();
   return (
     <Box>
       <Box className={classes.meetingAnswers}>
         <Typography variant="h3">
-          8/8/2021 3PM 
+          {formatMeetingTime(meeting.date)}
         </Typography>
       </Box>
       
 
       <Box className={classes.meetingAnswers}>
         <Typography variant="h3">
-          Melbourne
+          {meeting.location}
         </Typography>
       </Box>
 
       <Box className={classes.meetingAnswers}>
         <FormControl>
           <Select label="Reminder" id="select" labelId="open-select-label">
-            <MenuItem value=""><em>None</em></MenuItem>
+            <MenuItem value={0}><em>None</em></MenuItem>
             <MenuItem value={5}>5 minutes before</MenuItem> 
             <MenuItem value={15}>15 minutes before</MenuItem>
             <MenuItem value={30}>30 minutes before</MenuItem>
             <MenuItem value={60}>1 hour before</MenuItem>
             <MenuItem value={120}>2 hours before</MenuItem>
             <MenuItem value={1440}>1 day before</MenuItem>
-          </Select>    
+          </Select>
         </FormControl>          
       </Box>
     </Box>
   )
 }
 
-const ParticipantsAndTopics = () => {
+const ParticipantsAndTopics = ({meeting, people}) => {
+
+  // extract contact name
+  const getName = (participant) => {
+    return participant.first_name + " " + participant.last_name
+  }
+
+  // get the list of participants (including names, not just ID codes)
+  const getParticipantList = () => {
+
+    let participantObjects = []
+
+    // skip if the meeting information isn't loaded yet
+    if (!meeting || !meeting.participants) {
+      console.log("there was no meeting object")
+      return participantObjects
+    } else if (!people) {
+      console.log("there was no people object")
+      return participantObjects
+    } else {
+      // extract participant names from previous database call
+      // if a participant code cannot be resolved (e.g. because the entry was deleted from the database), omit it
+      for (let i=0; i<meeting.participants.length; i++) {
+        let nextItem = people.find((person) => person._id === meeting.participants[i])
+        if (nextItem) {
+          participantObjects.push(nextItem)
+        }
+      }
+
+      return participantObjects
+    }
+
+    
+  }
+
+  const getAgenda = () => {
+    if (!meeting || !meeting.agenda) {
+      return []
+    } else return meeting.agenda
+  }
+
   const classes = useStyles();
   return (
     
@@ -162,21 +237,17 @@ const ParticipantsAndTopics = () => {
         </Typography>
       </Box>
       
+      {getParticipantList().map(item => (
+        <Typography variant="h3" className={classes.listItems}>
+          {item.first_name + " " + item.last_name}
+          <IconButton edge="end" aria-label="delete">
+            <DeleteIcon />
+          </IconButton>
+        </Typography>
+      ))}
+
+      {/* TODO make this searchable (as in create meeting) */}
       <Box>
-        <Typography variant="h3" className={classes.listItems}>
-          John Doe
-          <IconButton edge="end" aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        </Typography>
-        
-        <Typography variant="h3" className={classes.listItems}>
-          Jane Doe
-          <IconButton edge="end" aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        </Typography>
-        
         <Box>
           <TextField className={classes.listItems}
             hiddenLabel
@@ -192,20 +263,17 @@ const ParticipantsAndTopics = () => {
         </Typography>
       </Box>
 
+
+
       <Box>
-        <Typography variant="h3" className={classes.listItems}>
-          Topic 1
-          <IconButton edge="end" aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        </Typography>
-        
-        <Typography variant="h3" className={classes.listItems}>
-          Topic 2
-          <IconButton edge="end" aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        </Typography>
+        {getAgenda().map(item => (
+          <Typography variant="h3" className={classes.listItems}>
+            {item}
+            <IconButton edge="end" aria-label="delete">
+              <DeleteIcon />
+            </IconButton>
+          </Typography>
+        ))}
         
         <Box>
           <TextField className={classes.listItems}
@@ -223,7 +291,35 @@ const ParticipantsAndTopics = () => {
 }
 
 const MeetingInfoPage = () => {
+
+  // retrieve meeting information from database
+  let {id} = useParams();
+  const [meetingInfo, setMeetingInfo] = useState({})
+  useEffect(() => {
+    meetingService
+      .getByID(id)
+      .then(response => setMeetingInfo(response.data))
+      .catch(error => console.log("Failed to retrieve meeting information from the server"))
+  }, [id])
+
+  console.log("Meeting information:", meetingInfo)
+
+  // Make database request to resolve participant names
+  const [allPeople, setAllPeople] = useState([])
+  useEffect(() => {
+    peopleService
+      .getAll()
+      .then(response => {
+        setAllPeople(response.data)
+      })
+      .catch(error => {
+        console.log("Failed to retrieve people list from the server")
+      })
+  }, [])
+  console.log("All people:", allPeople)
+
   const classes = useStyles();
+
   return (
     <ThemeProvider theme={Theme}>
       <CssBaseline />
@@ -232,20 +328,20 @@ const MeetingInfoPage = () => {
 
         <Grid container direction="column" justifyContent="center" style={{ minHeight: "70vh" }}>
           
-          <MeetingDetails />
+          <MeetingDetails meeting={meetingInfo}/>
 
           <div className={classes.row}>
             <div className={classes.meetingQuestions}>
               <MeetingQuestions />
             </div>
             <div className={classes.meetingAnswers}>
-              <MeetingAnswers />
+              <MeetingAnswers meeting={meetingInfo}/>
             </div>
           </div>
 
           <div className={classes.row}>
             <div className={classes.meetingQuestions}>
-              <ParticipantsAndTopics />
+              <ParticipantsAndTopics meeting={meetingInfo} people={allPeople}/>
             </div>
           </div>
 

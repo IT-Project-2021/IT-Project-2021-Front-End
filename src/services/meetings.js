@@ -11,7 +11,6 @@ const getAll = () => {
 const getByID = (id) => {
     //find where meeting info is stored
     const meetingInfoUrl = baseUrl + "/" + id;
-    console.log("URL queried:", meetingInfoUrl);
     return axios.get(meetingInfoUrl)
 }
 
@@ -20,10 +19,17 @@ const create = (newMeeting) => {
   return axios.post(baseUrl, newMeeting)
 }
 
+// get list of meetings by participantID
+const getByParticipant = (participantID) => {
+    const queryURL = baseUrl + "/participant/" + participantID
+    return axios.get(queryURL)
+}
+
 const meetingService = {
     getAll,
     getByID,
-    create
+    create,
+    getByParticipant
 }
 
 export default meetingService 
