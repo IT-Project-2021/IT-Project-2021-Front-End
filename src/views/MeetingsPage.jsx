@@ -60,10 +60,9 @@ const useStyles = makeStyles({
     },
 });
 
-const MeetingListItem = ({title, date}) => {
+const MeetingListItem = ({title, date, id}) => {
     const classes = useStyles();
 
-    let meetTimeTest = (new Date(date)).toString()
 
     const formatMeetingTime = (date) => {
         let meetTime = new Date(date)
@@ -97,9 +96,13 @@ const MeetingListItem = ({title, date}) => {
         return `${day}/${month}/${year} ${hour}:${minutes} ${amOrPm}`
     }
 
+    const getLink = () => {
+        return "/MeetingInformation/" + id
+    }
+
     return (
         <Box>
-            <Link to="/MeetingInformation" className={classes.meetingLink} >
+            <Link to={getLink()} className={classes.meetingLink} >
                 <Button className={classes.meetingButton} fullWidth={true} >
                     <div>
                         <Typography variant="h6" className={classes.listedMeetingTime}> {formatMeetingTime(date)} </Typography>
@@ -170,6 +173,7 @@ const MeetingsPage = () => {
                         <MeetingListItem 
                             title={item.title}
                             date={item.date}
+                            id={item._id}
                         />
                     </li>
                 )}
@@ -189,6 +193,7 @@ const MeetingsPage = () => {
                         <MeetingListItem 
                             title={item.title}
                             date={item.date}
+                            id={item._id}
                         />
                     </li>
                 )}

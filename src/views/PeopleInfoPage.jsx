@@ -187,12 +187,16 @@ const PastMeeting = ({meeting, people}) => {
     return `${day}/${month}/${year} ${hour}:${minutes} ${amOrPm}`
   }
 
+  // get link to the meeting information page
+  const getLink = (meeting) => {
+    return "/MeetingInformation/" + meeting._id
+  }
 
   const classes = useStyles();
   return (
 
     <Box>
-        <Link to="/MeetingInformation" className={classes.meetingLink} >
+        <Link to={getLink(meeting)} className={classes.meetingLink} >
             <Button className={classes.meetingButton} fullWidth={true} >
                 <div>
                   <Box ml="30px" mt="30px">
