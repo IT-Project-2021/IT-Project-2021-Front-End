@@ -238,6 +238,22 @@ const MeetingHistory = ({meetings}) => {
       })
   }, [])
 
+  // functions for determining when a meeting occurs
+  // future meetings have a timeOffset > 0. timeOffsets closer to 0 should appear nearer to the top of the list.
+  const curTime = new Date()
+  const getTimeOffset = (date) => {
+    let meetingTime = new Date(date)
+    return meetingTime - curTime
+  }
+  const isFutureMeeting = (date) => {
+      return getTimeOffset(date) > 0
+  }
+  const sortFutureMeetings = (i, j) => {
+      return getTimeOffset(i.date) - getTimeOffset(j.date)
+  }
+  const sortPastMeetings = (i, j) => {
+      return getTimeOffset(j.date) - getTimeOffset(i.date)
+  }
 
   const classes = useStyles();
   return (
@@ -245,18 +261,38 @@ const MeetingHistory = ({meetings}) => {
 
       <Box mt="40px">
         <Typography variant="h2" align="center">
-          Meeting History
+          Upcoming Meetings
         </Typography>
       </Box>
 
       <ul className={classes.meetingList}>
-        {meetings.map(item => 
-            <li key={item._id}>
-              <PastMeeting meeting={item} people={allPeople}/>
-            </li>
+        {meetings
+            .filter(item => isFutureMeeting(item.date))
+            .sort(sortFutureMeetings)
+            .map(item => 
+              <li key={item._id}>
+                <PastMeeting meeting={item} people={allPeople}/>
+              </li>
         )}
       </ul>
       
+      <Box mt="40px">
+        <Typography variant="h2" align="center">
+          Past Meetings
+        </Typography>
+      </Box>
+
+      <ul className={classes.meetingList}>
+        {meetings
+            .filter(item => !isFutureMeeting(item.date))
+            .sort(sortPastMeetings)
+            .map(item => 
+              <li key={item._id}>
+                <PastMeeting meeting={item} people={allPeople}/>
+              </li>
+        )}
+      </ul>
+
     </Box>
   )
 }
