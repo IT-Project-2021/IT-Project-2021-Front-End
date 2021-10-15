@@ -6,6 +6,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import PageAppBar from "../components/PageAppBar"
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from "react";
+import peopleService from "../services/people";
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -33,6 +34,35 @@ const NewPersonPage = () => {
     const [phone, setPhone] = useState("");
     const [position, setPosition] = useState("");
     const [notes, setNotes] = useState("");
+
+    // add person to the database
+    const submitPerson = () => {
+        let newPerson = {
+            user: "",
+            first_name: first,
+            last_name: last,
+            phone_num: phone,
+            email: email,
+            company: company,
+            position: position,
+            notes: notes
+        }
+
+        console.log("CREATED MAN:", newPerson)
+
+        peopleService 
+            .create(newPerson)
+            .then(response => {
+                console.log("Posted new contact:", response.data)
+                let newID = response.data._id
+                console.log("New id:", newID)
+                window.location.href = "/PeopleInformation/" + newID
+            })
+            .catch(error => {
+                console.log("Failed to post contact:", error)
+            })
+    }
+
     return (
         <ThemeProvider theme={Theme}>
             <CssBaseline />
@@ -77,7 +107,7 @@ const NewPersonPage = () => {
                     </Box>
 
                     <Box className={classes.confirm}>
-                        <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
+                        <Button size="medium" color="secondary" variant="outlined" style={{ border: '2px solid' }} onClick={submitPerson}>
                             <Typography>Confirm</Typography>
                         </Button>
                     </Box>

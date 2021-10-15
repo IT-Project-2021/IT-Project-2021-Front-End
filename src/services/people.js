@@ -15,9 +15,16 @@ const getByID = (id) => {
     return axios.get(personInfoUrl)
 }
 
+// create a new person object
+const create = (newPerson) => {
+    return axios.post(baseUrl, newPerson)
+}
+
+
 const peopleService = {
     getAll,
-    getByID
+    getByID,
+    create
 }
 
 export default peopleService
