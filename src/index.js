@@ -45,9 +45,10 @@ ReactDOM.render(
 
         </Box>
       </ThemeProvider>
-    </Router>,
-    document.getElementById('root')
-  </LogStatus>
+    </Router>
+  </LogStatus>,
+  document.getElementById('root')
+
 
 );
 
