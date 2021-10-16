@@ -31,7 +31,11 @@ const useStyles = makeStyles({
     editButton: {
       color: palette.secondary.main,
       backgroundColor: palette.primary.main,
-      margin: "10px"
+      margin: "10px",
+      textDecoration: "none"
+    },
+    editLink: {
+      textDecoration: 'none'
     },
     meetingList: {
       listStyleType: "none"
@@ -112,13 +116,15 @@ const SetMeetingButton = () => {
     </Button>
   )
 }
-
-const EditDetailsButton = () => {
+const EditDetailsButton = ({details}) => {
   const classes = useStyles();
   return (
-    <Button className={classes.editButton} variant="contained" type="submit" >
-      <Typography variant="button">Edit Details</Typography>
-    </Button>
+    <Link to={'/Person/edit/' + details._id} className={classes.editLink}>
+      <Button className={classes.editButton} variant="contained" type="submit" >
+        <Typography variant="button">Edit Details</Typography>
+      </Button>
+    </Link>
+
   )
 }
 
@@ -359,7 +365,7 @@ const PeopleInfoPage = () => {
 
           <Box display="inline" px="20px">
             <SetMeetingButton />
-            <EditDetailsButton />
+            <EditDetailsButton details={contactInfo}/>
           </Box>
 
           <MeetingHistory meetings={meetingHistory}/>
