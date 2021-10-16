@@ -76,7 +76,7 @@ const EditPersonPage = () => {
             last_name: last,
             email: email,
             company: company,
-            phone: phone,
+            phone_num: phone,
             position: position,
             notes: notes
         }
@@ -86,6 +86,7 @@ const EditPersonPage = () => {
             .update(id, editedContact)
             .then(response => {
                 console.log("UPDATED:", response.data)
+                window.location.href = "/PeopleInformation/" + id
             })
             .catch(error => {
                 console.log("Error submitting: ", error)
