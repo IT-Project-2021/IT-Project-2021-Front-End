@@ -38,20 +38,6 @@ const EditPersonPage = () => {
 
     // info to load from backend
     let {id} = useParams();
-    const [contactInfo, setContactInfo] = useState(dummyInfo)
-    useEffect(() => {
-        peopleService
-          .getByID(id)
-          .then(response => {
-            setContactInfo(response.data)
-            setFirst(response.data.first_name)
-            setLast(response.data.last_name)
-          })
-          .catch(error => {
-            console.log("Failed to retrieve person info from the server")
-          })
-      }, [id])
-
     const classes = useStyles();
     const [first, setFirst] = useState("");
     const [last, setLast] = useState("");
@@ -60,6 +46,52 @@ const EditPersonPage = () => {
     const [phone, setPhone] = useState("");
     const [position, setPosition] = useState("");
     const [notes, setNotes] = useState("");
+    const [contactInfo, setContactInfo] = useState(dummyInfo)
+    const [pageTitle, setPageTitle] = useState("") // the contact's original name, displayed at page top
+
+    useEffect(() => {
+        peopleService
+          .getByID(id)
+          .then(response => {
+            setContactInfo(response.data)
+            console.log("Contact info recieved:", response.data)
+            setFirst(response.data.first_name)
+            setLast(response.data.last_name)
+            setEmail(response.data.email)
+            setCompany(response.data.company)
+            setPhone(response.data.phone_num)
+            setPosition(response.data.position)
+            setNotes(response.data.notes)
+            setPageTitle("Editing " + response.data.first_name + " " + response.data.last_name + "'s details")
+          })
+          .catch(error => {
+            console.log("Failed to retrieve person info from the server:", error)
+          })
+      }, [id])
+
+    // update the contact
+    const submitUpdate = () => {
+        let editedContact = {
+            first_name: first,
+            last_name: last,
+            email: email,
+            company: company,
+            phone: phone,
+            position: position,
+            notes: notes
+        }
+
+        console.log("UPDATE:", editedContact)
+        peopleService
+            .update(id, editedContact)
+            .then(response => {
+                console.log("UPDATED:", response.data)
+            })
+            .catch(error => {
+                console.log("Error submitting: ", error)
+            })
+    }
+
     return (
         <ThemeProvider theme={Theme}>
             <CssBaseline />
@@ -69,42 +101,44 @@ const EditPersonPage = () => {
             <Grid container direction="column" justifyContent="center" style={{ minHeight: "90vh" }}>
                 <Box className={classes.title}>
                     <Typography variant="h2">
-                        Editing {first + " " + last}
+                        {pageTitle}
                     </Typography>
                 </Box>
 
                 <form>
                     <Box>
                         <Box component="span" margin="5px">
-                            <TextField label="First Name" placeholder="First Name" required variant="filled" onChange={(e) => { setFirst(e.target.value); }} />
+                            <TextField 
+                                value={first} label="First Name" placeholder="First Name" required variant="filled" onChange={(e) => { setFirst(e.target.value); }} 
+                            />
                         </Box>
                         <Box component="span" margin="5px">
-                            <TextField label="Last Name" placeholder="Last Name" required variant="filled" onChange={(e) => { setLast(e.target.value); }} />
+                            <TextField value={last} label="Last Name" placeholder="Last Name" required variant="filled" onChange={(e) => { setLast(e.target.value); }} />
                         </Box>
                     </Box>
 
                     <Box className={classes.form}>
-                        <TextField label="Company" placeholder="Company" variant="filled" onChange={(e) => { setCompany(e.target.value); }} />
+                        <TextField value={company} label="Company" placeholder="Company" variant="filled" onChange={(e) => { setCompany(e.target.value); }} />
                     </Box>
 
                     <Box className={classes.form}>
-                        <TextField label="Position" placeholder="Position" variant="filled" onChange={(e) => { setPosition(e.target.value); }} />
+                        <TextField value={position} label="Position" placeholder="Position" variant="filled" onChange={(e) => { setPosition(e.target.value); }} />
                     </Box>
 
                     <Box className={classes.form}>
-                        <TextField label="Email" placeholder="Email" variant="filled" onChange={(e) => { setEmail(e.target.value); }} />
+                        <TextField value={email} label="Email" placeholder="Email" variant="filled" onChange={(e) => { setEmail(e.target.value); }} />
                     </Box>
 
                     <Box className={classes.form}>
-                        <TextField label="Phone number" placeholder="Phone number" type="number" variant="filled" onChange={(e) => { setPhone(e.target.value); }} />
+                        <TextField value={phone} label="Phone number" placeholder="Phone number" type="number" variant="filled" onChange={(e) => { setPhone(e.target.value); }} />
                     </Box>
 
                     <Box className={classes.form}>
-                        <TextField label="Optional Notes" multiline rows={4} placeholder="Optional Notes" variant="filled" onChange={(e) => { setNotes(e.target.value); }} />
+                        <TextField value={notes} label="Optional Notes" multiline rows={4} placeholder="Optional Notes" variant="filled" onChange={(e) => { setNotes(e.target.value); }} />
                     </Box>
 
                     <Box className={classes.confirm}>
-                        <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
+                        <Button onClick={submitUpdate} size="medium" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
                             <Typography>Confirm</Typography>
                         </Button>
                     </Box>
