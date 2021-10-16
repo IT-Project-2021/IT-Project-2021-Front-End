@@ -20,10 +20,17 @@ const update = (id, updated) => {
     return axios.put(Url, updated)
 }
 
+// create a new person object
+const create = (newPerson) => {
+    return axios.post(baseUrl, newPerson)
+}
+
 const peopleService = {
     getAll,
     getByID,
+    create,
     update
+
 }
 
 export default peopleService
