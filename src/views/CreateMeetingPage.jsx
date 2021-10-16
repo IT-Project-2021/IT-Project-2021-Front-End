@@ -374,6 +374,8 @@ const CreateMeetingPage = () => {
       .create(newMeeting)
       .then(response => {
         console.log("RESPONSE:", response)
+        let newID = response.data._id
+        window.location.href = "/MeetingInformation/" + newID
 
       })
       .catch(error => {
