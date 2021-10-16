@@ -152,14 +152,7 @@ const MeetingAnswers = ({handleTimeChange, handleLocationChange, handleAlertSett
     handleTimeChange(event)
   }
 
-
   const classes = useStyles();
-
-
-  const changeAlert = (event) => {
-    console.log("new alert setting:", event.target.value)
-  }
-
   return (
     <Box>
       <Box className={classes.meetingAnswers}>
@@ -186,14 +179,21 @@ const MeetingAnswers = ({handleTimeChange, handleLocationChange, handleAlertSett
 
       <Box className={classes.meetingAnswers}>
       <FormControl>
-          <Select defaultValue="" label="Reminder" id="select" labelId="open-select-label">
-            <MenuItem value=""><em>None</em></MenuItem>
-            <MenuItem value={5}>5 minutes before</MenuItem> 
-            <MenuItem value={15}>15 minutes before</MenuItem>
-            <MenuItem value={30}>30 minutes before</MenuItem>
-            <MenuItem value={60}>1 hour before</MenuItem>
-            <MenuItem value={120}>2 hours before</MenuItem>
-            <MenuItem value={1440}>1 day before</MenuItem>
+          <Select 
+            defaultValue="" 
+            label="Reminder" 
+            id="select" 
+            labelId="open-select-label" 
+            displayEmpty 
+            onChange={(event) => handleAlertSettingChange(event.target.value)}
+          >
+            <MenuItem value="">None</MenuItem>
+            <MenuItem value={300000}>5 minutes before</MenuItem> 
+            <MenuItem value={900000}>15 minutes before</MenuItem>
+            <MenuItem value={1800000}>30 minutes before</MenuItem>
+            <MenuItem value={3600000}>1 hour before</MenuItem>
+            <MenuItem value={7200000}>2 hours before</MenuItem>
+            <MenuItem value={86400000}>1 day before</MenuItem>
           </Select>    
         </FormControl>  
       </Box>
@@ -340,9 +340,17 @@ const CreateMeetingPage = () => {
     setAlertSetting(newSetting)
   }
 
-  // TODO
-  const getAlertTime = (alertSetting, eventTime) => {
-    return new Date()
+  // construct the array of alerts to save in the database
+  // with the construction of the page right now it is only possible to save max. 1 alert, but the database
+  // design allows this to be changed later
+  const getAlerts = () => {
+    if (alertSetting === "") {
+      return []
+    } else return [ {alertTime: getAlertTime(), alertSetting: alertSetting} ]
+  }
+
+  const getAlertTime = () => {
+    return new Date(time - alertSetting)
   }
 
   // submit the meeting to the database when the user clicks confirm
@@ -356,10 +364,7 @@ const CreateMeetingPage = () => {
       details: description,
       date: time,
       location: location,
-      //TODO fix alert time
-      alerts: [
-        {alertTime: getAlertTime(), alertSetting: "email"}
-      ],
+      alerts: getAlerts()
     }
 
     console.log("SUBMISSION:", newMeeting)
@@ -369,6 +374,8 @@ const CreateMeetingPage = () => {
       .create(newMeeting)
       .then(response => {
         console.log("RESPONSE:", response)
+        let newID = response.data._id
+        window.location.href = "/MeetingInformation/" + newID
 
       })
       .catch(error => {
@@ -399,6 +406,7 @@ const CreateMeetingPage = () => {
               <MeetingAnswers 
                 handleTimeChange={handleTimeChange}
                 handleLocationChange={handleLocationChange}
+                handleAlertSettingChange={handleAlertSettingChange}
               />
             </div>
           </div>

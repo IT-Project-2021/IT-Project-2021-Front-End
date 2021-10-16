@@ -14,6 +14,7 @@ import { Link, useParams } from "react-router-dom"
 import React, { useState, useEffect } from 'react'
 import meetingService from '../services/meetings'
 import peopleService from "../services/people"
+import MeetingsPage from "./MeetingsPage";
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -153,6 +154,22 @@ const MeetingAnswers = ({meeting}) => {
     return `${day}/${month}/${year} ${hour}:${minutes} ${amOrPm}`
 }
 
+  const getAlertTime = () => {
+    // console.log("Meeting:", meeting)
+    // console.log("alerts:", meeting.alerts)
+    // console.log("0th alert:", meeting.alerts[0])
+    // console.log("Alert setting:", meeting.alerts[0].alertSetting)
+    if (meeting && meeting.alerts && meeting.alerts[0] && meeting.alerts[0].alertSetting) {
+      return meeting.alerts[0].alertSetting
+    } else return ""
+  } 
+
+  const getLocation = () => {
+    if (meeting.location === "") {
+      return "[None Specified]"
+    } else return meeting.location
+  }
+
   const classes = useStyles();
   return (
     <Box>
@@ -165,20 +182,26 @@ const MeetingAnswers = ({meeting}) => {
 
       <Box className={classes.meetingAnswers}>
         <Typography variant="h3">
-          {meeting.location}
+          {getLocation()}
         </Typography>
       </Box>
 
       <Box className={classes.meetingAnswers}>
         <FormControl>
-          <Select label="Reminder" id="select" labelId="open-select-label">
-            <MenuItem value={0}><em>None</em></MenuItem>
-            <MenuItem value={5}>5 minutes before</MenuItem> 
-            <MenuItem value={15}>15 minutes before</MenuItem>
-            <MenuItem value={30}>30 minutes before</MenuItem>
-            <MenuItem value={60}>1 hour before</MenuItem>
-            <MenuItem value={120}>2 hours before</MenuItem>
-            <MenuItem value={1440}>1 day before</MenuItem>
+          <Select 
+            label="Reminder" 
+            id="select" 
+            labelId="open-select-label" 
+            value={getAlertTime()}
+            displayEmpty
+          >
+            <MenuItem value="">None</MenuItem>
+            <MenuItem value={300000}>5 minutes before</MenuItem> 
+            <MenuItem value={900000}>15 minutes before</MenuItem>
+            <MenuItem value={1800000}>30 minutes before</MenuItem>
+            <MenuItem value={3600000}>1 hour before</MenuItem>
+            <MenuItem value={7200000}>2 hours before</MenuItem>
+            <MenuItem value={86400000}>1 day before</MenuItem>
           </Select>
         </FormControl>          
       </Box>

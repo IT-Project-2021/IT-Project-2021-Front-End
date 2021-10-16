@@ -81,7 +81,6 @@ const EditPersonPage = () => {
             notes: notes
         }
 
-        console.log("UPDATE:", editedContact)
         peopleService
             .update(id, editedContact)
             .then(response => {
