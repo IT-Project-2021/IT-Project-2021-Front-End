@@ -11,8 +11,13 @@ const getAll = () => {
 const getByID = (id) => {
     //find where person info is stored
     const personInfoUrl = baseUrl + "/" + id;
-    console.log("URL queried:", personInfoUrl);
     return axios.get(personInfoUrl)
+}
+
+// update an entry in the database
+const update = (id, updated) => {
+    const Url = baseUrl + "/" + id
+    return axios.put(Url, updated)
 }
 
 // create a new person object
@@ -20,11 +25,12 @@ const create = (newPerson) => {
     return axios.post(baseUrl, newPerson)
 }
 
-
 const peopleService = {
     getAll,
     getByID,
-    create
+    create,
+    update
+
 }
 
 export default peopleService
