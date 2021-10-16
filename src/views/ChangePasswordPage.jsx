@@ -50,7 +50,7 @@ const ChangePasswordPage = () => {
                     password_hash: newPass,
                 };
 
-                await axios.post("/api/auth/login", data, {
+                await axios.put("/api/users/:userId", data, {
                     withCredentials: true,
                 })
 
