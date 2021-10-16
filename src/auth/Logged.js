@@ -7,7 +7,6 @@ function LogStatus(props) {
     const [loggedIn, setLoggedIn] = useState(false);
 
     async function getLoggedIn() {
-        // const loggedInRes = await axios.get("http://localhost:5000/auth/loggedIn");
         const loggedInRes = await axios.get(
             "path to auth middleware"
         );

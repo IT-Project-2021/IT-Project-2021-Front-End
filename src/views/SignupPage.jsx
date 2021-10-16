@@ -3,11 +3,11 @@ import { ThemeProvider } from "@material-ui/styles";
 import { Typography, Button, TextField, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import PageAppBar from "../components/PageAppBar"
+import Logged from "../auth/Logged";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 
 const palette = Theme.palette
@@ -39,6 +39,7 @@ const SignupPage = () => {
     const [pass, setPass] = useState("");
     const [confirm, setConfirm] = useState("");
     const [passwordError, setPassError] = useState(false);
+    const { getLoggedIn } = useContext(Logged);
 
     //const { getLoggedIn } = useContext(AuthContext);
 
@@ -55,9 +56,10 @@ const SignupPage = () => {
                 email: email,
                 password_hash: pass,
             };
-            await axios.post("/api/users/:userId", data, {
-                withCredentials: true,
-            })
+            await axios.post("https://it-project-2021-back-end.herokuapp.com/api/users",
+                data
+            );
+            await getLoggedIn();
 
         } catch (err) {
             console.error(err);
