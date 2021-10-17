@@ -16,6 +16,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import peopleService from "../services/people"
 import meetingService from "../services/meetings"
 import FormControl from '@material-ui/core/FormControl';
+import { useParams } from "react-router-dom"
 
 
 const palette = Theme.palette
@@ -201,7 +202,7 @@ const MeetingAnswers = ({handleTimeChange, handleLocationChange, handleAlertSett
   )
 }
 
-const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAgenda, contacts, changeParticipants}) => {
+const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAgenda, contacts, changeParticipants, origParticipants}) => {
 
   const handleAgendaChange = (event) => {
 
@@ -234,6 +235,7 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
 
   const handleParticipantChange = (event, value) => {
     changeParticipants(value)
+    console.log("PARTICIPANTS:", value)
   }
 
   return (
@@ -249,6 +251,7 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
 
         <Autocomplete
           multiple
+          value={origParticipants}
           options={contacts}
           getOptionLabel={(option) => (option.first_name + " " + option.last_name + " (" + option.position + " at " + option.company + ")")}
           sx={{ width: 300 }}
@@ -300,12 +303,22 @@ const CreateMeetingPage = () => {
   const [location, setLocation] = useState("")
   const [alertSetting, setAlertSetting] = useState("")
 
+  // this will be set if this page was accessed from the People Info page
+  const {id} = useParams();
+  console.log("Participant ID:", id)
+
   // get the list of contacts from the database
   useEffect(() => {
     peopleService
       .getAll()
       .then(response => {
         setPeopleList(response.data)
+        console.log("response data:", response.data)
+        // if redirected here from People Info, set the contact as a participant
+        if (id) {
+          setParticipants(response.data.filter(item => item._id === id))
+          console.log("selected participant:", response.data.filter(item => item._id === id))
+        }
       })
       .catch(error => {
         console.log("Failed to retrieve list of people from the server:", error)
@@ -420,6 +433,7 @@ const CreateMeetingPage = () => {
                 addAgenda={addAgenda}
                 contacts={peopleList}
                 changeParticipants={changeParticipants}
+                origParticipants={participants}
               />
             </div>
           </div>

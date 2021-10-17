@@ -61,6 +61,9 @@ const useStyles = makeStyles({
       padding: "1vh 3vh 0vh",
       textAlign: "left",
     },
+    participantLink: {
+      color: palette.tertiary.main,
+    }
 });
 
 const MeetingDetails = ({meeting}) => {
@@ -73,7 +76,7 @@ const MeetingDetails = ({meeting}) => {
       </Box>
 
       <Box className={classes.meetingDescription}>
-        <Typography variant="body1">
+        <Typography variant="h4">
             {meeting.details}
         </Typography>
       </Box>
@@ -152,16 +155,36 @@ const MeetingAnswers = ({meeting}) => {
     }
 
     return `${day}/${month}/${year} ${hour}:${minutes} ${amOrPm}`
-}
+  }
+
+  const getMeetingTime = () => {
+    if (!meeting || !meeting.date || meeting.date === "") {
+      return ""
+    } else return formatMeetingTime(meeting.date)
+  }
 
   const getAlertTime = () => {
-    // console.log("Meeting:", meeting)
-    // console.log("alerts:", meeting.alerts)
-    // console.log("0th alert:", meeting.alerts[0])
-    // console.log("Alert setting:", meeting.alerts[0].alertSetting)
     if (meeting && meeting.alerts && meeting.alerts[0] && meeting.alerts[0].alertSetting) {
-      return meeting.alerts[0].alertSetting
-    } else return ""
+      let setting = meeting.alerts[0].alertSetting
+      switch (setting) {
+        case "":
+          return "None"
+        case "300000":
+          return "5 minutes before"
+        case "900000":
+          return "15 minutes before"
+        case "1800000":
+          return "30 minutes before"
+        case "3600000":
+          return "1 hour before"
+        case "7200000":
+          return "2 hours before"
+        case "86400000":
+          return "1 day before"
+        default:
+          return "None"
+      }
+    } else return "None"
   } 
 
   const getLocation = () => {
@@ -175,7 +198,7 @@ const MeetingAnswers = ({meeting}) => {
     <Box>
       <Box className={classes.meetingAnswers}>
         <Typography variant="h3">
-          {formatMeetingTime(meeting.date)}
+          {getMeetingTime()}
         </Typography>
       </Box>
       
@@ -187,23 +210,9 @@ const MeetingAnswers = ({meeting}) => {
       </Box>
 
       <Box className={classes.meetingAnswers}>
-        <FormControl>
-          <Select 
-            label="Reminder" 
-            id="select" 
-            labelId="open-select-label" 
-            value={getAlertTime()}
-            displayEmpty
-          >
-            <MenuItem value="">None</MenuItem>
-            <MenuItem value={300000}>5 minutes before</MenuItem> 
-            <MenuItem value={900000}>15 minutes before</MenuItem>
-            <MenuItem value={1800000}>30 minutes before</MenuItem>
-            <MenuItem value={3600000}>1 hour before</MenuItem>
-            <MenuItem value={7200000}>2 hours before</MenuItem>
-            <MenuItem value={86400000}>1 day before</MenuItem>
-          </Select>
-        </FormControl>          
+        <Typography variant="h3">
+          {getAlertTime()}
+        </Typography>         
       </Box>
     </Box>
   )
@@ -244,10 +253,40 @@ const ParticipantsAndTopics = ({meeting, people}) => {
     
   }
 
-  const getAgenda = () => {
-    if (!meeting || !meeting.agenda) {
-      return []
-    } else return meeting.agenda
+  const formatParticipantList = () => {
+    let participants = getParticipantList()
+    // if there are no participants, display [none specified]
+    if (participants.length === 0) {
+      return (
+        <Typography variant="h3" className={classes.listItems}>
+          [None Specified]
+        </Typography>
+      )
+    } else return (
+      participants.map(item => (
+        <Link to={"/PeopleInformation/" + item._id} className={classes.participantLink}>
+          <Typography variant="h3" className={classes.listItems}>
+            {item.first_name + " " + item.last_name}
+          </Typography>
+        </Link>
+      ))
+    )
+  }
+
+  const formatAgenda = () => {
+    if (!meeting || !meeting.agenda || meeting.agenda.length === 0) {
+      return (
+        <Typography variant="h3" className={classes.listItems}>
+          [None Specified]
+        </Typography>
+      )
+    } else return (
+      meeting.agenda.map(item => (
+        <Typography variant="h3" className={classes.listItems}>
+          {item}
+        </Typography>
+      ))
+    )
   }
 
   const classes = useStyles();
@@ -260,25 +299,8 @@ const ParticipantsAndTopics = ({meeting, people}) => {
         </Typography>
       </Box>
       
-      {getParticipantList().map(item => (
-        <Typography variant="h3" className={classes.listItems}>
-          {item.first_name + " " + item.last_name}
-          <IconButton edge="end" aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        </Typography>
-      ))}
+      {formatParticipantList()}
 
-      {/* TODO make this searchable (as in create meeting) */}
-      <Box>
-        <Box>
-          <TextField className={classes.listItems}
-            hiddenLabel
-            id="participants"
-            placeholder="+ add participant"
-          />
-        </Box>
-      </Box>
 
       <Box className={classes.meetingQuestions}>
         <Typography variant="h3" className={classes.bold}>
@@ -286,25 +308,8 @@ const ParticipantsAndTopics = ({meeting, people}) => {
         </Typography>
       </Box>
 
-
-
       <Box>
-        {getAgenda().map(item => (
-          <Typography variant="h3" className={classes.listItems}>
-            {item}
-            <IconButton edge="end" aria-label="delete">
-              <DeleteIcon />
-            </IconButton>
-          </Typography>
-        ))}
-        
-        <Box>
-          <TextField className={classes.listItems}
-            hiddenLabel
-            id="participants"
-            placeholder="+ add topic"
-          />
-        </Box>
+        {formatAgenda()}
       </Box>
 
       < br/>

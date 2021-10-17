@@ -9,6 +9,8 @@ import AddButton from "@material-ui/icons/Add"
 import IconButton from '@material-ui/core/IconButton';
 import PageAppBar from "../components/PageAppBar";
 import { Link } from "react-router-dom";
+import meetingService from "../services/meetings"
+import React, { useState, useEffect } from 'react'
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -55,16 +57,78 @@ const useStyles = makeStyles({
     },
 });
 
-const MeetingListItem = () => {
+const MeetingListItem = ({meeting}) => {
+
+    const formatMeetingTime = (date) => {
+        let meetTime = new Date(date)
+        
+        let day = meetTime.getDate()
+        let month = meetTime.getMonth() + 1
+        let year = meetTime.getFullYear().toString().slice(2)
+    
+        let hour = meetTime.getHours()
+    
+        let minutes = meetTime.getMinutes()
+        // formatting for minutes
+        if (minutes <= 9) {
+            minutes = 0 + minutes.toString()
+        }
+        
+        let amOrPm = "AM"
+        // formatting for am or pm
+        if (hour === 12) {
+            // midday
+            amOrPm = "PM"
+        } else if (hour === 0) {
+            // midnight
+            hour = 12
+        } else if (hour > 12) {
+            // after midday
+            hour -= 12
+            amOrPm = "PM"
+        }
+    
+        return `${day}/${month}/${year} ${hour}:${minutes} ${amOrPm}`
+    }
+
+    // determine when the reminder is
+    const getAlertSetting = () => {
+        if (meeting && meeting.alerts && meeting.alerts[0] && meeting.alerts[0].alertSetting) {
+            let setting = meeting.alerts[0].alertSetting
+            switch (setting) {
+            case "":
+                return "None"
+            case "300000":
+                return "5 minutes before"
+            case "900000":
+                return "15 minutes before"
+            case "1800000":
+                return "30 minutes before"
+            case "3600000":
+                return "1 hour before"
+            case "7200000":
+                return "2 hours before"
+            case "86400000":
+                return "1 day before"
+            default:
+                return "None"
+            }
+        } else return ""
+    } 
+
+    const redirectToInfo = () => {
+        window.location.href = "/MeetingInformation/" + meeting._id
+    }
+
     const classes = useStyles();
     return (
         <Box>
             
-            <Button className={classes.meetingButton} fullWidth={true}>
+            <Button className={classes.meetingButton} fullWidth={true} onClick={redirectToInfo}>
                 <Grid container justify="space-between">  
                     <div>
-                        <Typography variant="h6" className={classes.listedMeetingTime}> 10/10/21 3:00 PM </Typography>
-                        <Typography variant="h4" className={classes.listedMeetingTitle}> Meeting name </Typography>
+                        <Typography variant="h6" className={classes.listedMeetingTime}> {formatMeetingTime(meeting.date)} <br></br> Reminder {getAlertSetting()} </Typography>
+                        <Typography variant="h4" className={classes.listedMeetingTitle}> {meeting.title} </Typography>
                     </div>
                 </Grid>
             </Button>
@@ -74,15 +138,32 @@ const MeetingListItem = () => {
     )
 }
 
-const MeetingList = () => {
+const MeetingList = ({meetings}) => {
+
+    // functions for placing soonest meetings first & filtering
+    const getTimeOffset = (date) => {
+        let meetingTime = new Date(date)
+        let curTime = new Date()
+        return meetingTime - curTime
+    }
+    const sortFutureMeetings = (i, j) => {
+        return getTimeOffset(i.date) - getTimeOffset(j.date)
+    }
+    const isFutureMeeting = (date) => {
+        return getTimeOffset(date) > 0
+    }
+
     const classes = useStyles();
     return (
         <Grid container direction="column" style={{ padding: "20px 0 0 0"}}>
         <ul className={classes.meetingList}>
-            <li><MeetingListItem /></li>
-            <li><MeetingListItem /></li>
-            <li><MeetingListItem /></li>
-            <li><MeetingListItem /></li>
+            {meetings
+                .filter(item => isFutureMeeting(item.date) && item.alerts.length !== 0)
+                .sort(sortFutureMeetings)
+                .map(item => 
+                <li><MeetingListItem meeting={item}/></li>
+            )}
+
         </ul>
         </Grid>
     )
@@ -90,13 +171,31 @@ const MeetingList = () => {
 
 const RemindersPage = () => {
     const classes = useStyles();
+
+    // maintain list of meetings from the server
+    const [meetingList, setMeetingList] = useState([])
+
+    // retrieve the list of meetings
+    useEffect(() => {
+        meetingService
+            .getAll()
+            .then(response => {
+                // get the list of all meetings
+                setMeetingList(response.data)
+
+            })
+            .catch(error => {
+                console.log("Failed to retrieve list of meetings from the server:", error)
+            })
+    }, [])
+
     return (
         <ThemeProvider theme={Theme}>
         <CssBaseline />
 
             <PageAppBar prevPage="/HomePage" tab="Reminders" type="Menu"/>
 
-            <MeetingList />
+            <MeetingList meetings={meetingList}/>
 
         </ThemeProvider>
     )
