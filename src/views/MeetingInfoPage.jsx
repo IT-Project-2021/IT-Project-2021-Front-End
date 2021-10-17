@@ -61,6 +61,9 @@ const useStyles = makeStyles({
       padding: "1vh 3vh 0vh",
       textAlign: "left",
     },
+    participantLink: {
+      color: palette.tertiary.main,
+    }
 });
 
 const MeetingDetails = ({meeting}) => {
@@ -161,12 +164,26 @@ const MeetingAnswers = ({meeting}) => {
   }
 
   const getAlertTime = () => {
-    // console.log("Meeting:", meeting)
-    // console.log("alerts:", meeting.alerts)
-    // console.log("0th alert:", meeting.alerts[0])
-    // console.log("Alert setting:", meeting.alerts[0].alertSetting)
     if (meeting && meeting.alerts && meeting.alerts[0] && meeting.alerts[0].alertSetting) {
-      return meeting.alerts[0].alertSetting
+      let setting = meeting.alerts[0].alertSetting
+      switch (setting) {
+        case "":
+          return "None"
+        case "300000":
+          return "5 minutes before"
+        case "900000":
+          return "15 minutes before"
+        case "1800000":
+          return "30 minutes before"
+        case "3600000":
+          return "1 hour before"
+        case "7200000":
+          return "2 hours before"
+        case "86400000":
+          return "1 day before"
+        default:
+          return "None"
+      }
     } else return ""
   } 
 
@@ -193,23 +210,9 @@ const MeetingAnswers = ({meeting}) => {
       </Box>
 
       <Box className={classes.meetingAnswers}>
-        <FormControl>
-          <Select 
-            label="Reminder" 
-            id="select" 
-            labelId="open-select-label" 
-            value={getAlertTime()}
-            displayEmpty
-          >
-            <MenuItem value="">None</MenuItem>
-            <MenuItem value={300000}>5 minutes before</MenuItem> 
-            <MenuItem value={900000}>15 minutes before</MenuItem>
-            <MenuItem value={1800000}>30 minutes before</MenuItem>
-            <MenuItem value={3600000}>1 hour before</MenuItem>
-            <MenuItem value={7200000}>2 hours before</MenuItem>
-            <MenuItem value={86400000}>1 day before</MenuItem>
-          </Select>
-        </FormControl>          
+        <Typography variant="h3">
+          {getAlertTime()}
+        </Typography>         
       </Box>
     </Box>
   )
@@ -267,24 +270,13 @@ const ParticipantsAndTopics = ({meeting, people}) => {
       </Box>
       
       {getParticipantList().map(item => (
-        <Typography variant="h3" className={classes.listItems}>
-          {item.first_name + " " + item.last_name}
-          <IconButton edge="end" aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        </Typography>
+        <Link to={"/PeopleInformation/" + item._id} className={classes.participantLink}>
+          <Typography variant="h3" className={classes.listItems}>
+            {item.first_name + " " + item.last_name}
+          </Typography>
+        </Link>
       ))}
 
-      {/* TODO make this searchable (as in create meeting) */}
-      <Box>
-        <Box>
-          <TextField className={classes.listItems}
-            hiddenLabel
-            id="participants"
-            placeholder="+ add participant"
-          />
-        </Box>
-      </Box>
 
       <Box className={classes.meetingQuestions}>
         <Typography variant="h3" className={classes.bold}>
@@ -292,25 +284,13 @@ const ParticipantsAndTopics = ({meeting, people}) => {
         </Typography>
       </Box>
 
-
-
       <Box>
         {getAgenda().map(item => (
           <Typography variant="h3" className={classes.listItems}>
             {item}
-            <IconButton edge="end" aria-label="delete">
-              <DeleteIcon />
-            </IconButton>
           </Typography>
         ))}
-        
-        <Box>
-          <TextField className={classes.listItems}
-            hiddenLabel
-            id="participants"
-            placeholder="+ add topic"
-          />
-        </Box>
+
       </Box>
 
       < br/>
