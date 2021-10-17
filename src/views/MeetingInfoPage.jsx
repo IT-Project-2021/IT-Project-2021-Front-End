@@ -154,6 +154,12 @@ const MeetingAnswers = ({meeting}) => {
     return `${day}/${month}/${year} ${hour}:${minutes} ${amOrPm}`
 }
 
+  const getMeetingTime = () => {
+    if (!meeting || !meeting.date || meeting.date === "") {
+      return ""
+    } else return formatMeetingTime(meeting.date)
+  }
+
   const getAlertTime = () => {
     // console.log("Meeting:", meeting)
     // console.log("alerts:", meeting.alerts)
@@ -175,7 +181,7 @@ const MeetingAnswers = ({meeting}) => {
     <Box>
       <Box className={classes.meetingAnswers}>
         <Typography variant="h3">
-          {formatMeetingTime(meeting.date)}
+          {getMeetingTime()}
         </Typography>
       </Box>
       
