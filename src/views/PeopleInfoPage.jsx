@@ -108,12 +108,14 @@ const PersonDetails = ({details}) => {
   )
 }
 
-const SetMeetingButton = () => {
+const SetMeetingButton = ({details}) => {
   const classes = useStyles();
   return (
-    <Button className={classes.editButton} variant="contained" type="submit" >
-      <Typography variant="button">Set Meeting</Typography>
-    </Button>
+    <Link to={'/CreateMeeting/participant/' + details._id} className={classes.editLink}>
+      <Button className={classes.editButton} variant="contained" type="submit" >
+        <Typography variant="button">Set Meeting</Typography>
+      </Button>
+    </Link>
   )
 }
 const EditDetailsButton = ({details}) => {
@@ -364,7 +366,7 @@ const PeopleInfoPage = () => {
           <PersonDetails details={contactInfo}/>
 
           <Box display="inline" px="20px">
-            <SetMeetingButton />
+            <SetMeetingButton details={contactInfo}/>
             <EditDetailsButton details={contactInfo}/>
           </Box>
 

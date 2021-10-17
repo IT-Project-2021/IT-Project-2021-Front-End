@@ -36,7 +36,8 @@ ReactDOM.render(
         <Route path="/Login" component={LoginPage} />
         <Route path="/Meetings" component={MeetingsPage} />
         <Route path="/MeetingInformation/:id" component={MeetingInfoPage} />
-        <Route path="/CreateMeeting" component={CreateMeetingPage} />
+        <Route exact path="/CreateMeeting" component={CreateMeetingPage} />
+        <Route exact path="/CreateMeeting/participant/:id" component={CreateMeetingPage} />
         <Route path="/Signup" component={SignupPage} />
         <Route path="/ForgotPassword" component={ForgotPasswordPage} />
         <Route path="/Profile" component={ProfilePage} />
