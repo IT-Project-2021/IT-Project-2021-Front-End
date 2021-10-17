@@ -155,7 +155,7 @@ const MeetingAnswers = ({meeting}) => {
     }
 
     return `${day}/${month}/${year} ${hour}:${minutes} ${amOrPm}`
-}
+  }
 
   const getMeetingTime = () => {
     if (!meeting || !meeting.date || meeting.date === "") {
@@ -184,7 +184,7 @@ const MeetingAnswers = ({meeting}) => {
         default:
           return "None"
       }
-    } else return ""
+    } else return "None"
   } 
 
   const getLocation = () => {
