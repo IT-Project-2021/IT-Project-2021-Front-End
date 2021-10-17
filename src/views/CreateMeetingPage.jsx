@@ -204,7 +204,6 @@ const MeetingAnswers = ({handleTimeChange, handleLocationChange, handleAlertSett
 
 const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAgenda, contacts, changeParticipants, origParticipants}) => {
 
-  console.log("orig participants:", origParticipants)
   const handleAgendaChange = (event) => {
 
     // update "agenda" with new item

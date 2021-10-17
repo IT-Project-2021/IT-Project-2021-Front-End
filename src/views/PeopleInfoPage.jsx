@@ -54,6 +54,9 @@ const useStyles = makeStyles({
       justifyContent: "flex-start",
       flexDirection: "column"
     },
+    noMeetingNote: {
+      padding: "0 0 10px 0"
+    }
 });
 
 const PersonDetails = ({details}) => {
@@ -263,6 +266,50 @@ const MeetingHistory = ({meetings}) => {
       return getTimeOffset(j.date) - getTimeOffset(i.date)
   }
 
+  const displayUpcomingMeetings = () => {
+    if (!meetings || !meetings.length || meetings.length === 0) {
+      return <Typography className={classes.noMeetingNote}>No upcoming meetings!</Typography>
+    } else {
+      let upcoming = meetings
+        .filter(item => isFutureMeeting(item.date))
+        .sort(sortFutureMeetings)
+        .map(item => 
+          <li key={item._id}>
+            <PastMeeting meeting={item} people={allPeople}/>
+          </li>
+        )
+      if (upcoming.length === 0) {
+        return <Typography className={classes.noMeetingNote}>No upcoming meetings!</Typography>
+      } else return (
+        <ul className={classes.meetingList}>
+          {upcoming}
+        </ul>
+      )
+    }
+  }
+
+  const displayPastMeetings = () => {
+    if (!meetings || !meetings.length || meetings.length === 0) {
+      return <Typography className={classes.noMeetingNote}>No past meetings!</Typography>
+    } else {
+      let past = meetings
+        .filter(item => !isFutureMeeting(item.date))
+        .sort(sortPastMeetings)
+        .map(item => 
+          <li key={item._id}>
+            <PastMeeting meeting={item} people={allPeople}/>
+          </li>
+        )
+      if (past.length === 0) {
+        return <Typography className={classes.noMeetingNote}>No past meetings!</Typography>
+      } else return (
+        <ul className={classes.meetingList}>
+          {past}
+        </ul>
+      )
+    }
+  }
+
   const classes = useStyles();
   return (
     <Box>
@@ -273,34 +320,16 @@ const MeetingHistory = ({meetings}) => {
         </Typography>
       </Box>
 
-      <ul className={classes.meetingList}>
-        {meetings
-            .filter(item => isFutureMeeting(item.date))
-            .sort(sortFutureMeetings)
-            .map(item => 
-              <li key={item._id}>
-                <PastMeeting meeting={item} people={allPeople}/>
-              </li>
-        )}
-      </ul>
+      {displayUpcomingMeetings()}
       
       <Box mt="40px">
         <Typography variant="h2" align="center">
           Past Meetings
         </Typography>
       </Box>
-
-      <ul className={classes.meetingList}>
-        {meetings
-            .filter(item => !isFutureMeeting(item.date))
-            .sort(sortPastMeetings)
-            .map(item => 
-              <li key={item._id}>
-                <PastMeeting meeting={item} people={allPeople}/>
-              </li>
-        )}
-      </ul>
-
+      
+      {displayPastMeetings()}
+      
     </Box>
   )
 }
