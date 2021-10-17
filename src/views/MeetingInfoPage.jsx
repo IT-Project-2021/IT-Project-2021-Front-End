@@ -253,10 +253,40 @@ const ParticipantsAndTopics = ({meeting, people}) => {
     
   }
 
-  const getAgenda = () => {
-    if (!meeting || !meeting.agenda) {
-      return []
-    } else return meeting.agenda
+  const formatParticipantList = () => {
+    let participants = getParticipantList()
+    // if there are no participants, display [none specified]
+    if (participants.length === 0) {
+      return (
+        <Typography variant="h3" className={classes.listItems}>
+          [None Specified]
+        </Typography>
+      )
+    } else return (
+      participants.map(item => (
+        <Link to={"/PeopleInformation/" + item._id} className={classes.participantLink}>
+          <Typography variant="h3" className={classes.listItems}>
+            {item.first_name + " " + item.last_name}
+          </Typography>
+        </Link>
+      ))
+    )
+  }
+
+  const formatAgenda = () => {
+    if (!meeting || !meeting.agenda || meeting.agenda.length === 0) {
+      return (
+        <Typography variant="h3" className={classes.listItems}>
+          [None Specified]
+        </Typography>
+      )
+    } else return (
+      meeting.agenda.map(item => (
+        <Typography variant="h3" className={classes.listItems}>
+          {item}
+        </Typography>
+      ))
+    )
   }
 
   const classes = useStyles();
@@ -269,13 +299,7 @@ const ParticipantsAndTopics = ({meeting, people}) => {
         </Typography>
       </Box>
       
-      {getParticipantList().map(item => (
-        <Link to={"/PeopleInformation/" + item._id} className={classes.participantLink}>
-          <Typography variant="h3" className={classes.listItems}>
-            {item.first_name + " " + item.last_name}
-          </Typography>
-        </Link>
-      ))}
+      {formatParticipantList()}
 
 
       <Box className={classes.meetingQuestions}>
@@ -285,12 +309,7 @@ const ParticipantsAndTopics = ({meeting, people}) => {
       </Box>
 
       <Box>
-        {getAgenda().map(item => (
-          <Typography variant="h3" className={classes.listItems}>
-            {item}
-          </Typography>
-        ))}
-
+        {formatAgenda()}
       </Box>
 
       < br/>
