@@ -73,7 +73,7 @@ const MeetingDetails = ({meeting}) => {
       </Box>
 
       <Box className={classes.meetingDescription}>
-        <Typography variant="body1">
+        <Typography variant="h4">
             {meeting.details}
         </Typography>
       </Box>
