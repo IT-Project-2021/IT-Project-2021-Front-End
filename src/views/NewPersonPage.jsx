@@ -49,9 +49,7 @@ const NewPersonPage = () => {
                 notes: notes,
             };
             //need to add token referende to post
-            await axios.post("/api/people", data, {
-                withCredentials: true,
-            })
+            await axios.post("https://it-project-2021-back-end.herokuapp.com/api/people", data);
 
         } catch (err) {
             console.error(err);

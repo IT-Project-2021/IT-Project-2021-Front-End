@@ -8,6 +8,7 @@ import PageAppBar from "../components/PageAppBar"
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useContext, useState } from "react";
 import axios from "axios";
+import Logged from "../auth/Logged";
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -34,6 +35,8 @@ const LoginPage = () => {
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const { getLoggedIn } = useContext(Logged);
+
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -44,10 +47,8 @@ const LoginPage = () => {
         password_hash: pass,
       };
 
-      await axios.post("/api/auth/login", data, {
-        withCredentials: true,
-      })
-
+      await axios.post("/api/auth/login", data);
+      await getLoggedIn();
     } catch (err) {
       console.error(err);
     }
