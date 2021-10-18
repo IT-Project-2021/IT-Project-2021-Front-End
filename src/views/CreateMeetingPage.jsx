@@ -277,14 +277,17 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
 
       <Box className={classes.listItems}>
         {agenda.map(item => 
+        <Box>
           <TextField
             hiddenLabel
             id={item.id}
             placeholder="+ add topic"
             onChange={handleAgendaChange}
             key={item.id}
-          />
+          /> <br></br>
+        </Box>
         )}
+        
       </Box>
 
     </Box>
