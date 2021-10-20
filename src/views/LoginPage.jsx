@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import Logged from "../auth/Logged";
+import authService from "../services/auth"
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -38,20 +39,42 @@ const LoginPage = () => {
   const { getLoggedIn } = useContext(Logged);
 
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+  // async function handleSubmit(e) {
+  //   e.preventDefault();
+  //   console.log("this function is being called")
 
-    try {
-      const data = {
-        email: email,
-        password_hash: pass,
-      };
+  //   try {
+  //     const data = {
+  //       email: email,
+  //       password_hash: pass,
+  //     };
 
-      await axios.post("/api/auth/login", data);
-      await getLoggedIn();
-    } catch (err) {
-      console.error(err);
+  //     console.log("Data in form:", data)
+
+  //     await axios.post("/api/auth/login", data);
+  //     await getLoggedIn();
+  //   } catch (err) {
+  //     console.log("there was an error:", err)
+  //     console.error(err);
+  //   }
+  // }
+
+  const handleSubmit = () => {
+    console.log("this function is being called")
+    const data = {
+      email: email,
+      password: pass
     }
+
+    console.log("Data in form:", data)
+    authService
+      .attemptLogin(data)
+      .then(response => {
+        console.log("RESPONSE DATA:", response.data)
+      })
+      .catch(err => {
+        console.log("ERROR:", err)
+      })
   }
 
   return (
@@ -77,11 +100,11 @@ const LoginPage = () => {
           </Box>
           <br />
           <Box className={classes.loginButton}>
-            <Link to="/HomePage" style={{ textDecoration: 'none' }}>
-              <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
+            {/* <Link to="/HomePage" style={{ textDecoration: 'none' }}> */}
+              <Button size="medium" onClick={handleSubmit} color="secondary" variant="outlined" style={{ border: '2px solid' }}>
                 <Typography variant="button" color="secondary">Login</Typography>
               </Button>
-            </Link>
+            {/* </Link> */}
           </Box>
 
         </form>
