@@ -7,7 +7,7 @@ import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 import AddButton from "@material-ui/icons/Add"
 import IconButton from '@material-ui/core/IconButton';
-import PageAppBar from "../components/PageAppBar"
+import PageAppBar from "../components/PageAppBar";
 import { Link } from "react-router-dom";
 import meetingService from "../services/meetings"
 import React, { useState, useEffect } from 'react'
@@ -17,7 +17,6 @@ const useStyles = makeStyles({
     meetingButton: {
       color: palette.tertiary.main,
       justifyContent: "flex-start",
-      flexDirection: "column",
     },
     divider: {
         background: palette.quarternary.main,
@@ -25,8 +24,6 @@ const useStyles = makeStyles({
     },
     meetingLink: {
         textDecoration: "none",
-        justifyContent: "flex-start",
-        flexDirection: "column"
     },
     listedMeetingTitle: {
         textTransform: "none",
@@ -60,9 +57,7 @@ const useStyles = makeStyles({
     },
 });
 
-const MeetingListItem = ({title, date, id}) => {
-    const classes = useStyles();
-
+const MeetingListItem = ({meeting}) => {
 
     const formatMeetingTime = (date) => {
         let meetTime = new Date(date)
@@ -70,9 +65,9 @@ const MeetingListItem = ({title, date, id}) => {
         let day = meetTime.getDate()
         let month = meetTime.getMonth() + 1
         let year = meetTime.getFullYear().toString().slice(2)
-
+    
         let hour = meetTime.getHours()
-
+    
         let minutes = meetTime.getMinutes()
         // formatting for minutes
         if (minutes <= 9) {
@@ -92,52 +87,93 @@ const MeetingListItem = ({title, date, id}) => {
             hour -= 12
             amOrPm = "PM"
         }
-
+    
         return `${day}/${month}/${year} ${hour}:${minutes} ${amOrPm}`
     }
 
-    const getLink = () => {
-        return "/MeetingInformation/" + id
+    // determine when the reminder is
+    const getAlertSetting = () => {
+        if (meeting && meeting.alerts && meeting.alerts[0] && meeting.alerts[0].alertSetting) {
+            let setting = meeting.alerts[0].alertSetting
+            switch (setting) {
+            case "":
+                return "None"
+            case "300000":
+                return "5 minutes before"
+            case "900000":
+                return "15 minutes before"
+            case "1800000":
+                return "30 minutes before"
+            case "3600000":
+                return "1 hour before"
+            case "7200000":
+                return "2 hours before"
+            case "86400000":
+                return "1 day before"
+            default:
+                return "None"
+            }
+        } else return ""
+    } 
+
+    const redirectToInfo = () => {
+        window.location.href = "/MeetingInformation/" + meeting._id
     }
 
+    const classes = useStyles();
     return (
         <Box>
-            <Link to={getLink()} className={classes.meetingLink} >
-                <Button className={classes.meetingButton} fullWidth={true} >
+            
+            <Button className={classes.meetingButton} fullWidth={true} onClick={redirectToInfo}>
+                <Grid container justify="space-between">  
                     <div>
-                        <Typography variant="h6" className={classes.listedMeetingTime}> {formatMeetingTime(date)} </Typography>
-                        <Typography variant="h4" className={classes.listedMeetingTitle}> {title} </Typography>
+                        <Typography variant="h6" className={classes.listedMeetingTime}> {formatMeetingTime(meeting.date)} <br></br> Reminder {getAlertSetting()} </Typography>
+                        <Typography variant="h4" className={classes.listedMeetingTitle}> {meeting.title} </Typography>
                     </div>
-                </Button>
-            </Link>
+                </Grid>
+            </Button>
+            
             <Divider className={classes.divider} />
         </Box>
     )
 }
 
-const MeetingsPage = () => {
+const MeetingList = ({meetings}) => {
 
-    // time the page was loaded
-    const curTime = new Date()
-
-    // maintain list of meetings from the server
-    const [meetingList, setMeetingList] = useState([])
-
-    // functions for determining when a meeting occurs
-    // future meetings have a timeOffset > 0. timeOffsets closer to 0 should appear nearer to the top of the list.
+    // functions for placing soonest meetings first & filtering
     const getTimeOffset = (date) => {
         let meetingTime = new Date(date)
+        let curTime = new Date()
         return meetingTime - curTime
-    }
-    const isFutureMeeting = (date) => {
-        return getTimeOffset(date) > 0
     }
     const sortFutureMeetings = (i, j) => {
         return getTimeOffset(i.date) - getTimeOffset(j.date)
     }
-    const sortPastMeetings = (i, j) => {
-        return getTimeOffset(j.date) - getTimeOffset(i.date)
+    const isFutureMeeting = (date) => {
+        return getTimeOffset(date) > 0
     }
+
+    const classes = useStyles();
+    return (
+        <Grid container direction="column" style={{ padding: "20px 0 0 0"}}>
+        <ul className={classes.meetingList}>
+            {meetings
+                .filter(item => isFutureMeeting(item.date) && item.alerts.length !== 0)
+                .sort(sortFutureMeetings)
+                .map(item => 
+                <li><MeetingListItem meeting={item}/></li>
+            )}
+
+        </ul>
+        </Grid>
+    )
+}
+
+const RemindersPage = () => {
+    const classes = useStyles();
+
+    // maintain list of meetings from the server
+    const [meetingList, setMeetingList] = useState([])
 
     // retrieve the list of meetings
     useEffect(() => {
@@ -153,63 +189,16 @@ const MeetingsPage = () => {
             })
     }, [])
 
-    const classes = useStyles();
     return (
         <ThemeProvider theme={Theme}>
         <CssBaseline />
 
-            <PageAppBar prevPage="/HomePage" tab="Meetings" type="Menu"/>
+            <PageAppBar prevPage="/HomePage" tab="Reminders" type="Menu"/>
 
-            <Typography variant="h2" className={classes.leftText} >Upcoming</Typography>
-
-            {/* List of future meetings  */}
-            <Grid container direction="column" style={{ padding: "20px 0 0 0"}}>
-            <ul className={classes.meetingList}>
-                {meetingList
-                    .filter(item => isFutureMeeting(item.date))
-                    .sort(sortFutureMeetings)
-                    .map(item => 
-                    <li key={item._id}>
-                        <MeetingListItem 
-                            title={item.title}
-                            date={item.date}
-                            id={item._id}
-                        />
-                    </li>
-                )}
-            </ul>
-            </Grid>
-
-            <Typography variant="h2" className={classes.leftText} >Past Meetings</Typography>
-
-            {/* List of past meetings  */}
-            <Grid container direction="column" style={{ padding: "20px 0 0 0"}}>
-            <ul className={classes.meetingList}>
-                {meetingList
-                    .filter(item => !isFutureMeeting(item.date))
-                    .sort(sortPastMeetings)
-                    .map(item => 
-                    <li key={item._id}>
-                        <MeetingListItem 
-                            title={item.title}
-                            date={item.date}
-                            id={item._id}
-                        />
-                    </li>
-                )}
-            </ul>
-            </Grid>
-
-            <Box className={classes.addButtonContainer} >
-              <Link to="/CreateMeeting" style={{ textDecoration: 'none' }}>
-                <IconButton aria-label="add" className={classes.addButton} >
-                    <AddButton fontSize="large"/>
-                </IconButton>
-              </Link>
-            </Box>
+            <MeetingList meetings={meetingList}/>
 
         </ThemeProvider>
     )
 }
 
-export default MeetingsPage
+export default RemindersPage

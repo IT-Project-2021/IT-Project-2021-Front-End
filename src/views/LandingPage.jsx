@@ -1,7 +1,5 @@
 
 import Theme from "../themes/landingTheme";
-
-//general components in use
 import PageTitle from "../components/PageTitle"
 
 import { ThemeProvider } from "@material-ui/styles";
