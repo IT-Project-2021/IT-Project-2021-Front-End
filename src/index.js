@@ -27,7 +27,7 @@ import EditPersonPage from './views/EditPersonPage'
 
 
 var hist = createBrowserHistory();
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 
 ReactDOM.render(
   <LogStatus>
