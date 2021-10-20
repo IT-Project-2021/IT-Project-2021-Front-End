@@ -74,6 +74,8 @@ const LoginPage = () => {
         console.log("RESPONSE DATA:", response.data)
         const cookies = new Cookies();
         cookies.set('token', response.data.token, {path: '/'})
+        console.log("Just set cookie:", cookies.get("token"))
+        window.location.href = "/HomePage"
       })
       .catch(err => {
         console.log("ERROR:", err)

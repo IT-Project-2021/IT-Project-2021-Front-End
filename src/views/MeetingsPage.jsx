@@ -11,6 +11,7 @@ import PageAppBar from "../components/PageAppBar"
 import { Link } from "react-router-dom";
 import meetingService from "../services/meetings"
 import React, { useState, useEffect } from 'react'
+import Cookies from 'universal-cookie'
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -116,6 +117,10 @@ const MeetingListItem = ({title, date, id}) => {
 }
 
 const MeetingsPage = () => {
+
+    // to get the auth token
+    const cookies = new Cookies()
+    console.log("Cookies (FROM MEETING PAGE):", cookies.getAll())
 
     // time the page was loaded
     const curTime = new Date()

@@ -6,8 +6,9 @@ import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
-
+import Cookies from 'universal-cookie'
 import { Link } from "react-router-dom";
+import authService from "../services/auth"
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -86,6 +87,21 @@ const OptionsBar = () => {
 }
 
 const HomePage = () => {
+
+    const cookies = new Cookies()
+    console.log("Cookies:", cookies.getAll())
+
+    // Test that a random number can be retrieved
+    authService
+        .getRandomNum(cookies.get("token"))
+        .then(response => {
+            console.log("Success:", response.data)
+        })
+        .catch(error => {
+            console.log("Failure:", error)
+        })
+
+
     return (
         <ThemeProvider theme={Theme}>
             <CssBaseline />
