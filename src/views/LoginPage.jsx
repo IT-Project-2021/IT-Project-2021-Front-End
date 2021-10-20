@@ -74,6 +74,13 @@ const LoginPage = () => {
       })
       .catch(err => {
         console.log("ERROR:", err)
+        console.log("data:", err.response)
+        if (err.response.data.errorMessage) {
+          alert(err.response.data.errorMessage)
+        } else {
+          alert("Something went wrong logging in. Please reload the page and try again!")
+        }
+        
       })
   }
 
