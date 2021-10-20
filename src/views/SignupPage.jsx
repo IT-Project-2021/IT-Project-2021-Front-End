@@ -48,22 +48,27 @@ const SignupPage = () => {
         setPassError(false);
         if (pass !== confirm) {
             setPassError(true);
+            alert("Passwords do not match.")
+        } else {
+            try {
+                const data = {
+                    first_name: first,
+                    last_name: last,
+                    email: email,
+                    password: pass,
+                };
+                const res = await axios.post("https://it-project-2021-back-end.herokuapp.com/api/users",
+                    data
+                );
+                console.log("response:", res.data)
+                window.location.href = "/Login"
+    
+            } catch (err) {
+                console.log(err.response.data)
+                alert(err.response.data.errorMessage)
+            }
         }
-        try {
-            const data = {
-                first_name: first,
-                last_name: last,
-                email: email,
-                password_hash: pass,
-            };
-            await axios.post("https://it-project-2021-back-end.herokuapp.com/api/users",
-                data
-            );
-            await getLoggedIn();
-
-        } catch (err) {
-            console.error(err);
-        }
+        
     }
 
     return (

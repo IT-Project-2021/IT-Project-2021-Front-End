@@ -81,7 +81,7 @@ const LoginPage = () => {
         console.log("ERROR:", err)
         console.log("data:", err.response)
         if (err.response.data.errorMessage) {
-          alert(err.response.data.errorMessage)
+          alert(err.response.data.errorMessage + " Please try again!")
         } else {
           alert("Something went wrong logging in. Please reload the page and try again!")
         }
@@ -123,6 +123,10 @@ const LoginPage = () => {
 
 
         <Box className={classes.forgotPassword} >
+          <Link to="/SignUp" style={{ textDecoration: 'none', fontSize: "16px", color: '#0353A4' }}>
+            Create an account
+          </Link>
+          <br></br>
           <Link to="/ForgotPassword" style={{ textDecoration: 'none', fontSize: "16px", color: '#0353A4' }}>
             Forgot your password?
           </Link>
