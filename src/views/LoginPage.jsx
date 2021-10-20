@@ -10,6 +10,7 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import Logged from "../auth/Logged";
 import authService from "../services/auth"
+import Cookies from 'universal-cookie'
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -71,6 +72,8 @@ const LoginPage = () => {
       .attemptLogin(data)
       .then(response => {
         console.log("RESPONSE DATA:", response.data)
+        const cookies = new Cookies();
+        cookies.set('token', response.data.token, {path: '/'})
       })
       .catch(err => {
         console.log("ERROR:", err)
