@@ -265,7 +265,7 @@ const ParticipantsAndTopics = ({meeting, people}) => {
     } else return (
       participants.map(item => (
         <Link to={"/PeopleInformation/" + item._id} className={classes.participantLink}>
-          <Typography variant="h3" className={classes.listItems}>
+          <Typography variant="h4" className={classes.listItems}>
             {item.first_name + " " + item.last_name}
           </Typography>
         </Link>
@@ -276,13 +276,13 @@ const ParticipantsAndTopics = ({meeting, people}) => {
   const formatAgenda = () => {
     if (!meeting || !meeting.agenda || meeting.agenda.length === 0) {
       return (
-        <Typography variant="h3" className={classes.listItems}>
+        <Typography variant="h4" className={classes.listItems}>
           [None Specified]
         </Typography>
       )
     } else return (
       meeting.agenda.map(item => (
-        <Typography variant="h3" className={classes.listItems}>
+        <Typography variant="h4" className={classes.listItems}>
           {item}
         </Typography>
       ))

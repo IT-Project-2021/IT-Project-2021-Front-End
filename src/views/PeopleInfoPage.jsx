@@ -30,7 +30,7 @@ const useStyles = makeStyles({
     },
     editButton: {
       color: palette.secondary.main,
-      backgroundColor: palette.primary.main,
+      backgroundColor: palette.quarternary.main,
       margin: "10px",
       textDecoration: "none"
     },

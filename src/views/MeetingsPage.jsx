@@ -160,7 +160,7 @@ const MeetingsPage = () => {
 
             <PageAppBar prevPage="/HomePage" tab="Meetings" type="Menu"/>
 
-            <Typography variant="h2" className={classes.leftText} >Upcoming</Typography>
+            <Typography variant="h2" className={classes.leftText} >Upcoming Meetings</Typography>
 
             {/* List of future meetings  */}
             <Grid container direction="column" style={{ padding: "20px 0 0 0"}}>

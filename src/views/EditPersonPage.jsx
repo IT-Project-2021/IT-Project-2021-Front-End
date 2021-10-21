@@ -19,6 +19,10 @@ const useStyles = makeStyles({
         color: palette.secondary.main,
         margin: "10vh 0vh 2vh",
     },
+    confirmButton: {        
+        color: palette.secondary.main,
+        backgroundColor: palette.quarternary.main,
+    },
     form: {
         color: palette.secondary.main,
         margin: "3vh 0vh 0vh 0vh",
@@ -62,7 +66,7 @@ const EditPersonPage = () => {
             setPhone(response.data.phone_num)
             setPosition(response.data.position)
             setNotes(response.data.notes)
-            setPageTitle("Editing " + response.data.first_name + " " + response.data.last_name + "'s details")
+            setPageTitle("Edit " + response.data.first_name + " " + response.data.last_name + "'s Details")
           })
           .catch(error => {
             console.log("Failed to retrieve person info from the server:", error)
@@ -138,7 +142,7 @@ const EditPersonPage = () => {
                     </Box>
 
                     <Box className={classes.confirm}>
-                        <Button onClick={submitUpdate} size="medium" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
+                        <Button onClick={submitUpdate} className={classes.confirmButton} variant="contained">
                             <Typography>Confirm</Typography>
                         </Button>
                     </Box>
