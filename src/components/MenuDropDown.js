@@ -6,7 +6,7 @@ import Box from "@material-ui/core/Box";
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu'
 import CloseIcon from '@material-ui/icons/Close';
-
+import Cookies from 'universal-cookie'
 import * as React from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
@@ -52,23 +52,30 @@ const useStyles = makeStyles({
 
 const BottomRow = () => {
 
-    const classes = useStyles();
-    return (
+  // remove authentication cookie from the browser
+    const logout = () => {
+      const cookies = new Cookies();
+      cookies.remove("token")
+      window.location.href = "/"
+  } 
 
-        <Box component="span" m={1} className={classes.optionsBar} >
-            <Link to="/Profile" style={{ textDecoration: 'none' }}>
-                <Button variant="text" className={classes.profileButton}> 
-                    <Typography variant="h4" className={classes.dropDownText}> Profile </Typography>
-                </Button>
-            </Link>
-            
-            <Link to="/" style={{ textDecoration: 'none' }}>
-                <Button variant="text" className={classes.logoutButton}> 
-                    <Typography variant="h4" className={classes.dropDownText}> Logout </Typography>
-                </Button>
-            </Link>   
-        </Box>
-    )
+  const classes = useStyles();
+  return (
+
+      <Box component="span" m={1} className={classes.optionsBar} >
+          <Link to="/Profile" style={{ textDecoration: 'none' }}>
+              <Button variant="text" className={classes.profileButton}> 
+                  <Typography variant="h4" className={classes.dropDownText}> Profile </Typography>
+              </Button>
+          </Link>
+          
+          <Link to="/" style={{ textDecoration: 'none' }}>
+              <Button variant="text" className={classes.logoutButton} onClick={logout}> 
+                  <Typography variant="h4" className={classes.dropDownText}> Logout </Typography>
+              </Button>
+          </Link>   
+      </Box>
+  )
 }
 
 export default function PositionedMenu() {
