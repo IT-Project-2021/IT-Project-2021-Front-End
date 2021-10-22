@@ -25,6 +25,11 @@ const useStyles = makeStyles({
         color: palette.primary.main,
         margin: "1vh 0vh 0vh",
     },
+    updateButton: {
+        fontSize: "medium",
+        color: palette.tertiary.main,
+        backgroundColor: palette.quarternary.main
+    },
     delete: {
         color: palette.secondary.main,
         margin: "1vh 0vh 1vh"
@@ -58,7 +63,7 @@ const ProfilePage = () => {
                 </form>
 
                 <Box className={classes.update}>
-                    <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
+                    <Button className={classes.updateButton} type="submit" variant="filled">
                         <Typography variant="button">Update</Typography>
                     </Button>
                 </Box>

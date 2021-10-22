@@ -19,10 +19,10 @@ const useStyles = makeStyles({
     minWidth: "400px",
   },
   loginButton: {
-    color: palette.primary.main,
+    fontSize: "medium",
+    backgroundColor: palette.quarternary.main,
     margin: "10vh 0vh 0vh",
-    width: "50vh",
-    minWidth: "400px"
+    minWidth: "10vh"
   },
   forgotPassword: {
     margin: "2vh 0vh",
@@ -56,10 +56,10 @@ const LoginPage = () => {
             <TextField label="Password" placeholder="Password" required type="password" variant="filled" fullWidth onChange={(e) => { setPass(e.target.value); }} />
           </Box>
           <br />
-          <Box className={classes.loginButton}>
+          <Box>
             <Link to="/HomePage" style={{ textDecoration: 'none' }}>
-              <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
-                <Typography variant="button" color="secondary">Login</Typography>
+              <Button className={classes.loginButton} size="medium" type="submit">
+                <Typography variant="button">Login</Typography>
               </Button>
             </Link>
           </Box>

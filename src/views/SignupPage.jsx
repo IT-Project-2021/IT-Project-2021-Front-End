@@ -6,6 +6,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from '@material-ui/core/styles';
 import PageAppBar from "../components/PageAppBar";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 
 const palette = Theme.palette
@@ -24,7 +25,12 @@ const useStyles = makeStyles({
         color: palette.primary.main,
         margin: "10vh 0vh 10vh 0vh",
         width: "50vh",
-        minWidth: "400px"
+    },
+    signUpButton: {
+        fontSize: "medium",
+        backgroundColor: palette.quarternary.main,
+        margin: "10vh 0vh 0vh",
+        minWidth: "10vh"
     },
 })
 
@@ -69,10 +75,12 @@ const SignupPage = () => {
                     </Box>
                     <br />
 
-                    <Box className={classes.signup}>
-                        <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
-                            <Typography variant="button" color="secondary">Sign up</Typography>
-                        </Button>
+                    <Box>
+                        <Link to="/HomePage" style={{ textDecoration: 'none' }}>
+                            <Button className={classes.signUpButton} size="medium" type="submit">
+                                <Typography variant="button" >Sign up</Typography>
+                            </Button>
+                        </Link>
                     </Box>
 
                 </form>
