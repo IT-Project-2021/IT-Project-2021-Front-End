@@ -5,16 +5,10 @@ import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from '@material-ui/core/styles';
 import PageAppBar from "../components/PageAppBar"
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FormControl from '@material-ui/core/FormControl';
 import { Link, useParams } from "react-router-dom"
 import React, { useState, useEffect } from 'react'
 import meetingService from '../services/meetings'
 import peopleService from "../services/people"
-import MeetingsPage from "./MeetingsPage";
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -29,10 +23,10 @@ const useStyles = makeStyles({
       textAlign: "left",
       padding: "3vh 2vh 0vh"
     },
-    editButtonContainer: {
+    buttonsContainer: {
       position: "fixed", 
       bottom: "0vh",
-      width: "95%",
+      width: "98%",
       justifyContent: "flex-end",
       display: "flex",
       padding: "4vh",        
@@ -41,6 +35,11 @@ const useStyles = makeStyles({
       fontSize: "medium",
       color: palette.tertiary.main,
       backgroundColor: palette.quarternary.main
+    },
+    deleteButton: {
+      fontSize: "medium",
+      margin: "0vh 1vh",
+      color: palette.alert.main,
     },
     row: {
       display: "flex",
@@ -90,6 +89,18 @@ const EditDetailsButton = () => {
     <Button className={classes.editButton} variant="contained" type="submit" >
       <Typography variant="button">Edit Details</Typography>
     </Button>
+  )
+}
+
+const DeleteButton = () => {
+  const classes = useStyles();
+
+  return (
+    <Box className={classes.deleteButton}>
+      <Button size="medium" type="submit" variant="outlined" style={{ color: '#FF7F7F', border: '2px solid' }} >
+        <Typography variant="alert">Delete</Typography>
+      </Button>
+    </Box>
   )
 }
 
@@ -373,9 +384,11 @@ const MeetingInfoPage = () => {
             </div>
           </div>
 
-          <Box className={classes.editButtonContainer} >
+          <Box className={classes.buttonsContainer} >
             <EditDetailsButton fontSize="large" className={classes.editButton}/>
+            <DeleteButton fontSize="large" className={classes.deleteButton}/>
           </Box>
+          
 
 
         </Grid>

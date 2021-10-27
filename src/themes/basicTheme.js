@@ -17,8 +17,11 @@ let Theme = createTheme({
             main: colours.beau_blue,
         },
         background: {
-            default: colours.white
-        }
+            default: colours.white,
+        },
+        alert: {
+            main: colours.light_red,
+        }        
     },
 
     typography: {
@@ -43,9 +46,14 @@ let Theme = createTheme({
             fontFamily: 'Reem Kufi',
             fontWeight: '350',
             fontSize: '1rem',
-            color: colours.dark_blue
+            color: colours.dark_blue,
         },
-
+        alert: {
+            fontFamily: 'Reem Kufi',
+            fontWeight: '350',
+            fontSize: '1rem',
+            color: colours.alert,
+        }
     }
 });
 
