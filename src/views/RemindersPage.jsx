@@ -17,6 +17,7 @@ const useStyles = makeStyles({
     meetingButton: {
       color: palette.tertiary.main,
       justifyContent: "flex-start",
+      minWidth: "80vw"
     },
     divider: {
         background: palette.quarternary.main,
@@ -28,6 +29,7 @@ const useStyles = makeStyles({
     listedMeetingTitle: {
         textTransform: "none",
         padding: "22px 20px 25px 15px",
+        margin: "0px 5vw"
     },
     listedMeetingTime: {
         textTransform: "none",
@@ -55,7 +57,26 @@ const useStyles = makeStyles({
         textAlign: "left",
         padding: "30px 00px 0px 33px"
     },
+    deleteButton: {
+      fontSize: "medium",
+      margin: "0vh 1vh",
+      color: palette.alert.main,
+    },
+    buttonsContainer: {
+      margin: "2vh 0vh 0vh",        
+    },
 });
+
+const DeleteButton = () => {
+    const classes = useStyles();  
+    return (
+      <Box className={classes.deleteButton}>
+        <Button size="medium" type="submit" variant="outlined" style={{ color: '#FF7F7F', border: '2px solid' }} >
+          <Typography variant="alert">Delete</Typography>
+        </Button>
+      </Box>
+    )
+  }
 
 const MeetingListItem = ({meeting}) => {
 
@@ -123,17 +144,24 @@ const MeetingListItem = ({meeting}) => {
     const classes = useStyles();
     return (
         <Box>
-            
-            <Button className={classes.meetingButton} fullWidth={true} onClick={redirectToInfo}>
-                <Grid container justify="space-between">  
-                    <div>
+            <Grid container>
+
+                <Grid>
+                    <Button className={classes.meetingButton} fullWidth={true} onClick={redirectToInfo}>                
+                        
                         <Typography variant="h6" className={classes.listedMeetingTime}> {formatMeetingTime(meeting.date)} <br></br> Reminder {getAlertSetting()} </Typography>
                         <Typography variant="h4" className={classes.listedMeetingTitle}> {meeting.title} </Typography>
-                    </div>
+                    
+                    </Button>
                 </Grid>
-            </Button>
+
+                <Box className={classes.buttonsContainer}>
+                    <DeleteButton fontSize="large" className={classes.deleteButton}/>
+                </Box>
             
-            <Divider className={classes.divider} />
+                
+                <Divider className={classes.divider} />
+            </Grid>
         </Box>
     )
 }
