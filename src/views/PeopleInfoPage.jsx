@@ -1,4 +1,3 @@
-
 import Theme from "../themes/basicTheme";
 import { useParams } from "react-router-dom"
 import { ThemeProvider } from "@material-ui/styles";
@@ -56,8 +55,31 @@ const useStyles = makeStyles({
     },
     noMeetingNote: {
       padding: "0 0 10px 0"
-    }
+    },
+    deleteButton: {
+      fontSize: "large",
+      backgroundColor: palette.primary.main
+    },
+    deleteButtonContainer: {
+      position: "fixed", 
+      bottom: 0,
+      width: "100%",
+      justifyContent: "flex-end",
+      display: "flex",
+      padding: "4em",
+  },
 });
+
+const DeleteButton = () => {
+  const classes = useStyles();
+  return (
+    <Box className={classes.deleteButton}>
+      <Button size="medium" type="submit" variant="outlined" style={{ color: '#FF7F7F', border: '2px solid' }} >
+        <Typography variant="alert">Delete</Typography>
+      </Button>
+    </Box>
+  )
+}
 
 const PersonDetails = ({details}) => {
 
@@ -335,6 +357,7 @@ const MeetingHistory = ({meetings}) => {
 }
 
 const PeopleInfoPage = () => {
+  const classes = useStyles();
 
   // Page will display dummy info before it has loaded properly
   const dummyInfo = {
@@ -403,6 +426,10 @@ const PeopleInfoPage = () => {
 
 
         </Grid>
+
+        <Box className={classes.deleteButtonContainer} >    
+          <DeleteButton fontSize="large" className={classes.deleteButton}/>
+        </Box>
 
     </ThemeProvider>
 )};
