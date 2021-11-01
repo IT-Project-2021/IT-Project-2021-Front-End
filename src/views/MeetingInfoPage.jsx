@@ -12,60 +12,60 @@ import peopleService from "../services/people"
 
 const palette = Theme.palette
 const useStyles = makeStyles({
-    contactDetails: {
-      color: palette.tertiary.main,
-    },
-    meetingDescription: {
-      padding: "3vh 3vh 0vh",
-      textAlign: "left",
-    },
-    meetingDetails: {
-      textAlign: "left",
-      padding: "3vh 2vh 0vh"
-    },
-    buttonsContainer: {
-      position: "fixed", 
-      bottom: "0vh",
-      width: "98%",
-      justifyContent: "flex-end",
-      display: "flex",
-      padding: "4vh",        
-    },
-    editButton: {
-      fontSize: "medium",
-      color: palette.tertiary.main,
-      backgroundColor: palette.quarternary.main
-    },
-    deleteButton: {
-      fontSize: "medium",
-      margin: "0vh 1vh",
-      color: palette.alert.main,
-    },
-    row: {
-      display: "flex",
-      flexDirection: "row",
-    },
-    meetingQuestions: {
-      textAlign: "left",
-      padding: "3vh 1vh 0vh",
-    },
-    meetingAnswers: {
-      padding: "3vh 1vh 0vh",
-      textAlign: "left",
-    },
-    bold: {
-      fontWeight: 600
-    },
-    listItems: {
-      padding: "1vh 3vh 0vh",
-      textAlign: "left",
-    },
-    participantLink: {
-      color: palette.tertiary.main,
-    }
+  contactDetails: {
+    color: palette.tertiary.main,
+  },
+  meetingDescription: {
+    padding: "3vh 3vh 0vh",
+    textAlign: "left",
+  },
+  meetingDetails: {
+    textAlign: "left",
+    padding: "3vh 2vh 0vh"
+  },
+  buttonsContainer: {
+    position: "fixed",
+    bottom: "0vh",
+    width: "98%",
+    justifyContent: "flex-end",
+    display: "flex",
+    padding: "4vh",
+  },
+  editButton: {
+    fontSize: "medium",
+    color: palette.tertiary.main,
+    backgroundColor: palette.quarternary.main
+  },
+  deleteButton: {
+    fontSize: "medium",
+    margin: "0vh 1vh",
+    color: palette.alert.main,
+  },
+  row: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  meetingQuestions: {
+    textAlign: "left",
+    padding: "3vh 1vh 0vh",
+  },
+  meetingAnswers: {
+    padding: "3vh 1vh 0vh",
+    textAlign: "left",
+  },
+  bold: {
+    fontWeight: 600
+  },
+  listItems: {
+    padding: "1vh 3vh 0vh",
+    textAlign: "left",
+  },
+  participantLink: {
+    color: palette.tertiary.main,
+  }
 });
 
-const MeetingDetails = ({meeting}) => {
+const MeetingDetails = ({ meeting }) => {
 
   const classes = useStyles();
   return (
@@ -76,7 +76,7 @@ const MeetingDetails = ({meeting}) => {
 
       <Box className={classes.meetingDescription}>
         <Typography variant="h4">
-            {meeting.details}
+          {meeting.details}
         </Typography>
       </Box>
     </Box>
@@ -92,53 +92,41 @@ const EditDetailsButton = () => {
   )
 }
 
-const DeleteButton = () => {
-  const classes = useStyles();
-
-  return (
-    <Box className={classes.deleteButton}>
-      <Button size="medium" type="submit" variant="outlined" style={{ color: '#FF7F7F', border: '2px solid' }} >
-        <Typography variant="alert">Delete</Typography>
-      </Button>
-    </Box>
-  )
-}
-
 const MeetingQuestions = () => {
-  
+
   const classes = useStyles();
   return (
-      
-    <Box > 
+
+    <Box >
       <Box className={classes.meetingQuestions}>
         <Typography variant="h3" className={classes.bold}>
-          Date/Time: 
+          Date/Time:
         </Typography>
       </Box>
-      
+
       <Box className={classes.meetingQuestions}>
         <Typography variant="h3" className={classes.bold}>
           Location:
         </Typography>
       </Box>
-      
+
       <Box className={classes.meetingQuestions}>
         <Typography variant="h3" className={classes.bold}>
           Reminder:
         </Typography>
       </Box>
 
-      
+
     </Box>
   )
 };
 
-const MeetingAnswers = ({meeting}) => {
+const MeetingAnswers = ({ meeting }) => {
   const [reminder] = React.useState('');
 
   const formatMeetingTime = (date) => {
     let meetTime = new Date(date)
-    
+
     let day = meetTime.getDate()
     let month = meetTime.getMonth() + 1
     let year = meetTime.getFullYear().toString().slice(2)
@@ -148,21 +136,21 @@ const MeetingAnswers = ({meeting}) => {
     let minutes = meetTime.getMinutes()
     // formatting for minutes
     if (minutes <= 9) {
-        minutes = 0 + minutes.toString()
+      minutes = 0 + minutes.toString()
     }
-    
+
     let amOrPm = "AM"
     // formatting for am or pm
     if (hour === 12) {
-        // midday
-        amOrPm = "PM"
+      // midday
+      amOrPm = "PM"
     } else if (hour === 0) {
-        // midnight
-        hour = 12
+      // midnight
+      hour = 12
     } else if (hour > 12) {
-        // after midday
-        hour -= 12
-        amOrPm = "PM"
+      // after midday
+      hour -= 12
+      amOrPm = "PM"
     }
 
     return `${day}/${month}/${year} ${hour}:${minutes} ${amOrPm}`
@@ -196,7 +184,7 @@ const MeetingAnswers = ({meeting}) => {
           return "None"
       }
     } else return "None"
-  } 
+  }
 
   const getLocation = () => {
     if (meeting.location === "") {
@@ -212,7 +200,7 @@ const MeetingAnswers = ({meeting}) => {
           {getMeetingTime()}
         </Typography>
       </Box>
-      
+
 
       <Box className={classes.meetingAnswers}>
         <Typography variant="h3">
@@ -223,13 +211,13 @@ const MeetingAnswers = ({meeting}) => {
       <Box className={classes.meetingAnswers}>
         <Typography variant="h3">
           {getAlertTime()}
-        </Typography>         
+        </Typography>
       </Box>
     </Box>
   )
 }
 
-const ParticipantsAndTopics = ({meeting, people}) => {
+const ParticipantsAndTopics = ({ meeting, people }) => {
 
   // extract contact name
   const getName = (participant) => {
@@ -251,7 +239,7 @@ const ParticipantsAndTopics = ({meeting, people}) => {
     } else {
       // extract participant names from previous database call
       // if a participant code cannot be resolved (e.g. because the entry was deleted from the database), omit it
-      for (let i=0; i<meeting.participants.length; i++) {
+      for (let i = 0; i < meeting.participants.length; i++) {
         let nextItem = people.find((person) => person._id === meeting.participants[i])
         if (nextItem) {
           participantObjects.push(nextItem)
@@ -261,7 +249,7 @@ const ParticipantsAndTopics = ({meeting, people}) => {
       return participantObjects
     }
 
-    
+
   }
 
   const formatParticipantList = () => {
@@ -302,14 +290,14 @@ const ParticipantsAndTopics = ({meeting, people}) => {
 
   const classes = useStyles();
   return (
-    
+
     <Box>
-      <Box className={classes.meetingQuestions}> 
+      <Box className={classes.meetingQuestions}>
         <Typography variant="h3" className={classes.bold}>
           Participants
         </Typography>
       </Box>
-      
+
       {formatParticipantList()}
 
 
@@ -323,7 +311,7 @@ const ParticipantsAndTopics = ({meeting, people}) => {
         {formatAgenda()}
       </Box>
 
-      < br/>
+      < br />
 
     </Box>
   )
@@ -332,7 +320,7 @@ const ParticipantsAndTopics = ({meeting, people}) => {
 const MeetingInfoPage = () => {
 
   // retrieve meeting information from database
-  let {id} = useParams();
+  let { id } = useParams();
   const [meetingInfo, setMeetingInfo] = useState({})
   useEffect(() => {
     meetingService
@@ -357,43 +345,70 @@ const MeetingInfoPage = () => {
   }, [])
   console.log("All people:", allPeople)
 
+  const DeleteButton = () => {
+    const classes = useStyles();
+
+    return (
+      <Box className={classes.deleteButton}>
+        <Button onClick={deleteMeeting} size="medium" type="submit" variant="outlined" style={{ color: '#FF7F7F', border: '2px solid' }} >
+          <Typography variant="alert">Delete</Typography>
+        </Button>
+      </Box>
+    )
+  }
+
+
+  const deleteMeeting = () => {
+
+    meetingService
+      .remove(id, meetingInfo)
+      .then(response => {
+        console.log("Removed:", response.data)
+        window.location.href = "/Meetings"
+      })
+      .catch(error => {
+        console.log("Error submitting: ", error)
+      })
+  }
+
   const classes = useStyles();
 
   return (
     <ThemeProvider theme={Theme}>
       <CssBaseline />
 
-      <PageAppBar prevPage="/Meetings" tab="Meetings" type="Back"/>
+      <PageAppBar prevPage="/Meetings" tab="Meetings" type="Back" />
 
-        <Grid container direction="column" justifyContent="center" style={{ minHeight: "70vh" }}>
-          
-          <MeetingDetails meeting={meetingInfo}/>
+      <Grid container direction="column" justifyContent="center" style={{ minHeight: "70vh" }}>
 
-          <div className={classes.row}>
-            <div className={classes.meetingQuestions}>
-              <MeetingQuestions />
-            </div>
-            <div className={classes.meetingAnswers}>
-              <MeetingAnswers meeting={meetingInfo}/>
-            </div>
+        <MeetingDetails meeting={meetingInfo} />
+
+        <div className={classes.row}>
+          <div className={classes.meetingQuestions}>
+            <MeetingQuestions />
           </div>
-
-          <div className={classes.row}>
-            <div className={classes.meetingQuestions}>
-              <ParticipantsAndTopics meeting={meetingInfo} people={allPeople}/>
-            </div>
+          <div className={classes.meetingAnswers}>
+            <MeetingAnswers meeting={meetingInfo} />
           </div>
+        </div>
 
-          <Box className={classes.buttonsContainer} >
-            <EditDetailsButton fontSize="large" className={classes.editButton}/>
-            <DeleteButton fontSize="large" className={classes.deleteButton}/>
-          </Box>
-          
+        <div className={classes.row}>
+          <div className={classes.meetingQuestions}>
+            <ParticipantsAndTopics meeting={meetingInfo} people={allPeople} />
+          </div>
+        </div>
+
+        <Box className={classes.buttonsContainer} >
+          <EditDetailsButton fontSize="large" className={classes.editButton} />
+          <DeleteButton fontSize="large" className={classes.deleteButton} />
+        </Box>
 
 
-        </Grid>
+
+      </Grid>
 
     </ThemeProvider>
-)};
+  )
+};
 
 export default MeetingInfoPage;
