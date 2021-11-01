@@ -19,6 +19,10 @@ const useStyles = makeStyles({
         color: palette.secondary.main,
         margin: "10vh 0vh 2vh",
     },
+    confirmButton: {
+        color: palette.secondary.main,
+        backgroundColor: palette.quarternary.main,
+    },
     form: {
         color: palette.secondary.main,
         margin: "3vh 0vh 0vh 0vh",
@@ -37,7 +41,7 @@ const EditPersonPage = () => {
     }
 
     // info to load from backend
-    let {id} = useParams();
+    let { id } = useParams();
     const classes = useStyles();
     const [first, setFirst] = useState("");
     const [last, setLast] = useState("");
@@ -51,23 +55,23 @@ const EditPersonPage = () => {
 
     useEffect(() => {
         peopleService
-          .getByID(id)
-          .then(response => {
-            setContactInfo(response.data)
-            console.log("Contact info recieved:", response.data)
-            setFirst(response.data.first_name)
-            setLast(response.data.last_name)
-            setEmail(response.data.email)
-            setCompany(response.data.company)
-            setPhone(response.data.phone_num)
-            setPosition(response.data.position)
-            setNotes(response.data.notes)
-            setPageTitle("Editing " + response.data.first_name + " " + response.data.last_name + "'s details")
-          })
-          .catch(error => {
-            console.log("Failed to retrieve person info from the server:", error)
-          })
-      }, [id])
+            .getByID(id)
+            .then(response => {
+                setContactInfo(response.data)
+                console.log("Contact info recieved:", response.data)
+                setFirst(response.data.first_name)
+                setLast(response.data.last_name)
+                setEmail(response.data.email)
+                setCompany(response.data.company)
+                setPhone(response.data.phone_num)
+                setPosition(response.data.position)
+                setNotes(response.data.notes)
+                setPageTitle("Edit " + response.data.first_name + " " + response.data.last_name + "'s Details")
+            })
+            .catch(error => {
+                console.log("Failed to retrieve person info from the server:", error)
+            })
+    }, [id])
 
     // update the contact
     const submitUpdate = () => {
@@ -96,7 +100,7 @@ const EditPersonPage = () => {
         <ThemeProvider theme={Theme}>
             <CssBaseline />
 
-            <PageAppBar prevPage="/People" tab="People" type="Back"/>
+            <PageAppBar prevPage="/People" tab="People" type="Back" />
 
             <Grid container direction="column" justifyContent="center" style={{ minHeight: "90vh" }}>
                 <Box className={classes.title}>
@@ -108,8 +112,8 @@ const EditPersonPage = () => {
                 <form>
                     <Box>
                         <Box component="span" margin="5px">
-                            <TextField 
-                                value={first} label="First Name" placeholder="First Name" required variant="filled" onChange={(e) => { setFirst(e.target.value); }} 
+                            <TextField
+                                value={first} label="First Name" placeholder="First Name" required variant="filled" onChange={(e) => { setFirst(e.target.value); }}
                             />
                         </Box>
                         <Box component="span" margin="5px">
@@ -138,7 +142,7 @@ const EditPersonPage = () => {
                     </Box>
 
                     <Box className={classes.confirm}>
-                        <Button onClick={submitUpdate} size="medium" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
+                        <Button onClick={submitUpdate} className={classes.confirmButton} variant="contained">
                             <Typography>Confirm</Typography>
                         </Button>
                     </Box>
