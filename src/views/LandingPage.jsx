@@ -1,14 +1,14 @@
 
 import Theme from "../themes/landingTheme";
 import PageTitle from "../components/PageTitle"
-
 import { ThemeProvider } from "@material-ui/styles";
 import { Typography, Button, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from '@material-ui/core/styles';
-
 import { Link } from "react-router-dom";
+import Cookies from 'universal-cookie'
+import React, { useState, useEffect } from 'react'
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -51,6 +51,12 @@ const SignUpButton = () => {
 }
 
 const LandingPage = () => {
+
+  // Redirect to the homepage if the user is already logged in
+  const cookies = new Cookies();
+  if (cookies.get("token")) {
+    window.location.href = "/HomePage"
+  }
 
   return (
     <ThemeProvider theme={Theme}>
