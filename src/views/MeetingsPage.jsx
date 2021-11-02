@@ -118,10 +118,6 @@ const MeetingListItem = ({title, date, id}) => {
 
 const MeetingsPage = () => {
 
-    // to get the auth token
-    const cookies = new Cookies()
-    console.log("Cookies (FROM MEETING PAGE):", cookies.getAll())
-
     // time the page was loaded
     const curTime = new Date()
 
@@ -146,15 +142,20 @@ const MeetingsPage = () => {
 
     // retrieve the list of meetings
     useEffect(() => {
+        const cookies = new Cookies()
+        console.log("Cookies (FROM USE EFFECT):", cookies.getAll())
         meetingService
-            .getAll()
+            .getAll(cookies.get("token"))
             .then(response => {
                 // get the list of all meetings
                 setMeetingList(response.data)
 
             })
             .catch(error => {
-                console.log("Failed to retrieve list of meetings from the server:", error)
+                console.log("Failed to retrieve list of meetings from the server:", error.name)
+                if (error.response && error.response.status && (error.response.status === 401)) {
+                    window.location.href = "/login"
+                }
             })
     }, [])
 

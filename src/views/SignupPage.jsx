@@ -5,7 +5,6 @@ import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from '@material-ui/core/styles';
 import PageAppBar from "../components/PageAppBar"
-import Logged from "../auth/Logged";
 import axios from "axios";
 import React, { useContext, useState } from "react";
 
@@ -39,9 +38,7 @@ const SignupPage = () => {
     const [pass, setPass] = useState("");
     const [confirm, setConfirm] = useState("");
     const [passwordError, setPassError] = useState(false);
-    const { getLoggedIn } = useContext(Logged);
 
-    //const { getLoggedIn } = useContext(AuthContext);
 
     async function handleSubmit(e) {
         e.preventDefault();

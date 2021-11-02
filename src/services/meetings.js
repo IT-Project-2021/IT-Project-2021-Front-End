@@ -1,10 +1,14 @@
 import axios from 'axios'
+import Cookies from 'universal-cookie'
 
-const baseUrl = 'https://it-project-2021-back-end.herokuapp.com/api/meetings'
+// TODO change back
+// const baseUrl = 'https://it-project-2021-back-end.herokuapp.com/api/meetings'
+const baseUrl = 'http://localhost:4040/api/meetings'
 
 // get all meetings in the database
-const getAll = () => {
-    return axios.get(baseUrl)
+const getAll = (token) => {
+    let authToken = `Bearer ${token}`
+    return axios.get(baseUrl, {headers: {'Authorization': authToken}})
 }
 
 // get one meeting object via ObjectID

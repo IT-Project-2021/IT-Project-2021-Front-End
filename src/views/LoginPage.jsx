@@ -7,8 +7,6 @@ import { Link } from "react-router-dom";
 import PageAppBar from "../components/PageAppBar"
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useContext, useState } from "react";
-import axios from "axios";
-import Logged from "../auth/Logged";
 import authService from "../services/auth"
 import Cookies from 'universal-cookie'
 
@@ -37,28 +35,6 @@ const LoginPage = () => {
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-  const { getLoggedIn } = useContext(Logged);
-
-
-  // async function handleSubmit(e) {
-  //   e.preventDefault();
-  //   console.log("this function is being called")
-
-  //   try {
-  //     const data = {
-  //       email: email,
-  //       password_hash: pass,
-  //     };
-
-  //     console.log("Data in form:", data)
-
-  //     await axios.post("/api/auth/login", data);
-  //     await getLoggedIn();
-  //   } catch (err) {
-  //     console.log("there was an error:", err)
-  //     console.error(err);
-  //   }
-  // }
 
   const handleSubmit = () => {
     console.log("this function is being called")
