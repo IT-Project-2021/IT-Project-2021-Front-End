@@ -16,7 +16,7 @@ const getByID = (id) => {
 
 // create a new meeting
 const create = (newMeeting) => {
-  return axios.post(baseUrl, newMeeting)
+    return axios.post(baseUrl, newMeeting)
 }
 
 // get list of meetings by participantID
@@ -25,12 +25,18 @@ const getByParticipant = (participantID) => {
     return axios.get(queryURL)
 }
 
+const remove = (id, info) => {
+    const Url = baseUrl + "/" + id
+    return axios.delete(Url, info)
+}
+
 const meetingService = {
     getAll,
     getByID,
     create,
-    getByParticipant
+    getByParticipant,
+    remove
 }
 
-export default meetingService 
+export default meetingService
 

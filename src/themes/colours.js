@@ -11,7 +11,8 @@ let colours = {
     tea_green: '#D4E6B5',
     middle_green_yellow: '#AFC97E',
     flax: '#E2D686',
-    naples_yellow: '#FFDF64'
+    naples_yellow: '#FFDF64',
+    light_red: '#FF7F7F'
 }
 
 export default colours;

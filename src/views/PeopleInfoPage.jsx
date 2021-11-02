@@ -1,4 +1,3 @@
-
 import Theme from "../themes/basicTheme";
 import { useParams } from "react-router-dom"
 import { ThemeProvider } from "@material-ui/styles";
@@ -15,51 +14,65 @@ import { Link } from "react-router-dom";
 
 const palette = Theme.palette
 const useStyles = makeStyles({
-    contactDetails: {
-      color: palette.tertiary.main,
-    },
-    contactNotes: {
-      fontStyle: "italic",
-      color: palette.tertiary.main,
-      padding: "20px 0 40px 0"
-    },
-    contactNumbers: {
-      padding: "0 0 20px 0",
-      color: palette.tertiary.main,
-      textDecoration: "underline"
-    },
-    editButton: {
-      color: palette.secondary.main,
-      backgroundColor: palette.quarternary.main,
-      margin: "10px",
-      textDecoration: "none"
-    },
-    editLink: {
-      textDecoration: 'none'
-    },
-    meetingList: {
-      listStyleType: "none"
-    },
-    divider: {
-      background: palette.quarternary.main,
-    },
-    meetingButton: {
-      color: palette.tertiary.main,
-      justifyContent: "flex-start",
-      flexDirection: "column",
-      textTransform: "none",
-    },
-    meetingLink: {
-      textDecoration: "none",
-      justifyContent: "flex-start",
-      flexDirection: "column"
-    },
-    noMeetingNote: {
-      padding: "0 0 10px 0"
-    }
+  contactDetails: {
+    color: palette.tertiary.main,
+  },
+  contactNotes: {
+    fontStyle: "italic",
+    color: palette.tertiary.main,
+    padding: "20px 0 40px 0"
+  },
+  contactNumbers: {
+    padding: "0 0 20px 0",
+    color: palette.tertiary.main,
+    textDecoration: "underline"
+  },
+  editButton: {
+    color: palette.secondary.main,
+    backgroundColor: palette.primary.main,
+    margin: "10px",
+    textDecoration: "none"
+  },
+  editLink: {
+    textDecoration: 'none'
+  },
+  meetingList: {
+    listStyleType: "none"
+  },
+  divider: {
+    background: palette.quarternary.main,
+  },
+  meetingButton: {
+    color: palette.tertiary.main,
+    justifyContent: "flex-start",
+    flexDirection: "column",
+    textTransform: "none",
+  },
+  meetingLink: {
+    textDecoration: "none",
+    justifyContent: "flex-start",
+    flexDirection: "column"
+  },
+  noMeetingNote: {
+    padding: "0 0 10px 0"
+  },
+  deleteButton: {
+    fontSize: "large",
+    backgroundColor: palette.primary.main
+  },
+  deleteButtonContainer: {
+    position: "fixed",
+    bottom: 0,
+    width: "100%",
+    justifyContent: "flex-end",
+    display: "flex",
+    padding: "4em",
+  },
 });
 
-const PersonDetails = ({details}) => {
+
+
+const PersonDetails = ({ details }) => {
 
   // change display of company information based on information available
   const CompanyInfo = () => {
@@ -101,17 +114,17 @@ const PersonDetails = ({details}) => {
 
       <Box className={classes.contactNumbers}>
         <Typography variant="body1">
-            {details.email}
+          {details.email}
         </Typography>
         <Typography variant="body1">
-            {details.phone_num}
+          {details.phone_num}
         </Typography>
       </Box>
     </Box>
   )
 }
 
-const SetMeetingButton = ({details}) => {
+const SetMeetingButton = ({ details }) => {
   const classes = useStyles();
   return (
     <Link to={'/CreateMeeting/participant/' + details._id} className={classes.editLink}>
@@ -121,7 +134,7 @@ const SetMeetingButton = ({details}) => {
     </Link>
   )
 }
-const EditDetailsButton = ({details}) => {
+const EditDetailsButton = ({ details }) => {
   const classes = useStyles();
   return (
     <Link to={'/Person/edit/' + details._id} className={classes.editLink}>
@@ -133,7 +146,7 @@ const EditDetailsButton = ({details}) => {
   )
 }
 
-const PastMeeting = ({meeting, people}) => {
+const PastMeeting = ({ meeting, people }) => {
 
   // extract contact name
   const getName = (participant) => {
@@ -146,7 +159,7 @@ const PastMeeting = ({meeting, people}) => {
     // extract participant names from previous database call
     // if a participant code cannot be resolved (e.g. because the entry was deleted from the database), omit it
     let participantObjects = []
-    for (let i=0; i<participants.length; i++) {
+    for (let i = 0; i < participants.length; i++) {
       let nextItem = people.find((person) => person._id === participants[i])
       if (nextItem) {
         participantObjects.push(nextItem)
@@ -161,7 +174,7 @@ const PastMeeting = ({meeting, people}) => {
       return "• with " + getName(participantObjects[0]) + " and " + getName(participantObjects[1])
     } else {
       let formatted = "• with "
-      for (let i = 0; i<participantObjects.length - 1; i++) {
+      for (let i = 0; i < participantObjects.length - 1; i++) {
         formatted += getName(participantObjects[i]) + ", "
       }
       formatted += "and " + getName(participantObjects[participantObjects.length - 1])
@@ -172,7 +185,7 @@ const PastMeeting = ({meeting, people}) => {
   // format meeting date/time
   const formatDate = (dateString) => {
     let meetTime = new Date(dateString)
-        
+
     let day = meetTime.getDate()
     let month = meetTime.getMonth() + 1
     let year = meetTime.getFullYear().toString().slice(2)
@@ -182,21 +195,21 @@ const PastMeeting = ({meeting, people}) => {
     let minutes = meetTime.getMinutes()
     // formatting for minutes
     if (minutes <= 9) {
-        minutes = 0 + minutes.toString()
+      minutes = 0 + minutes.toString()
     }
-    
+
     let amOrPm = "AM"
     // formatting for am or pm
     if (hour === 12) {
-        // midday
-        amOrPm = "PM"
+      // midday
+      amOrPm = "PM"
     } else if (hour === 0) {
-        // midnight
-        hour = 12
+      // midnight
+      hour = 12
     } else if (hour > 12) {
-        // after midday
-        hour -= 12
-        amOrPm = "PM"
+      // after midday
+      hour -= 12
+      amOrPm = "PM"
     }
 
     return `${day}/${month}/${year} ${hour}:${minutes} ${amOrPm}`
@@ -211,30 +224,30 @@ const PastMeeting = ({meeting, people}) => {
   return (
 
     <Box>
-        <Link to={getLink(meeting)} className={classes.meetingLink} >
-            <Button className={classes.meetingButton} fullWidth={true} >
-                <div>
-                  <Box ml="30px" mt="30px">
-                      <Typography variant="body1" align="left">
-                        <em>{formatDate(meeting.date)}</em> <br></br> {meeting.title}
-                      </Typography>
-                  </Box>
+      <Link to={getLink(meeting)} className={classes.meetingLink} >
+        <Button className={classes.meetingButton} fullWidth={true} >
+          <div>
+            <Box ml="30px" mt="30px">
+              <Typography variant="body1" align="left">
+                <em>{formatDate(meeting.date)}</em> <br></br> {meeting.title}
+              </Typography>
+            </Box>
 
-                  <Box ml="60px">
-                    <Typography variant="body1" align="left">
-                        {formatParticipants(meeting.participants)}
-                    </Typography>   
-                  </Box>
-                </div>
-            </Button>
-        </Link>
-        <Divider className={classes.divider} />
+            <Box ml="60px">
+              <Typography variant="body1" align="left">
+                {formatParticipants(meeting.participants)}
+              </Typography>
+            </Box>
+          </div>
+        </Button>
+      </Link>
+      <Divider className={classes.divider} />
     </Box>
 
   )
 }
 
-const MeetingHistory = ({meetings}) => {
+const MeetingHistory = ({ meetings }) => {
 
   // Make database request to resolve participant names
   const [allPeople, setAllPeople] = useState([])
@@ -257,13 +270,13 @@ const MeetingHistory = ({meetings}) => {
     return meetingTime - curTime
   }
   const isFutureMeeting = (date) => {
-      return getTimeOffset(date) > 0
+    return getTimeOffset(date) > 0
   }
   const sortFutureMeetings = (i, j) => {
-      return getTimeOffset(i.date) - getTimeOffset(j.date)
+    return getTimeOffset(i.date) - getTimeOffset(j.date)
   }
   const sortPastMeetings = (i, j) => {
-      return getTimeOffset(j.date) - getTimeOffset(i.date)
+    return getTimeOffset(j.date) - getTimeOffset(i.date)
   }
 
   const displayUpcomingMeetings = () => {
@@ -273,9 +286,9 @@ const MeetingHistory = ({meetings}) => {
       let upcoming = meetings
         .filter(item => isFutureMeeting(item.date))
         .sort(sortFutureMeetings)
-        .map(item => 
+        .map(item =>
           <li key={item._id}>
-            <PastMeeting meeting={item} people={allPeople}/>
+            <PastMeeting meeting={item} people={allPeople} />
           </li>
         )
       if (upcoming.length === 0) {
@@ -295,9 +308,9 @@ const MeetingHistory = ({meetings}) => {
       let past = meetings
         .filter(item => !isFutureMeeting(item.date))
         .sort(sortPastMeetings)
-        .map(item => 
+        .map(item =>
           <li key={item._id}>
-            <PastMeeting meeting={item} people={allPeople}/>
+            <PastMeeting meeting={item} people={allPeople} />
           </li>
         )
       if (past.length === 0) {
@@ -321,20 +334,21 @@ const MeetingHistory = ({meetings}) => {
       </Box>
 
       {displayUpcomingMeetings()}
-      
+
       <Box mt="40px">
         <Typography variant="h2" align="center">
           Past Meetings
         </Typography>
       </Box>
-      
+
       {displayPastMeetings()}
-      
+
     </Box>
   )
 }
 
 const PeopleInfoPage = () => {
+  const classes = useStyles();
 
   // Page will display dummy info before it has loaded properly
   const dummyInfo = {
@@ -345,7 +359,7 @@ const PeopleInfoPage = () => {
   }
 
   // info to load from backend
-  let {id} = useParams();
+  let { id } = useParams();
   const [contactInfo, setContactInfo] = useState(dummyInfo)
   const [meetingHistory, setMeetingHistory] = useState([])
 
@@ -360,13 +374,13 @@ const PeopleInfoPage = () => {
         console.log("Failed to retrieve person info from the server")
       })
     meetingService
-    .getByParticipant(id)
-    .then(response => {
-      setMeetingHistory(response.data)
-    })
-    .catch(error => {
-      console.log("Failed to retrieve meeting history from the server")
-    })
+      .getByParticipant(id)
+      .then(response => {
+        setMeetingHistory(response.data)
+      })
+      .catch(error => {
+        console.log("Failed to retrieve meeting history from the server")
+      })
   }, [id])
 
   // maintain list of people from the server
@@ -374,37 +388,66 @@ const PeopleInfoPage = () => {
 
   // retrieve the list of people
   useEffect(() => {
-      peopleService
-          .getAll()
-          .then(response => {
-              setPeopleList(response.data)
-          })
-          .catch(error => {
-              console.log("Failed to retrieve list of people from the server:", error)
-          })
+    peopleService
+      .getAll()
+      .then(response => {
+        setPeopleList(response.data);
+      })
+      .catch(error => {
+        console.log("Failed to retrieve list of people from the server:", error)
+      })
   }, [])
+
+  const deletePerson = () => {
+
+    peopleService
+      .remove(id, contactInfo)
+      .then(response => {
+        console.log("Removed:", response.data)
+        window.location.href = "/People"
+      })
+      .catch(error => {
+        console.log("Error submitting: ", error)
+      })
+  }
+
+  const DeleteButton = () => {
+    const classes = useStyles();
+    return (
+      <Box className={classes.deleteButton}>
+        <Button onClick={deletePerson} size="medium" type="submit" variant="outlined" style={{ color: '#FF7F7F', border: '2px solid' }} >
+          <Typography variant="alert">Delete</Typography>
+        </Button>
+      </Box>
+    )
+  }
 
   return (
     <ThemeProvider theme={Theme}>
       <CssBaseline />
 
-      <PageAppBar prevPage="/People" tab="People" type="Back"/>
+      <PageAppBar prevPage="/People" tab="People" type="Back" />
 
-        <Grid container direction="column" justifyContent="center" style={{minHeight: "90vh"}}>
+      <Grid container direction="column" justifyContent="center" style={{ minHeight: "90vh" }}>
 
-          <PersonDetails details={contactInfo}/>
+        <PersonDetails details={contactInfo} />
 
-          <Box display="inline" px="20px">
-            <SetMeetingButton details={contactInfo}/>
-            <EditDetailsButton details={contactInfo}/>
-          </Box>
+        <Box display="inline" px="20px">
+          <SetMeetingButton details={contactInfo} />
+          <EditDetailsButton details={contactInfo} />
+        </Box>
 
-          <MeetingHistory meetings={meetingHistory}/>
+        <MeetingHistory meetings={meetingHistory} />
 
 
-        </Grid>
+      </Grid>
+
+      <Box className={classes.deleteButtonContainer} >
+        <DeleteButton fontSize="large" className={classes.deleteButton} />
+      </Box>
 
     </ThemeProvider>
-)};
+  )
+};
 
 export default PeopleInfoPage;
