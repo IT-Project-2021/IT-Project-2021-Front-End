@@ -377,7 +377,7 @@ const MeetingInfoPage = () => {
     <ThemeProvider theme={Theme}>
       <CssBaseline />
 
-      <PageAppBar prevPage="/Meetings" tab="Meetings" type="Back" />
+      <PageAppBar tab="Meetings" type="Back" />
 
       <Grid container direction="column" justifyContent="center" style={{ minHeight: "70vh" }}>
 
@@ -402,11 +402,8 @@ const MeetingInfoPage = () => {
           <EditDetailsButton fontSize="large" className={classes.editButton} />
           <DeleteButton fontSize="large" className={classes.deleteButton} />
         </Box>
-
-
-
+        
       </Grid>
-
     </ThemeProvider>
   )
 };

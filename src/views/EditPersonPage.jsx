@@ -100,7 +100,7 @@ const EditPersonPage = () => {
         <ThemeProvider theme={Theme}>
             <CssBaseline />
 
-            <PageAppBar prevPage="/People" tab="People" type="Back" />
+            <PageAppBar tab="People" type="Back" />
 
             <Grid container direction="column" justifyContent="center" style={{ minHeight: "90vh" }}>
                 <Box className={classes.title}>

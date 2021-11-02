@@ -44,7 +44,7 @@ const ProfilePage = () => {
     return (
         <ThemeProvider theme={Theme}>
             <CssBaseline />
-            <PageAppBar prevPage="/HomePage" tab="Profile" type="Back"/>
+            <PageAppBar tab="Profile" type="Back"/>
 
             <Grid container direction="column" style={{ minHeight: "90vh" }}>
                 <Box className={classes.title} >

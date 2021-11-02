@@ -426,7 +426,7 @@ const PeopleInfoPage = () => {
     <ThemeProvider theme={Theme}>
       <CssBaseline />
 
-      <PageAppBar prevPage="/People" tab="People" type="Back" />
+      <PageAppBar tab="People" type="Back" />
 
       <Grid container direction="column" justifyContent="center" style={{ minHeight: "90vh" }}>
 
@@ -441,11 +441,6 @@ const PeopleInfoPage = () => {
 
 
       </Grid>
-
-      <Box className={classes.deleteButtonContainer} >
-        <DeleteButton fontSize="large" className={classes.deleteButton} />
-      </Box>
-
     </ThemeProvider>
   )
 };

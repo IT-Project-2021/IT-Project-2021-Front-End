@@ -221,7 +221,7 @@ const RemindersPage = () => {
         <ThemeProvider theme={Theme}>
         <CssBaseline />
 
-            <PageAppBar prevPage="/HomePage" tab="Reminders" type="Menu"/>
+            <PageAppBar tab="Reminders" type="Menu"/>
 
             <MeetingList meetings={meetingList}/>
 
