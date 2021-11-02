@@ -83,7 +83,7 @@ const OptionsBar = () => {
         <Box className={classes.optionsBar}  >
             
             <Link to="/Profile" style={{ textDecoration: 'none' }}>
-                <OptionsButton name="Profle" position="left" />
+                <OptionsButton name="Profile" position="left" />
             </Link>
 
             <Link to="/" style={{ textDecoration: 'none' }}>

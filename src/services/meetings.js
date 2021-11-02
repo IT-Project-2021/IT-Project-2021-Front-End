@@ -18,8 +18,9 @@ const getByID = (id, token) => {
 }
 
 // create a new meeting
-const create = (newMeeting) => {
-  return axios.post(baseUrl, newMeeting)
+const create = (newMeeting, token) => {
+  let authToken = `Bearer ${token}`
+  return axios.post(baseUrl, newMeeting, {headers: {'Authorization': authToken}})
 }
 
 // get list of meetings by participantID
