@@ -143,7 +143,6 @@ const MeetingsPage = () => {
     // retrieve the list of meetings
     useEffect(() => {
         const cookies = new Cookies()
-        console.log("Cookies (FROM USE EFFECT):", cookies.getAll())
         meetingService
             .getAll(cookies.get("token"))
             .then(response => {
@@ -152,8 +151,13 @@ const MeetingsPage = () => {
 
             })
             .catch(error => {
-                console.log("Failed to retrieve list of meetings from the server:", error.name)
+                // 401 error occurs if token is either missing or bad
                 if (error.response && error.response.status && (error.response.status === 401)) {
+                    // if there is a token but request is still unauthorised, something is wrong with the token
+                    if (cookies.get("token")) {
+                        cookies.remove("token") 
+                    }
+                    // in either case, redirect to login
                     window.location.href = "/login"
                 }
             })
