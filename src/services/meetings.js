@@ -23,9 +23,10 @@ const create = (newMeeting) => {
 }
 
 // get list of meetings by participantID
-const getByParticipant = (participantID) => {
+const getByParticipant = (participantID, token) => {
+    let authToken = `Bearer ${token}`
     const queryURL = baseUrl + "/participant/" + participantID
-    return axios.get(queryURL)
+    return axios.get(queryURL, {headers: {'Authorization': authToken}})
 }
 
 const meetingService = {

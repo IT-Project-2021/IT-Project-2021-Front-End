@@ -11,10 +11,11 @@ const getAll = (token) => {
 }
 
 // get one person object via ObjectID
-const getByID = (id) => {
+const getByID = (id, token) => {
+    let authToken = `Bearer ${token}`
     //find where person info is stored
     const personInfoUrl = baseUrl + "/" + id;
-    return axios.get(personInfoUrl)
+    return axios.get(personInfoUrl, {headers: {'Authorization': authToken}})
 }
 
 // update an entry in the database
