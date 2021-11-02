@@ -388,13 +388,9 @@ const PeopleInfoPage = () => {
     <ThemeProvider theme={Theme}>
       <CssBaseline />
 
-<<<<<<< Updated upstream
-      <PageAppBar prevPage="/People" tab="People" type="Back"/>
-=======
       <PageAppBar tab="People" type="Back" />
 
       <Grid container direction="column" justifyContent="center" style={{ minHeight: "90vh" }}>
->>>>>>> Stashed changes
 
         <Grid container direction="column" justifyContent="center" style={{minHeight: "90vh"}}>
 
@@ -409,6 +405,7 @@ const PeopleInfoPage = () => {
 
 
         </Grid>
+      </Grid>
 
     </ThemeProvider>
 )};

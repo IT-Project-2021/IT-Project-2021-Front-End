@@ -100,11 +100,7 @@ const EditPersonPage = () => {
         <ThemeProvider theme={Theme}>
             <CssBaseline />
 
-<<<<<<< Updated upstream
-            <PageAppBar prevPage="/People" tab="People" type="Back"/>
-=======
             <PageAppBar tab="People" type="Back" />
->>>>>>> Stashed changes
 
             <Grid container direction="column" justifyContent="center" style={{ minHeight: "90vh" }}>
                 <Box className={classes.title}>

@@ -352,13 +352,9 @@ const MeetingInfoPage = () => {
     <ThemeProvider theme={Theme}>
       <CssBaseline />
 
-<<<<<<< Updated upstream
-      <PageAppBar prevPage="/Meetings" tab="Meetings" type="Back"/>
-=======
       <PageAppBar tab="Meetings" type="Back" />
 
       <Grid container direction="column" justifyContent="center" style={{ minHeight: "70vh" }}>
->>>>>>> Stashed changes
 
         <Grid container direction="column" justifyContent="center" style={{ minHeight: "70vh" }}>
           
@@ -385,6 +381,7 @@ const MeetingInfoPage = () => {
 
 
         </Grid>
+      </Grid>
 
     </ThemeProvider>
 )};
