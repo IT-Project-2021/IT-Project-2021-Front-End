@@ -38,7 +38,7 @@ const ForgotPasswordPage = () => {
     return (
         <ThemeProvider theme={Theme}>
             <CssBaseline />
-            <PageAppBar prevPage="/Login" tab="Login" type="Back"/>
+            <PageAppBar tab="Login" type="Back"/>
             <Grid container direction="column" alignItems="center" style={{ minHeight: "90vh" }}>
                 <Box >
                     <Typography className={classes.title} variant="h2">

@@ -39,7 +39,7 @@ const ChangePasswordPage = () => {
         <ThemeProvider theme={Theme}>
             <CssBaseline />
 
-            <PageAppBar prevPage="/Profile" tab="Profile" type="Back" />
+            <PageAppBar tab="Profile" type="Back" />
 
             <Grid container direction="column" justifyContent="center" style={{ minHeight: "90vh" }}>
                 <Box className={classes.title}>
