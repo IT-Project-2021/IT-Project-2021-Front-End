@@ -148,7 +148,6 @@ const MeetingsPage = () => {
             .then(response => {
                 // get the list of all meetings
                 setMeetingList(response.data)
-
             })
             .catch(error => {
                 // 401 error occurs if token is either missing or bad

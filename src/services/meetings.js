@@ -1,5 +1,4 @@
 import axios from 'axios'
-import Cookies from 'universal-cookie'
 
 // TODO change back
 // const baseUrl = 'https://it-project-2021-back-end.herokuapp.com/api/meetings'
@@ -12,10 +11,10 @@ const getAll = (token) => {
 }
 
 // get one meeting object via ObjectID
-const getByID = (id) => {
-    //find where meeting info is stored
+const getByID = (id, token) => {
+    let authToken = `Bearer ${token}`
     const meetingInfoUrl = baseUrl + "/" + id;
-    return axios.get(meetingInfoUrl)
+    return axios.get(meetingInfoUrl, {headers: {'Authorization': authToken}})
 }
 
 // create a new meeting

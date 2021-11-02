@@ -5,8 +5,9 @@ import axios from 'axios'
 const baseUrl = 'http://localhost:4040/api/people'
 
 // get all people in the database
-const getAll = () => {
-    return axios.get(baseUrl)
+const getAll = (token) => {
+    let authToken = `Bearer ${token}`
+    return axios.get(baseUrl, {headers: {'Authorization': authToken}})
 }
 
 // get one person object via ObjectID

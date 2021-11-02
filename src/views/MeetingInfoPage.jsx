@@ -5,16 +5,11 @@ import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from '@material-ui/core/styles';
 import PageAppBar from "../components/PageAppBar"
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FormControl from '@material-ui/core/FormControl';
 import { Link, useParams } from "react-router-dom"
 import React, { useState, useEffect } from 'react'
 import meetingService from '../services/meetings'
 import peopleService from "../services/people"
-import MeetingsPage from "./MeetingsPage";
+import Cookies from 'universal-cookie'
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -324,10 +319,27 @@ const MeetingInfoPage = () => {
   let {id} = useParams();
   const [meetingInfo, setMeetingInfo] = useState({})
   useEffect(() => {
+    const cookies = new Cookies()
     meetingService
-      .getByID(id)
+      .getByID(id, cookies.get("token"))
       .then(response => setMeetingInfo(response.data))
-      .catch(error => console.log("Failed to retrieve meeting information from the server"))
+      .catch(error => {
+
+        // 401 error occurs if token is either missing or bad
+        if (error.response && error.response.status && (error.response.status === 401)) {
+          if (error.response.data.message === "ID Mismatch") {
+            // the user is trying to access a meeting not belonging to them
+            window.location.href = "/meetings"
+          } else if (cookies.get("token")) {
+            // The token is invalid
+            cookies.remove("token", { path: '/' }) 
+            window.location.href = "/login"
+          } else {
+            // there is no token set
+            window.location.href = "/login"
+          }
+        }
+    })
   }, [id])
 
   console.log("Meeting information:", meetingInfo)
@@ -335,8 +347,9 @@ const MeetingInfoPage = () => {
   // Make database request to resolve participant names
   const [allPeople, setAllPeople] = useState([])
   useEffect(() => {
+    const cookies = new Cookies()
     peopleService
-      .getAll()
+      .getAll(cookies.get("token"))
       .then(response => {
         setAllPeople(response.data)
       })
