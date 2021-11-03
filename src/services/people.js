@@ -1,8 +1,7 @@
 import axios from 'axios'
 
-// TODO change back
-// const baseUrl = 'https://it-project-2021-back-end.herokuapp.com/api/people'
-const baseUrl = 'http://localhost:4040/api/people'
+const baseUrl = 'https://it-project-2021-back-end.herokuapp.com/api/people'
+// const baseUrl = 'http://localhost:4040/api/people'
 
 // get all people in the database
 const getAll = (token) => {

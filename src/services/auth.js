@@ -1,8 +1,7 @@
 import axios from 'axios'
 
-// TODO change back to deployment
-// const baseUrl = 'https://it-project-2021-back-end.herokuapp.com/api/auth'
-const baseUrl = 'http://localhost:4040/api/auth'
+const baseUrl = 'https://it-project-2021-back-end.herokuapp.com/api/auth'
+// const baseUrl = 'http://localhost:4040/api/auth'
 
 
 // attempt to authorise the user
