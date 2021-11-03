@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from "react";
 import axios from "axios";
 import peopleService from "../services/people";
+import Cookies from 'universal-cookie'
 
 
 const palette = Theme.palette
@@ -72,18 +73,23 @@ const NewPersonPage = () => {
             notes: notes
         }
 
-        console.log("CREATED MAN:", newPerson)
-
+        const cookies = new Cookies()
         peopleService 
-            .create(newPerson)
+            .create(newPerson, cookies.get("token"))
             .then(response => {
-                console.log("Posted new contact:", response.data)
                 let newID = response.data._id
-                console.log("New id:", newID)
                 window.location.href = "/PeopleInformation/" + newID
             })
             .catch(error => {
                 console.log("Failed to post contact:", error)
+                // 401 error occurs if token is either missing or bad
+                if (error.response && error.response.status && (error.response.status === 401)) {
+                    if (cookies.get("token")) {
+                        // The token is invalid
+                        cookies.remove("token", { path: '/' }) 
+                    }
+                    window.location.href = "/login"
+                }
             })
     }
 

@@ -25,8 +25,9 @@ const update = (id, updated) => {
 }
 
 // create a new person object
-const create = (newPerson) => {
-    return axios.post(baseUrl, newPerson)
+const create = (newPerson, token) => {
+    let authToken = `Bearer ${token}`
+    return axios.post(baseUrl, newPerson, {headers: {'Authorization': authToken}})
 }
 
 const peopleService = {
