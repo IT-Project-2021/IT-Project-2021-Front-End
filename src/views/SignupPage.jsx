@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import PageAppBar from "../components/PageAppBar"
 import axios from "axios";
 import React, { useContext, useState } from "react";
+import Cookies from 'universal-cookie'
 
 
 const palette = Theme.palette
@@ -31,6 +32,13 @@ const useStyles = makeStyles({
 
 
 const SignupPage = () => {
+
+    // redirect away from this page if the user is already logged in
+    const cookies = new Cookies();
+    if (cookies.get("token")) {
+        window.location.href = "/HomePage"
+    }
+
     const classes = useStyles();
     const [first, setFirst] = useState("");
     const [last, setLast] = useState("");

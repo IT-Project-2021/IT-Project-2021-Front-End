@@ -32,6 +32,13 @@ const useStyles = makeStyles({
 });
 
 const LoginPage = () => {
+
+  // redirect away from this page if the user is already logged in
+  const cookies = new Cookies();
+  if (cookies.get("token")) {
+    window.location.href = "/HomePage"
+  }
+
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
