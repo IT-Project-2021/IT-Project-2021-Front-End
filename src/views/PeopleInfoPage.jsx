@@ -11,6 +11,7 @@ import meetingService from "../services/meetings"
 import React, { useState, useEffect } from 'react'
 import Divider from '@material-ui/core/Divider';
 import { Link } from "react-router-dom";
+import Cookies from 'universal-cookie'
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -252,8 +253,9 @@ const MeetingHistory = ({ meetings }) => {
   // Make database request to resolve participant names
   const [allPeople, setAllPeople] = useState([])
   useEffect(() => {
+    const cookies = new Cookies()
     peopleService
-      .getAll()
+      .getAll(cookies.get("token"))
       .then(response => {
         setAllPeople(response.data)
       })
@@ -365,21 +367,38 @@ const PeopleInfoPage = () => {
 
   // get user info and meeting history from server
   useEffect(() => {
+    const cookies = new Cookies()
     peopleService
-      .getByID(id)
+      .getByID(id, cookies.get("token"))
       .then(response => {
         setContactInfo(response.data)
       })
       .catch(error => {
-        console.log("Failed to retrieve person info from the server")
-      })
+        // 401 error occurs if token is either missing or bad
+        if (error.response && error.response.status && (error.response.status === 401)) {
+          if (error.response.data.message === "ID Mismatch") {
+            // the user is trying to access a contact not belonging to them
+            window.location.href = "/people"
+          } else if (cookies.get("token")) {
+            // The token is invalid
+            cookies.remove("token", { path: '/' }) 
+            window.location.href = "/login"
+          } else {
+            // there is no token set
+            window.location.href = "/login"
+          }
+        }
+    })
     meetingService
-      .getByParticipant(id)
+      .getByParticipant(id, cookies.get("token"))
+
       .then(response => {
         setMeetingHistory(response.data)
       })
       .catch(error => {
         console.log("Failed to retrieve meeting history from the server")
+        // Shouldn't need to deal with these errors: handled by other service
+
       })
   }, [id])
 
@@ -388,13 +407,15 @@ const PeopleInfoPage = () => {
 
   // retrieve the list of people
   useEffect(() => {
+    const cookies = new Cookies()
     peopleService
-      .getAll()
+      .getAll(cookies.get("token"))
       .then(response => {
-        setPeopleList(response.data);
+          setPeopleList(response.data)
       })
       .catch(error => {
-        console.log("Failed to retrieve list of people from the server:", error)
+          console.log("Failed to retrieve list of people from the server:", error)
+          // Shouldn't need to deal with these errors: handled by other service
       })
   }, [])
 

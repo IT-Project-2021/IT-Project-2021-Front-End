@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import PageAppBar from "../components/PageAppBar"
 import peopleService from "../services/people"
 import React, { useState, useEffect } from 'react'
+import Cookies from 'universal-cookie'
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -70,13 +71,22 @@ const PeopleListPage = () => {
 
     // retrieve the list of people
     useEffect(() => {
+        const cookies = new Cookies()
         peopleService
-            .getAll()
+            .getAll(cookies.get("token"))
             .then(response => {
                 setPeopleList(response.data)
             })
             .catch(error => {
                 console.log("Failed to retrieve list of people from the server:", error)
+                // 401 error occurs if token is either missing or bad
+                if (error.response && error.response.status && (error.response.status === 401)) {
+                    if (cookies.get("token")) {
+                        // The token is invalid
+                        cookies.remove("token", { path: '/' }) 
+                    }
+                    window.location.href = "/login"
+                }
             })
     }, [])
     console.log("Number of people:", peopleList.length)

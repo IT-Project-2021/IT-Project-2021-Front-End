@@ -23,7 +23,9 @@ import NewPersonPage from "./views/NewPersonPage"
 import RemindersPage from './views/RemindersPage';
 import EditPersonPage from './views/EditPersonPage'
 
+
 var hist = createBrowserHistory();
+// axios.defaults.withCredentials = true;
 
 ReactDOM.render(
   <Router history={hist}>
@@ -46,11 +48,9 @@ ReactDOM.render(
         <Route path="/Reminders" component={RemindersPage} />
         <Route path="/Person/edit/:id" component={EditPersonPage} />
 
-
       </Box>
     </ThemeProvider>
   </Router>,
   document.getElementById('root')
-
 );
 

@@ -6,7 +6,9 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { Link } from "react-router-dom";
 import PageAppBar from "../components/PageAppBar"
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import authService from "../services/auth"
+import Cookies from 'universal-cookie'
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -30,9 +32,43 @@ const useStyles = makeStyles({
 });
 
 const LoginPage = () => {
+
+  // redirect away from this page if the user is already logged in
+  const cookies = new Cookies();
+  if (cookies.get("token")) {
+    window.location.href = "/HomePage"
+  }
+
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+
+  const handleSubmit = () => {
+    console.log("this function is being called")
+    const data = {
+      email: email,
+      password: pass
+    }
+
+    console.log("Data in form:", data)
+    authService
+      .attemptLogin(data)
+      .then(response => {
+        const cookies = new Cookies();
+        cookies.set('token', response.data.token, {path: '/'})
+        window.location.href = "/HomePage"
+      })
+      .catch(err => {
+        console.log("ERROR:", err)
+        console.log("data:", err.response)
+        if (err.response.data.errorMessage) {
+          alert(err.response.data.errorMessage + " Please try again!")
+        } else {
+          alert("Something went wrong logging in. Please reload the page and try again!")
+        }
+        
+      })
+  }
 
   return (
     <ThemeProvider theme={Theme}>
@@ -47,7 +83,7 @@ const LoginPage = () => {
           </Typography>
         </Box>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <Box className={classes.form} >
             <TextField label="Email" placeholder="Email" required variant="filled" fullWidth onChange={(e) => { setEmail(e.target.value); }} />
           </Box>
@@ -57,17 +93,21 @@ const LoginPage = () => {
           </Box>
           <br />
           <Box>
-            <Link to="/HomePage" style={{ textDecoration: 'none' }}>
-              <Button className={classes.loginButton} size="medium" type="submit">
+            {/* <Link to="/HomePage" style={{ textDecoration: 'none' }}> */}
+              <Button className={classes.loginButton} size="medium" onClick={handleSubmit} >
                 <Typography variant="button">Login</Typography>
               </Button>
-            </Link>
+            {/* </Link> */}
           </Box>
 
         </form>
 
 
         <Box className={classes.forgotPassword} >
+          <Link to="/SignUp" style={{ textDecoration: 'none', fontSize: "16px", color: '#0353A4' }}>
+            Create an account
+          </Link>
+          <br></br>
           <Link to="/ForgotPassword" style={{ textDecoration: 'none', fontSize: "16px", color: '#0353A4' }}>
             Forgot your password?
           </Link>

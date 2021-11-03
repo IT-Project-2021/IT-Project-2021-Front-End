@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import PageAppBar from "../components/PageAppBar"
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from "react";
+import axios from "axios";
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -35,6 +36,30 @@ const ChangePasswordPage = () => {
     const [current, setCurrent] = useState("");
     const [newPass, setNewPass] = useState("");
     const [confirm, setConfirm] = useState("");
+    const [passwordError, setPassError] = useState(false);
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+        setPassError(false);
+        if (newPass !== confirm) {
+            setPassError(true);
+        }
+        else {
+            try {
+                const data = {
+                    password_hash: newPass,
+                };
+
+                await axios.put("/api/users/:userId", data, {
+                    withCredentials: true,
+                })
+
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
+
     return (
         <ThemeProvider theme={Theme}>
             <CssBaseline />
@@ -47,17 +72,17 @@ const ChangePasswordPage = () => {
                         Change Password
                     </Typography>
                 </Box>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <Box className={classes.form}>
                         <TextField label="Current Password" placeholder="Current Password" type="password" variant="filled" fullWidth required onChange={(e) => { setCurrent(e.target.value); }} />
                     </Box>
 
                     <Box className={classes.form}>
-                        <TextField label="New Password" placeholder="New Password" type="password" variant="filled" fullWidth required onChange={(e) => { setNewPass(e.target.value); }} />
+                        <TextField label="New Password" placeholder="New Password" type="password" variant="filled" fullWidth required onChange={(e) => { setNewPass(e.target.value); }} error={passwordError} />
                     </Box>
 
                     <Box className={classes.form}>
-                        <TextField label="Confirm New Password" placeholder="Confirm New Password" required type="password" required variant="filled" fullWidth onChange={(e) => { setConfirm(e.target.value); }} />
+                        <TextField label="Confirm New Password" placeholder="Confirm New Password" required type="password" required variant="filled" fullWidth onChange={(e) => { setConfirm(e.target.value); }} error={passwordError} />
                     </Box>
 
                     <Box className={classes.update}>

@@ -11,6 +11,7 @@ import PageAppBar from "../components/PageAppBar"
 import { Link } from "react-router-dom";
 import meetingService from "../services/meetings"
 import React, { useState, useEffect } from 'react'
+import Cookies from 'universal-cookie'
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -141,15 +142,23 @@ const MeetingsPage = () => {
 
     // retrieve the list of meetings
     useEffect(() => {
+        const cookies = new Cookies()
         meetingService
-            .getAll()
+            .getAll(cookies.get("token"))
             .then(response => {
                 // get the list of all meetings
                 setMeetingList(response.data)
-
             })
             .catch(error => {
-                console.log("Failed to retrieve list of meetings from the server:", error)
+                // 401 error occurs if token is either missing or bad
+                if (error.response && error.response.status && (error.response.status === 401)) {
+                    // if there is a token but request is still unauthorised, something is wrong with the token
+                    if (cookies.get("token")) {
+                        cookies.remove("token") 
+                    }
+                    // in either case, redirect to login
+                    window.location.href = "/login"
+                }
             })
     }, [])
 

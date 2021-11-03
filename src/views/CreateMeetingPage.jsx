@@ -17,6 +17,7 @@ import peopleService from "../services/people"
 import meetingService from "../services/meetings"
 import FormControl from '@material-ui/core/FormControl';
 import { useParams } from "react-router-dom"
+import Cookies from 'universal-cookie'
 
 
 const palette = Theme.palette
@@ -312,8 +313,9 @@ const CreateMeetingPage = () => {
 
   // get the list of contacts from the database
   useEffect(() => {
+    const cookies = new Cookies()
     peopleService
-      .getAll()
+      .getAll(cookies.get("token"))
       .then(response => {
         setPeopleList(response.data)
         console.log("response data:", response.data)
@@ -325,6 +327,14 @@ const CreateMeetingPage = () => {
       })
       .catch(error => {
         console.log("Failed to retrieve list of people from the server:", error)
+        // 401 error occurs if token is either missing or bad
+        if (error.response && error.response.status && (error.response.status === 401)) {
+          if (cookies.get("token")) {
+              // The token is invalid
+              cookies.remove("token", { path: '/' }) 
+          }
+          window.location.href = "/login"
+        }
       })
   }, [])
 
@@ -386,8 +396,9 @@ const CreateMeetingPage = () => {
     console.log("SUBMISSION:", newMeeting)
 
     // submit the entry
+    const cookies = new Cookies()
     meetingService
-      .create(newMeeting)
+      .create(newMeeting, cookies.get("token"))
       .then(response => {
         console.log("RESPONSE:", response)
         let newID = response.data._id
@@ -396,6 +407,14 @@ const CreateMeetingPage = () => {
       })
       .catch(error => {
         console.log("Something went wrong submitting the meeting:", error)
+        // 401 error occurs if token is either missing or bad
+        if (error.response && error.response.status && (error.response.status === 401)) {
+          if (cookies.get("token")) {
+            // The token is invalid
+            cookies.remove("token", { path: '/' }) 
+          }
+          window.location.href = "/login"
+        }
       })
 
   }

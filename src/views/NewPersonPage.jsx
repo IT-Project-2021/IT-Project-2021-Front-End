@@ -6,7 +6,10 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import PageAppBar from "../components/PageAppBar"
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from "react";
+import axios from "axios";
 import peopleService from "../services/people";
+import Cookies from 'universal-cookie'
+
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -35,6 +38,28 @@ const NewPersonPage = () => {
     const [position, setPosition] = useState("");
     const [notes, setNotes] = useState("");
 
+    async function handleSubmit(e) {
+        e.preventDefault();
+
+        try {
+            const data = {
+                first_name: first,
+                last_name: last,
+                email: email,
+                company: company,
+                phone_num: phone,
+                position: position,
+                notes: notes,
+            };
+            //need to add token referende to post
+            await axios.post("https://it-project-2021-back-end.herokuapp.com/api/people", data);
+
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+
     // add person to the database
     const submitPerson = () => {
         let newPerson = {
@@ -48,18 +73,23 @@ const NewPersonPage = () => {
             notes: notes
         }
 
-        console.log("CREATED MAN:", newPerson)
-
+        const cookies = new Cookies()
         peopleService 
-            .create(newPerson)
+            .create(newPerson, cookies.get("token"))
             .then(response => {
-                console.log("Posted new contact:", response.data)
                 let newID = response.data._id
-                console.log("New id:", newID)
                 window.location.href = "/PeopleInformation/" + newID
             })
             .catch(error => {
                 console.log("Failed to post contact:", error)
+                // 401 error occurs if token is either missing or bad
+                if (error.response && error.response.status && (error.response.status === 401)) {
+                    if (cookies.get("token")) {
+                        // The token is invalid
+                        cookies.remove("token", { path: '/' }) 
+                    }
+                    window.location.href = "/login"
+                }
             })
     }
 
@@ -76,7 +106,7 @@ const NewPersonPage = () => {
                     </Typography>
                 </Box>
 
-                <form>
+                <form onSubmit={handleSubmit}>
                     <Box>
                         <Box component="span" margin="5px">
                             <TextField label="First Name" placeholder="First Name" required variant="filled" onChange={(e) => { setFirst(e.target.value); }} />
