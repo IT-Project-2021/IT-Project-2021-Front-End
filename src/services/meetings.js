@@ -29,12 +29,18 @@ const getByParticipant = (participantID, token) => {
     return axios.get(queryURL, {headers: {'Authorization': authToken}})
 }
 
+const remove = (id, info) => {
+    const Url = baseUrl + "/" + id
+    return axios.delete(Url, info)
+}
+
 const meetingService = {
     getAll,
     getByID,
     create,
-    getByParticipant
+    getByParticipant,
+    remove
 }
 
-export default meetingService 
+export default meetingService
 

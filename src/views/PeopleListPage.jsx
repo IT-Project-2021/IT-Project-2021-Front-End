@@ -98,7 +98,7 @@ const PeopleListPage = () => {
         <ThemeProvider theme={Theme}>
         <CssBaseline />
 
-            <PageAppBar prevPage="/HomePage" tab="People" type="Menu"/>
+            <PageAppBar tab="People" type="Menu"/>
 
 
             <Grid container direction="column" style={{ minHeight: "80vh", padding: "20px 0 0 0"}}>

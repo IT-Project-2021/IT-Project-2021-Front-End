@@ -28,13 +28,18 @@ const create = (newPerson, token) => {
     let authToken = `Bearer ${token}`
     return axios.post(baseUrl, newPerson, {headers: {'Authorization': authToken}})
 }
+// delete a person object
+const remove = (id, contact) => {
+    const Url = baseUrl + "/" + id
+    return axios.delete(Url, contact)
+}
 
 const peopleService = {
     getAll,
     getByID,
     create,
-    update
-
+    update,
+    remove
 }
 
 export default peopleService

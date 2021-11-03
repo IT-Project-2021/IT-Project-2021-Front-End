@@ -26,7 +26,12 @@ const useStyles = makeStyles({
         color: palette.primary.main,
         margin: "10vh 0vh 10vh 0vh",
         width: "50vh",
-        minWidth: "400px"
+    },
+    signUpButton: {
+        fontSize: "medium",
+        backgroundColor: palette.quarternary.main,
+        margin: "10vh 0vh 0vh",
+        minWidth: "10vh"
     },
 })
 
@@ -80,7 +85,7 @@ const SignupPage = () => {
         <ThemeProvider theme={Theme}>
             <CssBaseline />
 
-            <PageAppBar prevPage="/" tab="" type="Back"/>
+            <PageAppBar tab="" type="Back"/>
 
             <Grid container direction="column" alignItems="center" style={{ minHeight: "90vh" }}>
                 <Box className={classes.title}>
@@ -107,10 +112,10 @@ const SignupPage = () => {
                         <TextField label="Confirm Password" placeholder="Password" required type="password" variant="filled" fullWidth onChange={(e) => { setConfirm(e.target.value); }} error={passwordError} />
                     </Box>
 
-                    <Box className={classes.signup}>
-                        <Button size="medium" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>
-                            <Typography variant="button" color="secondary">Sign up</Typography>
-                        </Button>
+                    <Box>
+                          <Button className={classes.signUpButton} size="medium" type="submit">
+                              <Typography variant="button" >Sign up</Typography>
+                          </Button>
                     </Box>
 
                 </form>

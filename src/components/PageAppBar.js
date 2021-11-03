@@ -1,5 +1,5 @@
 import Theme from "../themes/landingTheme";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
@@ -33,7 +33,22 @@ const useStyles = makeStyles({
 
 });
 
-const PageAppBar = ({prevPage, tab, type}) => {
+// class BackButton extends Component {
+//     static contextTypes = {
+//       router: () => true, 
+//     }
+  
+//     render() {
+//       return (        
+//         <IconButton edge="start" onClick={this.context.router.history.goBack} aria-label="back" className={classes.toolbar}>
+//             <ArrowBack />
+//         </IconButton>
+//       )
+//     }
+//   }
+
+const PageAppBar = ({tab, type}) => {
+    let history = useHistory();
     const appBarType = type;
     const classes = useStyles();
     return (
@@ -42,11 +57,9 @@ const PageAppBar = ({prevPage, tab, type}) => {
             <Toolbar className={classes.toolbar}>
 
                 {appBarType === "Back" && 
-                <Link to={prevPage}>
-                    <IconButton edge="start" aria-label="back" className={classes.toolbar}>
+                    <IconButton onClick={history.goBack} edge="start" aria-label="back" className={classes.toolbar}>
                         <ArrowBack />
-                    </IconButton>
-                </Link>
+                    </IconButton>                
                 }
 
                 {appBarType === "Menu" && <MenuDropDown/> }                          
@@ -55,25 +68,20 @@ const PageAppBar = ({prevPage, tab, type}) => {
                     {tab}
                 </Typography>
             
-                <Box display="flex" justifyContent="flex-end" width="100%">
-                    <Link to={prevPage}>
+                {/* <Box display="flex" justifyContent="flex-end" width="100%">
+                    
                     <IconButton aria-label="notifications" className={classes.toolbar}>
                         <Notifications />
                     </IconButton>
-                    </Link>
 
-                    <Link to={prevPage}>
                     <IconButton aria-label="share" className={classes.toolbar}>
                         <Share />
                     </IconButton>
-                    </Link>
 
-                    <Link to={prevPage}>
                     <IconButton aria-label="search" className={classes.toolbar}>
                         <Search />
                     </IconButton>
-                    </Link>
-                </Box>
+                </Box> */}
                 
             
             </Toolbar>
