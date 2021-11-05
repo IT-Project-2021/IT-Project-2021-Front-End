@@ -89,8 +89,6 @@ const PeopleListPage = () => {
                 }
             })
     }, [])
-    console.log("Number of people:", peopleList.length)
-    console.log("People list:", peopleList)
 
     
     const classes = useStyles();
