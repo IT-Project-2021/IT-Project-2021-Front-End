@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const baseUrl = 'https://it-project-2021-back-end.herokuapp.com/api/meetings'
-// const baseUrl = 'http://localhost:4040/api/meetings'
+// const baseUrl = 'https://it-project-2021-back-end.herokuapp.com/api/meetings'
+const baseUrl = 'http://localhost:4040/api/meetings'
 
 // get all meetings in the database
 const getAll = (token) => {
@@ -29,9 +29,11 @@ const getByParticipant = (participantID, token) => {
     return axios.get(queryURL, {headers: {'Authorization': authToken}})
 }
 
-const remove = (id, info) => {
+const remove = (id, info, token) => {
+    let authToken = `Bearer ${token}`
+    console.log("AUTH TOKEN:", authToken)
     const Url = baseUrl + "/" + id
-    return axios.delete(Url, info)
+    return axios.delete(Url, {headers: {'Authorization': authToken}})
 }
 
 const meetingService = {

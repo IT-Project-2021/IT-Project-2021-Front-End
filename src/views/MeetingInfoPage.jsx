@@ -378,15 +378,28 @@ const MeetingInfoPage = () => {
 
 
   const deleteMeeting = () => {
-
+    const cookies = new Cookies()
     meetingService
-      .remove(id, meetingInfo)
+      .remove(id, meetingInfo, cookies.get("token"))
       .then(response => {
         console.log("Removed:", response.data)
         window.location.href = "/Meetings"
       })
       .catch(error => {
-        console.log("Error submitting: ", error)
+        // 401 error occurs if token is either missing or bad
+        if (error.response && error.response.status && (error.response.status === 401)) {
+          if (error.response.data.message === "ID Mismatch") {
+            // the user is trying to delete a meeting not belonging to them
+            window.location.href = "/meetings"
+          } else if (cookies.get("token")) {
+            // The token is invalid
+            cookies.remove("token", { path: '/' }) 
+            window.location.href = "/login"
+          } else {
+            // there is no token set
+            window.location.href = "/login"
+          }
+        }
       })
   }
 
