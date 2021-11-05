@@ -30,9 +30,10 @@ const create = (newPerson, token) => {
     return axios.post(baseUrl, newPerson, {headers: {'Authorization': authToken}})
 }
 // delete a person object
-const remove = (id, contact) => {
+const remove = (id, token) => {
+    let authToken = `Bearer ${token}`
     const Url = baseUrl + "/" + id
-    return axios.delete(Url, contact)
+    return axios.delete(Url, {headers: {'Authorization': authToken}})
 }
 
 const peopleService = {

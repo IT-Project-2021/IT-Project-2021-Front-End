@@ -420,15 +420,28 @@ const PeopleInfoPage = () => {
   }, [])
 
   const deletePerson = () => {
-
+    const cookies = new Cookies()
     peopleService
-      .remove(id, contactInfo)
+      .remove(id, cookies.get("token"))
       .then(response => {
         console.log("Removed:", response.data)
         window.location.href = "/People"
       })
       .catch(error => {
-        console.log("Error submitting: ", error)
+        // 401 error occurs if token is either missing or bad
+        if (error.response && error.response.status && (error.response.status === 401)) {
+          if (error.response.data.message === "ID Mismatch") {
+            // the user is trying to delete a contact not belonging to them
+            window.location.href = "/people"
+          } else if (cookies.get("token")) {
+            // The token is invalid
+            cookies.remove("token", { path: '/' }) 
+            window.location.href = "/login"
+          } else {
+            // there is no token set
+            window.location.href = "/login"
+          }
+        }
       })
   }
 
@@ -460,6 +473,7 @@ const PeopleInfoPage = () => {
 
         <MeetingHistory meetings={meetingHistory} />
 
+        <DeleteButton />
 
       </Grid>
     </ThemeProvider>
