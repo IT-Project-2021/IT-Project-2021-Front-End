@@ -18,9 +18,10 @@ const getByID = (id, token) => {
 }
 
 // update an entry in the database
-const update = (id, updated) => {
+const update = (id, updated, token) => {
+    let authToken = `Bearer ${token}`
     const Url = baseUrl + "/" + id
-    return axios.put(Url, updated)
+    return axios.put(Url, updated, {headers: {'Authorization': authToken}})
 }
 
 // create a new person object
