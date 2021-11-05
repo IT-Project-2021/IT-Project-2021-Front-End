@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import React, { useState, useEffect } from 'react'
 import peopleService from '../services/people'
 import { useParams } from "react-router-dom"
+import Cookies from 'universal-cookie'
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -54,8 +55,9 @@ const EditPersonPage = () => {
     const [pageTitle, setPageTitle] = useState("") // the contact's original name, displayed at page top
 
     useEffect(() => {
+        const cookies = new Cookies()
         peopleService
-            .getByID(id)
+            .getByID(id, cookies.get("token"))
             .then(response => {
                 setContactInfo(response.data)
                 console.log("Contact info recieved:", response.data)
@@ -69,7 +71,20 @@ const EditPersonPage = () => {
                 setPageTitle("Edit " + response.data.first_name + " " + response.data.last_name + "'s Details")
             })
             .catch(error => {
-                console.log("Failed to retrieve person info from the server:", error)
+                // 401 error occurs if token is either missing or bad
+                if (error.response && error.response.status && (error.response.status === 401)) {
+                    if (error.response.data.message === "ID Mismatch") {
+                        // the user is trying to edit a contact not belonging to them
+                        window.location.href = "/people"
+                    } else if (cookies.get("token")) {
+                        // The token is invalid
+                        cookies.remove("token", { path: '/' }) 
+                        window.location.href = "/login"
+                    } else {
+                        // there is no token set
+                        window.location.href = "/login"
+                    }
+                }
             })
     }, [id])
 
@@ -84,15 +99,27 @@ const EditPersonPage = () => {
             position: position,
             notes: notes
         }
-
+        const cookies = new Cookies()
         peopleService
-            .update(id, editedContact)
+            .update(id, editedContact, cookies.get("token"))
             .then(response => {
-                console.log("UPDATED:", response.data)
                 window.location.href = "/PeopleInformation/" + id
             })
             .catch(error => {
-                console.log("Error submitting: ", error)
+                // 401 error occurs if token is either missing or bad
+                if (error.response && error.response.status && (error.response.status === 401)) {
+                    if (error.response.data.message === "ID Mismatch") {
+                        // the user is trying to access a contact not belonging to them
+                        window.location.href = "/people"
+                    } else if (cookies.get("token")) {
+                        // The token is invalid
+                        cookies.remove("token", { path: '/' }) 
+                        window.location.href = "/login"
+                    } else {
+                        // there is no token set
+                        window.location.href = "/login"
+                    }
+                }
             })
     }
 

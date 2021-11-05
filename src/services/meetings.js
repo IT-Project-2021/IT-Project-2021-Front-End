@@ -29,9 +29,11 @@ const getByParticipant = (participantID, token) => {
     return axios.get(queryURL, {headers: {'Authorization': authToken}})
 }
 
-const remove = (id, info) => {
+const remove = (id, info, token) => {
+    let authToken = `Bearer ${token}`
+    console.log("AUTH TOKEN:", authToken)
     const Url = baseUrl + "/" + id
-    return axios.delete(Url, info)
+    return axios.delete(Url, {headers: {'Authorization': authToken}})
 }
 
 const meetingService = {
