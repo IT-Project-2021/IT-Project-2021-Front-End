@@ -15,9 +15,17 @@ const getInfo = (token) => {
   return axios.get(baseUrl, {headers: {'Authorization': authToken}})
 }
 
+const remove = (id, token) => {
+  let authToken = `Bearer ${token}`
+  let url = baseUrl + "/" + id
+  console.log("deleting from ", url, " with token ", authToken)
+  return axios.delete(url, {headers: {'Authorization': authToken}})
+}
+
 const userService = {
   updateUser,
-  getInfo
+  getInfo,
+  remove
 }
 
 export default userService

@@ -85,6 +85,29 @@ const ProfilePage = () => {
             })
     }
 
+    // Delete an account
+    const deleteAccount = () => {
+        // TODO add a popup to confirm
+
+        const cookies = new Cookies()
+        userService
+            .remove(userInfo._id, cookies.get("token"))
+            .then(response => {
+                // remove the token from the browser - this user doesn't exist anymore
+                cookies.remove("token", {path: '/'})
+                window.location.href = "/"
+            })
+            .catch(error => {
+                // 401 error occurs if token is either missing or bad
+                if (error.response && error.response.status && (error.response.status === 401)) {
+                    if (cookies.get("token")) {
+                        // The token is invalid
+                        cookies.remove("token", { path: '/' }) 
+                    }
+                    window.location.href = "/login"
+                }
+            })
+    }
 
     const classes = useStyles();
     return (
@@ -123,7 +146,7 @@ const ProfilePage = () => {
                 </Box>
 
                 <Box className={classes.delete}>
-                    <Link style={{ textDecoration: 'none', color: '#0353A4' }}>
+                    <Link style={{ textDecoration: 'none', color: '#0353A4' }} onClick={deleteAccount}>
                         Delete Account
                     </Link>
                 </Box>
