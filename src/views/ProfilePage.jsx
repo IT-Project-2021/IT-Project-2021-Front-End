@@ -6,6 +6,9 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import PageAppBar from "../components/PageAppBar"
+import userService from "../services/users"
+import Cookies from 'universal-cookie'
+import React, { useState, useEffect } from 'react'
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -40,6 +43,49 @@ const useStyles = makeStyles({
 
 
 const ProfilePage = () => {
+
+    // Load user info from backend
+    const [userInfo, setUserInfo] = useState({})
+    const [firstName, setFirstName] = useState("")
+    const [lastName, setLastName] = useState("")
+    const [pageTitle, setPageTitle] = useState("Profile") // the contact's original name, displayed at page top
+    useEffect(() => {
+        const cookies = new Cookies()
+        userService
+            .getInfo(cookies.get("token"))
+            .then(response => {
+                setUserInfo(response.data)
+                setFirstName(response.data.first_name)
+                setLastName(response.data.last_name)
+                setPageTitle(response.data.first_name + " " + response.data.last_name + "'s Profile")
+            })
+    }, [])
+
+    // submit updated information
+    const submitChanges = () => {
+        const newInfo = {
+            first_name: firstName,
+            last_name: lastName
+        }
+        const cookies = new Cookies()
+        userService
+            .updateUser(userInfo._id, newInfo, cookies.get("token"))
+            .then(response => {
+                window.location.href = "/Profile"
+            })
+            .catch(error => {
+                // 401 error occurs if token is either missing or bad
+                if (error.response && error.response.status && (error.response.status === 401)) {
+                    if (cookies.get("token")) {
+                        // The token is invalid
+                        cookies.remove("token", { path: '/' }) 
+                    }
+                    window.location.href = "/login"
+                }
+            })
+    }
+
+
     const classes = useStyles();
     return (
         <ThemeProvider theme={Theme}>
@@ -49,21 +95,21 @@ const ProfilePage = () => {
             <Grid container direction="column" style={{ minHeight: "90vh" }}>
                 <Box className={classes.title} >
                     <Typography variant="h2">
-                        Profile
+                        {pageTitle}
                     </Typography>
                 </Box>
 
                 <form>
                     <Box className={classes.form}>
-                        <TextField label="First Name" placeholder="John" variant="filled" />
+                        <TextField label="First Name" placeholder={firstName} variant="filled" value={firstName} onChange={(e) => { setFirstName(e.target.value); }}/>
                     </Box>
                     <Box className={classes.form}>
-                        <TextField label="Last Name" placeholder="Doe" type="password" variant="filled" />
+                        <TextField label="Last Name" placeholder={lastName} variant="filled" value={lastName} onChange={(e) => { setLastName(e.target.value); }}/>
                     </Box>
                 </form>
 
                 <Box className={classes.update}>
-                    <Button className={classes.updateButton} type="submit" variant="filled">
+                    <Button className={classes.updateButton} type="submit" variant="filled" onClick={submitChanges}>
                         <Typography variant="button">Update</Typography>
                     </Button>
                 </Box>
