@@ -336,7 +336,7 @@ const CreateMeetingPage = () => {
           window.location.href = "/login"
         }
       })
-  }, [])
+  }, [id])
 
   // change the number of items in the meeting agenda
   const changeAgendaLength = (newNum) => {

@@ -5,7 +5,8 @@ import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import PageAppBar from "../components/PageAppBar"
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useState } from "react";
+import React from "react";
+// import React, { useState } from "react";
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -33,7 +34,7 @@ const useStyles = makeStyles({
 
 const ForgotPasswordPage = () => {
     const classes = useStyles();
-    const [email, setEmail] = useState("");
+    // const [email, setEmail] = useState("");
 
     return (
         <ThemeProvider theme={Theme}>
@@ -52,7 +53,8 @@ const ForgotPasswordPage = () => {
 
                 <form>
                     <Box className={classes.form}>
-                        <TextField label="Email" placeholder="Email" required variant="filled" fullWidth onChange={(e) => { setEmail(e.target.value); }} />
+                        {/* Will need onChange={(e) => { setEmail(e.target.value); }} */}
+                        <TextField label="Email" placeholder="Email" required variant="filled" fullWidth />
                     </Box>
                     <Box className={classes.reset}>
                         <Button size="large" type="submit" color="secondary" variant="outlined" style={{ border: '2px solid' }}>

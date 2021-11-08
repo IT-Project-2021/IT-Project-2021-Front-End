@@ -1,6 +1,6 @@
 import Theme from "../themes/basicTheme";
 import { ThemeProvider } from "@material-ui/styles";
-import { Typography, Button, Grid, TextField } from "@material-ui/core";
+import { Typography, Button, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from '@material-ui/core/styles';
@@ -123,7 +123,6 @@ const MeetingQuestions = () => {
 };
 
 const MeetingAnswers = ({ meeting }) => {
-  const [reminder] = React.useState('');
 
   const formatMeetingTime = (date) => {
     let meetTime = new Date(date)
@@ -219,11 +218,6 @@ const MeetingAnswers = ({ meeting }) => {
 }
 
 const ParticipantsAndTopics = ({ meeting, people }) => {
-
-  // extract contact name
-  const getName = (participant) => {
-    return participant.first_name + " " + participant.last_name
-  }
 
   // get the list of participants (including names, not just ID codes)
   const getParticipantList = () => {

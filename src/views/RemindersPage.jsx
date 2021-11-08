@@ -5,14 +5,13 @@ import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
-import AddButton from "@material-ui/icons/Add"
-import IconButton from '@material-ui/core/IconButton';
 import PageAppBar from "../components/PageAppBar";
-import { Link } from "react-router-dom";
 import meetingService from "../services/meetings"
 import React, { useState, useEffect } from 'react'
 import Cookies from 'universal-cookie'
-
+// import AddButton from "@material-ui/icons/Add"
+// import IconButton from '@material-ui/core/IconButton';
+// import { Link } from "react-router-dom";
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -200,8 +199,6 @@ const MeetingList = ({meetings}) => {
 }
 
 const RemindersPage = () => {
-    const classes = useStyles();
-
     // maintain list of meetings from the server
     const [meetingList, setMeetingList] = useState([])
 

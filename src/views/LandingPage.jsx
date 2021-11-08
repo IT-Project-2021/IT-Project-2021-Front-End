@@ -8,7 +8,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from "react-router-dom";
 import Cookies from 'universal-cookie'
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
 const palette = Theme.palette
 const useStyles = makeStyles({

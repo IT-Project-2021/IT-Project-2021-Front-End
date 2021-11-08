@@ -33,14 +33,6 @@ const useStyles = makeStyles({
 
 const EditPersonPage = () => {
 
-    // Page will display dummy info before it has loaded properly
-    const dummyInfo = {
-        first_name: "",
-        last_name: "",
-        email: "",
-        phone_num: "",
-    }
-
     // info to load from backend
     let { id } = useParams();
     const classes = useStyles();
@@ -51,7 +43,6 @@ const EditPersonPage = () => {
     const [phone, setPhone] = useState("");
     const [position, setPosition] = useState("");
     const [notes, setNotes] = useState("");
-    const [contactInfo, setContactInfo] = useState(dummyInfo)
     const [pageTitle, setPageTitle] = useState("") // the contact's original name, displayed at page top
 
     useEffect(() => {
@@ -59,8 +50,6 @@ const EditPersonPage = () => {
         peopleService
             .getByID(id, cookies.get("token"))
             .then(response => {
-                setContactInfo(response.data)
-                console.log("Contact info recieved:", response.data)
                 setFirst(response.data.first_name)
                 setLast(response.data.last_name)
                 setEmail(response.data.email)
