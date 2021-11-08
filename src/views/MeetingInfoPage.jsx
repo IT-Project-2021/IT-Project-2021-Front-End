@@ -63,6 +63,9 @@ const useStyles = makeStyles({
   },
   participantLink: {
     color: palette.tertiary.main,
+  },
+  participantList: {
+    listStyleType: "none"
   }
 });
 
@@ -257,13 +260,17 @@ const ParticipantsAndTopics = ({ meeting, people }) => {
         </Typography>
       )
     } else return (
-      participants.map(item => (
-        <Link to={"/PeopleInformation/" + item._id} className={classes.participantLink}>
-          <Typography variant="h4" className={classes.listItems}>
-            {item.first_name + " " + item.last_name}
-          </Typography>
-        </Link>
-      ))
+      <ul>
+        {participants.map(item => (
+          <li className={classes.participantList} key={item._id}>
+          <Link to={"/PeopleInformation/" + item._id} className={classes.participantLink}>
+            <Typography variant="h4" className={classes.listItems}>
+              {item.first_name + " " + item.last_name}
+            </Typography>
+          </Link>
+          </li>
+        ))}
+      </ul>
     )
   }
 
@@ -275,11 +282,15 @@ const ParticipantsAndTopics = ({ meeting, people }) => {
         </Typography>
       )
     } else return (
-      meeting.agenda.map(item => (
-        <Typography variant="h4" className={classes.listItems}>
-          {item}
-        </Typography>
-      ))
+      <ul>
+        {meeting.agenda.map(item => (
+          <li className={classes.participantList} key={item}>
+          <Typography variant="h4" className={classes.listItems}>
+            {item}
+          </Typography>
+          </li>
+        ))}
+      </ul>
     )
   }
 
