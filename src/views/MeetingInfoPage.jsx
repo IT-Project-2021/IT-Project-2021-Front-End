@@ -229,10 +229,8 @@ const ParticipantsAndTopics = ({ meeting, people }) => {
 
     // skip if the meeting information isn't loaded yet
     if (!meeting || !meeting.participants) {
-      console.log("there was no meeting object")
       return participantObjects
     } else if (!people) {
-      console.log("there was no people object")
       return participantObjects
     } else {
       // extract participant names from previous database call
@@ -255,9 +253,13 @@ const ParticipantsAndTopics = ({ meeting, people }) => {
     // if there are no participants, display [none specified]
     if (participants.length === 0) {
       return (
-        <Typography variant="h3" className={classes.listItems}>
-          [None Specified]
-        </Typography>
+        <ul>
+          <li className={classes.participantList} key="no-participants">
+            <Typography variant="h4" className={classes.listItems}>
+              [None Specified]
+            </Typography>
+          </li>
+        </ul>
       )
     } else return (
       <ul>
@@ -277,9 +279,13 @@ const ParticipantsAndTopics = ({ meeting, people }) => {
   const formatAgenda = () => {
     if (!meeting || !meeting.agenda || meeting.agenda.length === 0) {
       return (
-        <Typography variant="h4" className={classes.listItems}>
-          [None Specified]
-        </Typography>
+        <ul>
+          <li className={classes.participantList} key="no-agenda">
+            <Typography variant="h4" className={classes.listItems}>
+              [None Specified]
+            </Typography>
+          </li>
+        </ul>
       )
     } else return (
       <ul>
@@ -352,8 +358,6 @@ const MeetingInfoPage = () => {
     })
   }, [id])
 
-  console.log("Meeting information:", meetingInfo)
-
   // Make database request to resolve participant names
   const [allPeople, setAllPeople] = useState([])
   useEffect(() => {
@@ -367,7 +371,6 @@ const MeetingInfoPage = () => {
         console.log("Failed to retrieve people list from the server")
       })
   }, [])
-  console.log("All people:", allPeople)
 
   const DeleteButton = () => {
     const classes = useStyles();
@@ -387,7 +390,6 @@ const MeetingInfoPage = () => {
     meetingService
       .remove(id, meetingInfo, cookies.get("token"))
       .then(response => {
-        console.log("Removed:", response.data)
         window.location.href = "/Meetings"
       })
       .catch(error => {
