@@ -87,10 +87,16 @@ const MeetingDetails = ({ meeting }) => {
   )
 }
 
-const EditDetailsButton = () => {
+const EditDetailsButton = ({meetingInfo}) => {
+  const redirect = () => {
+    let id = meetingInfo._id
+    if (id) {
+      window.location.href = "/Meeting/edit/" + id
+    }
+  }
   const classes = useStyles();
   return (
-    <Button className={classes.editButton} variant="contained" type="submit" >
+    <Button className={classes.editButton} variant="contained" type="submit" onClick={redirect}>
       <Typography variant="button">Edit Details</Typography>
     </Button>
   )
@@ -438,7 +444,7 @@ const MeetingInfoPage = () => {
         </div>
 
         <Box className={classes.buttonsContainer} >
-          <EditDetailsButton fontSize="large" className={classes.editButton} />
+          <EditDetailsButton fontSize="large" className={classes.editButton} meetingInfo={meetingInfo}/>
           <DeleteButton fontSize="large" className={classes.deleteButton} />
         </Box>
         
