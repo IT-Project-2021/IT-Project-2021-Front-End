@@ -9,6 +9,7 @@ import PageAppBar from "../components/PageAppBar";
 import meetingService from "../services/meetings"
 import React, { useState, useEffect } from 'react'
 import Cookies from 'universal-cookie'
+import LinearProgress from '@mui/material/LinearProgress'
 // import AddButton from "@material-ui/icons/Add"
 // import IconButton from '@material-ui/core/IconButton';
 // import { Link } from "react-router-dom";
@@ -167,7 +168,7 @@ const MeetingListItem = ({meeting}) => {
     )
 }
 
-const MeetingList = ({meetings}) => {
+const MeetingList = ({meetings, loading}) => {
 
     // functions for placing soonest meetings first & filtering
     const getTimeOffset = (date) => {
@@ -183,24 +184,38 @@ const MeetingList = ({meetings}) => {
     }
 
     const classes = useStyles();
-    return (
-        <Grid container direction="column" style={{ padding: "20px 0 0 0"}}>
-        <ul className={classes.meetingList}>
-            {meetings
-                .filter(item => isFutureMeeting(item.date) && item.alerts.length !== 0)
-                .sort(sortFutureMeetings)
-                .map(item => 
-                <li><MeetingListItem meeting={item}/></li>
-            )}
-
-        </ul>
-        </Grid>
+    
+    const listed = meetings.filter(item => isFutureMeeting(item.date) && item.alerts.length !== 0)
+    if(!loading && listed.length > 0) {
+        return (
+            <Grid container direction="column" style={{ padding: "20px 0 0 0"}}>
+            <ul className={classes.meetingList}>
+                {meetings
+                    .filter(item => isFutureMeeting(item.date) && item.alerts.length !== 0)
+                    .sort(sortFutureMeetings)
+                    .map(item => 
+                    <li><MeetingListItem meeting={item}/></li>
+                )}
+    
+            </ul>
+            </Grid>
+        )
+    } else if (!loading) {
+        return (
+            <Grid container direction="column" style={{ padding: "20px 0 0 0"}}>
+                <Typography variant="h4">No upcoming reminders!</Typography>
+            </Grid>
+        )
+    } else return (
+        <LinearProgress />
     )
+
 }
 
 const RemindersPage = () => {
     // maintain list of meetings from the server
     const [meetingList, setMeetingList] = useState([])
+    const [loading, setLoading] = useState(true)
 
     // retrieve the list of meetings
     useEffect(() => {
@@ -210,6 +225,7 @@ const RemindersPage = () => {
             .then(response => {
                 // get the list of all meetings
                 setMeetingList(response.data)
+                setLoading(false)
 
             })
             .catch(error => {
@@ -231,8 +247,9 @@ const RemindersPage = () => {
         <CssBaseline />
 
             <PageAppBar tab="Reminders" type="Menu"/>
+            
 
-            <MeetingList meetings={meetingList}/>
+            <MeetingList meetings={meetingList} loading={loading}/>
 
         </ThemeProvider>
     )
