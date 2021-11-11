@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import meetingService from "../services/meetings"
 import React, { useState, useEffect } from 'react'
 import Cookies from 'universal-cookie'
+import LinearProgress from '@mui/material/LinearProgress'
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -141,6 +142,7 @@ const MeetingsPage = () => {
     }
 
     // retrieve the list of meetings
+    const [loading, setLoading] = useState(true)
     useEffect(() => {
         const cookies = new Cookies()
         meetingService
@@ -148,6 +150,7 @@ const MeetingsPage = () => {
             .then(response => {
                 // get the list of all meetings
                 setMeetingList(response.data)
+                setLoading(false)
             })
             .catch(error => {
                 // 401 error occurs if token is either missing or bad
@@ -162,6 +165,65 @@ const MeetingsPage = () => {
             })
     }, [])
 
+    const getFutureMeetings = () => {
+        if (!loading) {
+            const futureMeetings = meetingList
+                .filter(item => isFutureMeeting(item.date))
+
+            if (futureMeetings.length > 0) {
+                return (
+                    <ul className={classes.meetingList}>
+                        {meetingList
+                            .filter(item => isFutureMeeting(item.date))
+                            .sort(sortFutureMeetings)
+                            .map(item => 
+                            <li key={item._id}>
+                                <MeetingListItem 
+                                    title={item.title}
+                                    date={item.date}
+                                    id={item._id}
+                                />
+                            </li>
+                        )}
+                    </ul>
+                )
+            } else return (
+                <Typography variant="h4">No upcoming meetings!</Typography>
+            )
+        } 
+        return (<LinearProgress />)
+
+    }
+
+    const getPastMeetings = () => {
+        if (!loading) {
+            const pastMeetings = meetingList.filter(item => !isFutureMeeting(item.date))
+            if (pastMeetings.length > 0) {
+                return (            
+                    <ul className={classes.meetingList}>
+                        {meetingList
+                            .filter(item => !isFutureMeeting(item.date))
+                            .sort(sortPastMeetings)
+                            .map(item => 
+                            <li key={item._id}>
+                                <MeetingListItem 
+                                    title={item.title}
+                                    date={item.date}
+                                    id={item._id}
+                                />
+                            </li>
+                        )}
+                    </ul>
+                )
+            } else return (
+                <Typography variant="h4">No past meetings!</Typography>
+            )
+        }
+        return <LinearProgress />
+    }
+
+
+
     const classes = useStyles();
     return (
         <ThemeProvider theme={Theme}>
@@ -173,40 +235,14 @@ const MeetingsPage = () => {
 
             {/* List of future meetings  */}
             <Grid container direction="column" style={{ padding: "20px 0 0 0"}}>
-            <ul className={classes.meetingList}>
-                {meetingList
-                    .filter(item => isFutureMeeting(item.date))
-                    .sort(sortFutureMeetings)
-                    .map(item => 
-                    <li key={item._id}>
-                        <MeetingListItem 
-                            title={item.title}
-                            date={item.date}
-                            id={item._id}
-                        />
-                    </li>
-                )}
-            </ul>
+            {getFutureMeetings()}
             </Grid>
 
             <Typography variant="h2" className={classes.leftText} >Past Meetings</Typography>
 
             {/* List of past meetings  */}
             <Grid container direction="column" style={{ padding: "20px 0 0 0"}}>
-            <ul className={classes.meetingList}>
-                {meetingList
-                    .filter(item => !isFutureMeeting(item.date))
-                    .sort(sortPastMeetings)
-                    .map(item => 
-                    <li key={item._id}>
-                        <MeetingListItem 
-                            title={item.title}
-                            date={item.date}
-                            id={item._id}
-                        />
-                    </li>
-                )}
-            </ul>
+            {getPastMeetings()}
             </Grid>
 
             <Box className={classes.addButtonContainer} >
