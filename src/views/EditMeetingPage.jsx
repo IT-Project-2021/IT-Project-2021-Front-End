@@ -260,6 +260,7 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
   if (!loaded && oldInfo && (Object.keys(oldInfo).length > 0)) {
 
     const newAgendaObject = []
+    let len = 0
     for (let i = 0; i<oldInfo.agenda.length; i++) {
       let newAgenda = {name: oldInfo.agenda[i], id: (i+1).toString()}
       newAgendaObject.push(newAgenda)
@@ -267,10 +268,11 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
     if (newAgendaObject.length === 0) {
       let newAgenda = {name: "", id: "1"}
       newAgendaObject.push(newAgenda)
-    }
+    } 
 
     addAgenda(newAgendaObject)
     setCurAgenda(newAgendaObject)
+    changeAgendaLength(newAgendaObject.length)
     setLoaded(true)
   }
 
@@ -383,7 +385,7 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
 const EditMeetingPage = () => {
 
   const [agendaLength, setAgendaLength] = useState(1)
-  const [agenda, setAgenda] = useState([{name: "", id: "1"}])
+  const [agenda, setAgenda] = useState([])
   const [peopleList, setPeopleList] = useState([])
   const [participants, setParticipants] = useState([])
   const [title, setTitle] = useState("");
