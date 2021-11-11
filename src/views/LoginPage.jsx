@@ -6,7 +6,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { Link } from "react-router-dom";
 import PageAppBar from "../components/PageAppBar"
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import authService from "../services/auth"
 import Cookies from 'universal-cookie'
 

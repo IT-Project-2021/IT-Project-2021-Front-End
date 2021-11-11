@@ -12,6 +12,7 @@ import PageAppBar from "../components/PageAppBar"
 import peopleService from "../services/people"
 import React, { useState, useEffect } from 'react'
 import Cookies from 'universal-cookie'
+import LinearProgress from '@mui/material/LinearProgress';
 
 const palette = Theme.palette
 const useStyles = makeStyles({
@@ -68,6 +69,7 @@ const PeopleListPage = () => {
 
     // maintain list of people from the server
     const [peopleList, setPeopleList] = useState([])
+    const [loading, setLoading] = useState(true)
 
     // retrieve the list of people
     useEffect(() => {
@@ -76,6 +78,7 @@ const PeopleListPage = () => {
             .getAll(cookies.get("token"))
             .then(response => {
                 setPeopleList(response.data)
+                setLoading(false)
             })
             .catch(error => {
                 console.log("Failed to retrieve list of people from the server:", error)
@@ -90,6 +93,34 @@ const PeopleListPage = () => {
             })
     }, [])
 
+    // Get the list of people
+    const formatPeopleList = () => {
+        if (peopleList.length > 0) {
+            return (
+                <ul className={classes.personList}>
+                    {peopleList.map(item => 
+                        <li key={item._id}>
+                            <PersonListItem 
+                                name={item.first_name + " " + item.last_name}
+                                id={item._id} 
+                            />
+                        </li>
+                    )}
+                </ul>
+            )
+        } else if (loading) {
+            return (
+                <LinearProgress />
+            )
+        } else {
+            return (
+                <Typography variant="h4">No contacts yet!</Typography>
+            )
+        }
+
+
+
+    }
     
     const classes = useStyles();
     return (
@@ -100,16 +131,7 @@ const PeopleListPage = () => {
 
 
             <Grid container direction="column" style={{ minHeight: "80vh", padding: "20px 0 0 0"}}>
-            <ul className={classes.personList}>
-                {peopleList.map(item => 
-                    <li key={item._id}>
-                        <PersonListItem 
-                            name={item.first_name + " " + item.last_name}
-                            id={item._id} 
-                        />
-                    </li>
-                )}
-            </ul>
+            {formatPeopleList()}
             </Grid>
 
 

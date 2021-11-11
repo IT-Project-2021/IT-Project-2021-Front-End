@@ -8,8 +8,7 @@ import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 import Cookies from 'universal-cookie'
 import { Link } from "react-router-dom";
-import authService from "../services/auth"
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
 const palette = Theme.palette
 const useStyles = makeStyles({

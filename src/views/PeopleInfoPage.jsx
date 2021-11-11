@@ -161,7 +161,7 @@ const PastMeeting = ({ meeting, people }) => {
     // if a participant code cannot be resolved (e.g. because the entry was deleted from the database), omit it
     let participantObjects = []
     for (let i = 0; i < participants.length; i++) {
-      let nextItem = people.find((person) => person._id === participants[i])
+      let nextItem = people.find((person) => person._id === participants[i]._id)
       if (nextItem) {
         participantObjects.push(nextItem)
       }
@@ -350,7 +350,6 @@ const MeetingHistory = ({ meetings }) => {
 }
 
 const PeopleInfoPage = () => {
-  const classes = useStyles();
 
   // Page will display dummy info before it has loaded properly
   const dummyInfo = {
@@ -402,29 +401,11 @@ const PeopleInfoPage = () => {
       })
   }, [id])
 
-  // maintain list of people from the server
-  const [peopleList, setPeopleList] = useState([])
-
-  // retrieve the list of people
-  useEffect(() => {
-    const cookies = new Cookies()
-    peopleService
-      .getAll(cookies.get("token"))
-      .then(response => {
-          setPeopleList(response.data)
-      })
-      .catch(error => {
-          console.log("Failed to retrieve list of people from the server:", error)
-          // Shouldn't need to deal with these errors: handled by other service
-      })
-  }, [])
-
   const deletePerson = () => {
     const cookies = new Cookies()
     peopleService
       .remove(id, cookies.get("token"))
       .then(response => {
-        console.log("Removed:", response.data)
         window.location.href = "/People"
       })
       .catch(error => {

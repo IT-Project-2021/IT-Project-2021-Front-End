@@ -1,6 +1,6 @@
 import Theme from "../themes/basicTheme";
 import { ThemeProvider } from "@material-ui/styles";
-import { Typography, Button, Grid, TextField } from "@material-ui/core";
+import { Typography, Button, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from '@material-ui/core/styles';
@@ -63,6 +63,9 @@ const useStyles = makeStyles({
   },
   participantLink: {
     color: palette.tertiary.main,
+  },
+  participantList: {
+    listStyleType: "none"
   }
 });
 
@@ -123,7 +126,6 @@ const MeetingQuestions = () => {
 };
 
 const MeetingAnswers = ({ meeting }) => {
-  const [reminder] = React.useState('');
 
   const formatMeetingTime = (date) => {
     let meetTime = new Date(date)
@@ -220,11 +222,6 @@ const MeetingAnswers = ({ meeting }) => {
 
 const ParticipantsAndTopics = ({ meeting, people }) => {
 
-  // extract contact name
-  const getName = (participant) => {
-    return participant.first_name + " " + participant.last_name
-  }
-
   // get the list of participants (including names, not just ID codes)
   const getParticipantList = () => {
 
@@ -232,10 +229,8 @@ const ParticipantsAndTopics = ({ meeting, people }) => {
 
     // skip if the meeting information isn't loaded yet
     if (!meeting || !meeting.participants) {
-      console.log("there was no meeting object")
       return participantObjects
     } else if (!people) {
-      console.log("there was no people object")
       return participantObjects
     } else {
       // extract participant names from previous database call
@@ -258,34 +253,50 @@ const ParticipantsAndTopics = ({ meeting, people }) => {
     // if there are no participants, display [none specified]
     if (participants.length === 0) {
       return (
-        <Typography variant="h3" className={classes.listItems}>
-          [None Specified]
-        </Typography>
+        <ul>
+          <li className={classes.participantList} key="no-participants">
+            <Typography variant="h4" className={classes.listItems}>
+              [None Specified]
+            </Typography>
+          </li>
+        </ul>
       )
     } else return (
-      participants.map(item => (
-        <Link to={"/PeopleInformation/" + item._id} className={classes.participantLink}>
-          <Typography variant="h4" className={classes.listItems}>
-            {item.first_name + " " + item.last_name}
-          </Typography>
-        </Link>
-      ))
+      <ul>
+        {participants.map(item => (
+          <li className={classes.participantList} key={item._id}>
+          <Link to={"/PeopleInformation/" + item._id} className={classes.participantLink}>
+            <Typography variant="h4" className={classes.listItems}>
+              {item.first_name + " " + item.last_name}
+            </Typography>
+          </Link>
+          </li>
+        ))}
+      </ul>
     )
   }
 
   const formatAgenda = () => {
     if (!meeting || !meeting.agenda || meeting.agenda.length === 0) {
       return (
-        <Typography variant="h4" className={classes.listItems}>
-          [None Specified]
-        </Typography>
+        <ul>
+          <li className={classes.participantList} key="no-agenda">
+            <Typography variant="h4" className={classes.listItems}>
+              [None Specified]
+            </Typography>
+          </li>
+        </ul>
       )
     } else return (
-      meeting.agenda.map(item => (
-        <Typography variant="h4" className={classes.listItems}>
-          {item}
-        </Typography>
-      ))
+      <ul>
+        {meeting.agenda.map(item => (
+          <li className={classes.participantList} key={item}>
+          <Typography variant="h4" className={classes.listItems}>
+            {item}
+          </Typography>
+          </li>
+        ))}
+      </ul>
     )
   }
 
@@ -347,8 +358,6 @@ const MeetingInfoPage = () => {
     })
   }, [id])
 
-  console.log("Meeting information:", meetingInfo)
-
   // Make database request to resolve participant names
   const [allPeople, setAllPeople] = useState([])
   useEffect(() => {
@@ -362,7 +371,6 @@ const MeetingInfoPage = () => {
         console.log("Failed to retrieve people list from the server")
       })
   }, [])
-  console.log("All people:", allPeople)
 
   const DeleteButton = () => {
     const classes = useStyles();
@@ -382,7 +390,6 @@ const MeetingInfoPage = () => {
     meetingService
       .remove(id, meetingInfo, cookies.get("token"))
       .then(response => {
-        console.log("Removed:", response.data)
         window.location.href = "/Meetings"
       })
       .catch(error => {

@@ -1,18 +1,16 @@
 import Theme from "../themes/landingTheme";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from "@material-ui/core";
-import Box from "@material-ui/core/Box";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-
 import ArrowBack from '@material-ui/icons/ArrowBackIos'
-import Notifications from '@material-ui/icons/Notifications'
-import Share from '@material-ui/icons/Share'
-import Search from '@material-ui/icons/Search'
-
 import MenuDropDown from "./MenuDropDown";
+// import Notifications from '@material-ui/icons/Notifications'
+// import Share from '@material-ui/icons/Share'
+// import Search from '@material-ui/icons/Search'
+// import Box from "@material-ui/core/Box";
 
 const palette = Theme.palette
 const useStyles = makeStyles({

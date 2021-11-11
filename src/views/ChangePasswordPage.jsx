@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import PageAppBar from "../components/PageAppBar"
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import userService from "../services/users";
 import authService from "../services/auth";
 import Cookies from 'universal-cookie'
@@ -131,7 +130,7 @@ const ChangePasswordPage = () => {
                     </Box>
 
                     <Box className={classes.form}>
-                        <TextField label="Confirm New Password" placeholder="Confirm New Password" required type="password" required variant="filled" fullWidth onChange={(e) => { setConfirm(e.target.value); }} error={passwordError} />
+                        <TextField label="Confirm New Password" placeholder="Confirm New Password" required type="password" variant="filled" fullWidth onChange={(e) => { setConfirm(e.target.value); }} error={passwordError} />
                     </Box>
 
                     <Box className={classes.update}>
