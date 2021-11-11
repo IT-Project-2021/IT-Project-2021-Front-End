@@ -67,14 +67,30 @@ const useStyles = makeStyles({
   },
 });
 
-const MeetingDetails = ({handleTitleChange, handleDescChange}) => {
+const MeetingDetails = ({handleTitleChange, handleDescChange, oldInfo}) => {
+
+  // Get state
+  const [title, setTitle] = useState("")
+  const [details, setDetails] = useState("")
+  const [loaded, setLoaded] = useState(false)
+
+  if (!loaded && oldInfo && (Object.keys(oldInfo).length > 0)) {
+    setTitle(oldInfo.title)
+    handleTitleChange(oldInfo.title)
+    setDetails(oldInfo.details)
+    handleDescChange(oldInfo.details)
+    setLoaded(true)
+  }
+
 
   const changeTitle = (event) => {
     handleTitleChange(event.target.value)
+    setTitle(event.target.value)
   }
 
   const changeDesc = (event) => {
     handleDescChange(event.target.value)
+    setDetails(event.target.value)
   }
 
   const classes = useStyles();
@@ -89,6 +105,7 @@ const MeetingDetails = ({handleTitleChange, handleDescChange}) => {
             variant="filled"
             inputProps={{style: {fontSize: 40, fontWeight: 'bold'}}}
             onChange={changeTitle}
+            value={title}
 
           />
         </Box>
@@ -99,7 +116,7 @@ const MeetingDetails = ({handleTitleChange, handleDescChange}) => {
             placeholder="Enter description"
             multiline
             onChange={changeDesc}
-
+            value={details}
           />
         </Box>
       </form>
@@ -111,7 +128,7 @@ const ConfirmButton = ({submitMeeting}) => {
   const classes = useStyles();
   return (
     <Button className={classes.confirmButton} variant="contained" type="submit" >
-      <Typography variant="button" onClick={submitMeeting}>Confirm</Typography>
+      <Typography variant="button" onClick={submitMeeting}>Save Changes</Typography>
     </Button>
   )
 }
@@ -147,7 +164,6 @@ const MeetingQuestions = () => {
 
 const MeetingAnswers = ({handleTimeChange, handleLocationChange, handleAlertSettingChange, oldInfo}) => {
 
-  console.log("old date:", new Date(oldInfo.date))
   const [time, setTime] = React.useState(new Date());
   const [location, setLocation] = useState("")
   const [alertSetting, setAlertSetting] = useState("")
@@ -156,8 +172,17 @@ const MeetingAnswers = ({handleTimeChange, handleLocationChange, handleAlertSett
   const [loaded, setLoaded] = useState(false)
   if (!loaded && oldInfo && (Object.keys(oldInfo).length > 0)) {
     setTime(new Date(oldInfo.date))
+    handleTimeChange(new Date(oldInfo.date))
     setLocation(oldInfo.location)
-    setAlertSetting(oldInfo.alerts[0].alertSetting)
+    handleLocationChange(oldInfo.location)
+    let oldAlertSetting = ""
+    if (oldInfo.alerts.length === 0) {
+      oldAlertSetting = ""
+    } else {
+      oldAlertSetting = oldInfo.alerts[0].alertSetting
+    }
+    setAlertSetting(oldAlertSetting)
+    handleAlertSettingChange(oldAlertSetting)
     setLoaded(true)
   }
 
@@ -169,7 +194,6 @@ const MeetingAnswers = ({handleTimeChange, handleLocationChange, handleAlertSett
   const changeLocation = (event) => {
     handleLocationChange(event.target.value)
     setLocation(event.target.value)
-    console.log("changing location to", location)
   }
   const changeAlertSetting = (event) => {
     handleAlertSettingChange(event.target.value)
@@ -240,10 +264,13 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
       let newAgenda = {name: oldInfo.agenda[i], id: (i+1).toString()}
       newAgendaObject.push(newAgenda)
     }
+    if (newAgendaObject.length === 0) {
+      let newAgenda = {name: "", id: "1"}
+      newAgendaObject.push(newAgenda)
+    }
 
     addAgenda(newAgendaObject)
     setCurAgenda(newAgendaObject)
-    console.log("CUR AGENDA:", newAgendaObject)
     setLoaded(true)
   }
 
@@ -261,6 +288,7 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
 
     let updatedItem = agenda.filter(item => item.id === event.target.id)[0]
     updatedItem.name = event.target.value
+
     let curUpdatedItem = curAgenda.filter(item => item.id === event.target.id)[0]
     let others = curAgenda.filter(item => item.id !== (event.target.id.toString()))
     curUpdatedItem.name = event.target.value
@@ -293,7 +321,6 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
 
   const handleParticipantChange = (event, value) => {
     changeParticipants(value)
-    console.log("PARTICIPANTS:", value)
   }
 
   return (
@@ -366,9 +393,7 @@ const EditMeetingPage = () => {
   const [alertSetting, setAlertSetting] = useState("")
   const [oldMeetingInfo, setOldMeetingInfo] = useState({})
 
-  // this will be set if this page was accessed from the People Info page
   const {id} = useParams();
-  console.log("Participant ID:", id)
 
   // get the list of contacts from the database
   useEffect(() => {
@@ -377,12 +402,31 @@ const EditMeetingPage = () => {
       .getAll(cookies.get("token"))
       .then(response => {
         setPeopleList(response.data)
-        console.log("response data:", response.data)
-        // if redirected here from People Info, set the contact as a participant
-        if (id) {
-          setParticipants(response.data.filter(item => item._id === id))
-          console.log("selected participant:", response.data.filter(item => item._id === id))
-        }
+        let people = response.data
+        meetingService
+          .getByID(id, cookies.get("token"))
+          .then(meetingRes => {
+            setOldMeetingInfo(meetingRes.data)
+            // set the participants as those originally in the meeting
+            let oldParticipants = meetingRes.data.participants
+            setParticipants(people.filter(item => oldParticipants.includes(item._id)))
+          })
+          .catch(error => {
+            // 401 error occurs if token is either missing or bad
+            if (error.response && error.response.status && (error.response.status === 401)) {
+              if (error.response.data.message === "ID Mismatch") {
+                // the user is trying to access a meeting not belonging to them
+                window.location.href = "/meetings"
+              } else if (cookies.get("token")) {
+                // The token is invalid
+                cookies.remove("token", { path: '/' }) 
+                window.location.href = "/login"
+              } else {
+                // there is no token set
+                window.location.href = "/login"
+              }
+            }
+          })
       })
       .catch(error => {
         console.log("Failed to retrieve list of people from the server:", error)
@@ -395,28 +439,7 @@ const EditMeetingPage = () => {
           window.location.href = "/login"
         }
       })
-    meetingService
-      .getByID(id, cookies.get("token"))
-      .then(response => {
-        setOldMeetingInfo(response.data)
 
-      })
-      .catch(error => {
-        // 401 error occurs if token is either missing or bad
-        if (error.response && error.response.status && (error.response.status === 401)) {
-          if (error.response.data.message === "ID Mismatch") {
-            // the user is trying to access a meeting not belonging to them
-            window.location.href = "/meetings"
-          } else if (cookies.get("token")) {
-            // The token is invalid
-            cookies.remove("token", { path: '/' }) 
-            window.location.href = "/login"
-          } else {
-            // there is no token set
-            window.location.href = "/login"
-          }
-        }
-      })
   }, [id])
 
   // change the number of items in the meeting agenda
@@ -464,7 +487,7 @@ const EditMeetingPage = () => {
   const submitMeeting = () => {
 
     // TODO use pieces of state to create a meaningful database entry
-    const newMeeting = {
+    const updatedMeeting = {
       participants: participants.map(item => item._id),
       agenda: agenda.map(item => item.name).filter(item => item),
       title: title,
@@ -474,17 +497,13 @@ const EditMeetingPage = () => {
       alerts: getAlerts()
     }
 
-    console.log("SUBMISSION:", newMeeting)
-
-    // submit the entry
+    // Submit
     const cookies = new Cookies()
     meetingService
-      .create(newMeeting, cookies.get("token"))
+      .update(oldMeetingInfo._id, updatedMeeting, cookies.get("token"))
       .then(response => {
-        console.log("RESPONSE:", response)
-        let newID = response.data._id
-        window.location.href = "/MeetingInformation/" + newID
-
+        let meetingID = response.data._id
+        window.location.href = "/MeetingInformation/" + meetingID
       })
       .catch(error => {
         console.log("Something went wrong submitting the meeting:", error)
@@ -512,6 +531,7 @@ const EditMeetingPage = () => {
           <MeetingDetails 
             handleTitleChange={handleTitleChange}
             handleDescChange={handleDescChange}
+            oldInfo={oldMeetingInfo}
           />
 
           <div className={classes.row}>
