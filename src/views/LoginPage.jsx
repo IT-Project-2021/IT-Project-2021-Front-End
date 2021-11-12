@@ -3,7 +3,6 @@ import { ThemeProvider } from "@material-ui/styles";
 import { Typography, Button, TextField, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { Link } from "react-router-dom";
 import PageAppBar from "../components/PageAppBar"
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from "react";
@@ -23,11 +22,8 @@ const useStyles = makeStyles({
   loginButton: {
     fontSize: "medium",
     backgroundColor: palette.quarternary.main,
-    margin: "10vh 0vh 0vh",
+    margin: "5vh 0vh 0vh",
     minWidth: "10vh"
-  },
-  forgotPassword: {
-    margin: "2vh 0vh",
   },
 });
 
@@ -89,23 +85,23 @@ const LoginPage = () => {
           </Box>
           <br />
           <Box>
-            {/* <Link to="/HomePage" style={{ textDecoration: 'none' }}> */}
               <Button className={classes.loginButton} size="medium" onClick={handleSubmit} >
                 <Typography variant="button">Login</Typography>
               </Button>
-            {/* </Link> */}
           </Box>
-
         </form>
 
 
-        <Box className={classes.forgotPassword} >
+        {/* <Box className={classes.forgotPassword} >
           <Link to="/SignUp" style={{ textDecoration: 'none', fontSize: "16px", color: '#0353A4' }}>
             Create an account
           </Link>
           <br></br>
+          <Link to="/ForgotPassword" style={{ textDecoration: 'none', fontSize: "16px", color: '#0353A4' }}>
+            Forgot your password?
+          </Link>
+        </Box> */}
 
-        </Box>
 
       </Grid>
     </ThemeProvider>
