@@ -208,15 +208,10 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
   const handleAgendaChange = (event) => {
 
     // update "agenda" with new item
-    // NOTE this might be causing strange behaviour, check here if there's problems
     let updatedItem = agenda.filter(item => item.id === event.target.id)[0]
     updatedItem.name = event.target.value
-    console.log("UPDATED ITEM:", updatedItem)
-
     
     // add a new item if the edited item was the last in the list
-    console.log("event.target.id =", event.target.id)
-    console.log("agendaLength =", agendaLength)
 
     if (parseInt(event.target.id) === agendaLength) {
 
@@ -236,7 +231,6 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
 
   const handleParticipantChange = (event, value) => {
     changeParticipants(value)
-    console.log("PARTICIPANTS:", value)
   }
 
   return (
@@ -309,7 +303,6 @@ const CreateMeetingPage = () => {
 
   // this will be set if this page was accessed from the People Info page
   const {id} = useParams();
-  console.log("Participant ID:", id)
 
   // get the list of contacts from the database
   useEffect(() => {
@@ -318,15 +311,12 @@ const CreateMeetingPage = () => {
       .getAll(cookies.get("token"))
       .then(response => {
         setPeopleList(response.data)
-        console.log("response data:", response.data)
         // if redirected here from People Info, set the contact as a participant
         if (id) {
           setParticipants(response.data.filter(item => item._id === id))
-          console.log("selected participant:", response.data.filter(item => item._id === id))
         }
       })
       .catch(error => {
-        console.log("Failed to retrieve list of people from the server:", error)
         // 401 error occurs if token is either missing or bad
         if (error.response && error.response.status && (error.response.status === 401)) {
           if (cookies.get("token")) {
@@ -334,6 +324,8 @@ const CreateMeetingPage = () => {
               cookies.remove("token", { path: '/' }) 
           }
           window.location.href = "/login"
+        } else {
+          alert("An unknown error occurred. Please try reloading the page.")
         }
       })
   }, [id])
@@ -393,20 +385,16 @@ const CreateMeetingPage = () => {
       alerts: getAlerts()
     }
 
-    console.log("SUBMISSION:", newMeeting)
-
     // submit the entry
     const cookies = new Cookies()
     meetingService
       .create(newMeeting, cookies.get("token"))
       .then(response => {
-        console.log("RESPONSE:", response)
         let newID = response.data._id
         window.location.href = "/MeetingInformation/" + newID
 
       })
       .catch(error => {
-        console.log("Something went wrong submitting the meeting:", error)
         // 401 error occurs if token is either missing or bad
         if (error.response && error.response.status && (error.response.status === 401)) {
           if (cookies.get("token")) {
@@ -414,6 +402,8 @@ const CreateMeetingPage = () => {
             cookies.remove("token", { path: '/' }) 
           }
           window.location.href = "/login"
+        } else {
+          alert("An unknown error occurred. Please try reloading the page.")
         }
       })
 

@@ -67,14 +67,12 @@ const SignupPage = () => {
                     email: email,
                     password: pass,
                 };
-                const res = await axios.post("https://it-project-2021-back-end.herokuapp.com/api/users",
+                await axios.post("https://it-project-2021-back-end.herokuapp.com/api/users",
                     data
                 );
-                console.log("response:", res.data)
                 window.location.href = "/Login"
     
             } catch (err) {
-                console.log(err.response.data)
                 alert(err.response.data.errorMessage)
             }
         }

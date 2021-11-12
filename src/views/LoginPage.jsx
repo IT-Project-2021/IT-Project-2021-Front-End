@@ -40,13 +40,11 @@ const LoginPage = () => {
   const [pass, setPass] = useState("");
 
   const handleSubmit = () => {
-    console.log("this function is being called")
     const data = {
       email: email,
       password: pass
     }
 
-    console.log("Data in form:", data)
     authService
       .attemptLogin(data)
       .then(response => {
@@ -55,8 +53,6 @@ const LoginPage = () => {
         window.location.href = "/HomePage"
       })
       .catch(err => {
-        console.log("ERROR:", err)
-        console.log("data:", err.response)
         if (err.response.data.errorMessage) {
           alert(err.response.data.errorMessage + " Please try again!")
         } else {
@@ -105,6 +101,7 @@ const LoginPage = () => {
             Forgot your password?
           </Link>
         </Box> */}
+
 
       </Grid>
     </ThemeProvider>

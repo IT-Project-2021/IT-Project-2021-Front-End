@@ -229,7 +229,6 @@ const RemindersPage = () => {
 
             })
             .catch(error => {
-                console.log("Failed to retrieve list of meetings from the server:", error)
                 // 401 error occurs if token is either missing or bad
                 if (error.response && error.response.status && (error.response.status === 401)) {
                     // if there is a token but request is still unauthorised, something is wrong with the token
@@ -238,6 +237,8 @@ const RemindersPage = () => {
                     }
                     // in either case, redirect to login
                     window.location.href = "/login"
+                } else {
+                    alert("An unknown error occurred. Please try reloading the page.")
                 }
             })
     }, [])
