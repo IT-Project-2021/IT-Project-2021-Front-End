@@ -31,9 +31,14 @@ const getByParticipant = (participantID, token) => {
 
 const remove = (id, info, token) => {
     let authToken = `Bearer ${token}`
-    console.log("AUTH TOKEN:", authToken)
     const Url = baseUrl + "/" + id
     return axios.delete(Url, {headers: {'Authorization': authToken}})
+}
+
+const update = (id, info, token) => {
+    let authToken = `Bearer ${token}`
+    const Url = baseUrl + "/" + id
+    return axios.put(Url, info, {headers: {'Authorization': authToken}})
 }
 
 const meetingService = {
@@ -41,7 +46,8 @@ const meetingService = {
     getByID,
     create,
     getByParticipant,
-    remove
+    remove,
+    update
 }
 
 export default meetingService
