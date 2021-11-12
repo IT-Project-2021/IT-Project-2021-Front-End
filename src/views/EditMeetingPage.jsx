@@ -260,7 +260,6 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
   if (!loaded && oldInfo && (Object.keys(oldInfo).length > 0)) {
 
     const newAgendaObject = []
-    let len = 0
     for (let i = 0; i<oldInfo.agenda.length; i++) {
       let newAgenda = {name: oldInfo.agenda[i], id: (i+1).toString()}
       newAgendaObject.push(newAgenda)
@@ -431,7 +430,6 @@ const EditMeetingPage = () => {
           })
       })
       .catch(error => {
-        console.log("Failed to retrieve list of people from the server:", error)
         // 401 error occurs if token is either missing or bad
         if (error.response && error.response.status && (error.response.status === 401)) {
           if (cookies.get("token")) {
@@ -439,6 +437,8 @@ const EditMeetingPage = () => {
               cookies.remove("token", { path: '/' }) 
           }
           window.location.href = "/login"
+        } else {
+          alert("An unknown error occurred. Please try reloading the page.")
         }
       })
 
@@ -508,7 +508,6 @@ const EditMeetingPage = () => {
         window.location.href = "/MeetingInformation/" + meetingID
       })
       .catch(error => {
-        console.log("Something went wrong submitting the meeting:", error)
         // 401 error occurs if token is either missing or bad
         if (error.response && error.response.status && (error.response.status === 401)) {
           if (cookies.get("token")) {
@@ -516,6 +515,8 @@ const EditMeetingPage = () => {
             cookies.remove("token", { path: '/' }) 
           }
           window.location.href = "/login"
+        } else {
+          alert("An unknown error occurred. Please try reloading the page.")
         }
       })
 

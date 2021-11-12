@@ -48,7 +48,6 @@ const ChangePasswordPage = () => {
             .getInfo(cookies.get("token"))
             .then(response => {
                 setUserInfo(response.data)
-                console.log("information:", response.data)
             })
             .catch(error => {
                 // 401 error occurs if token is either missing or bad
@@ -82,12 +81,10 @@ const ChangePasswordPage = () => {
             authService
                 .attemptLogin(oldData)
                 .then(response => {
-                    console.log("Auth attempt succeeded:", response.data)
                     // Now that cur pass is confirmed, update password
                     userService
                         .updateUser(userInfo._id, newData, cookies.get("token"))
                         .then(response => {
-                            console.log("Updated user:", response.data)
                             window.location.href = "/Profile"
                         })
                         .catch(error => {
@@ -102,7 +99,6 @@ const ChangePasswordPage = () => {
                         })
                 })
                 .catch(error => {
-                    console.log("Auth failed:", error.response)
                     alert("Current password is incorrect. Please try again!")
                 })
         }
