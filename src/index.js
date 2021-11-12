@@ -16,13 +16,13 @@ import MeetingsPage from "./views/MeetingsPage"
 import MeetingInfoPage from "./views/MeetingInfoPage"
 import CreateMeetingPage from "./views/CreateMeetingPage"
 import SignupPage from "./views/SignupPage"
-import ForgotPasswordPage from "./views/ForgotPasswordPage"
 import ProfilePage from "./views/ProfilePage"
 import ChangePasswordPage from "./views/ChangePasswordPage"
 import NewPersonPage from "./views/NewPersonPage"
 import RemindersPage from './views/RemindersPage'
 import EditPersonPage from './views/EditPersonPage'
 import EditMeetingPage from './views/EditMeetingPage'
+//import ForgotPasswordPage from "./views/ForgotPasswordPage"
 
 
 var hist = createBrowserHistory();
@@ -43,12 +43,12 @@ ReactDOM.render(
         <Route exact path="/CreateMeeting" component={CreateMeetingPage} />
         <Route exact path="/CreateMeeting/participant/:id" component={CreateMeetingPage} />
         <Route path="/Signup" component={SignupPage} />
-        <Route path="/ForgotPassword" component={ForgotPasswordPage} />
         <Route path="/Profile" component={ProfilePage} />
         <Route path="/ChangePassword" component={ChangePasswordPage} />
         <Route path="/AddNewPerson" component={NewPersonPage} />
         <Route path="/Reminders" component={RemindersPage} />
         <Route path="/Person/edit/:id" component={EditPersonPage} />
+        {/* <Route path="/ForgotPassword" component={ForgotPasswordPage} /> */}
 
       </Box>
     </ThemeProvider>

@@ -260,7 +260,6 @@ const ParticipantsAndTopics = ({agendaLength, agenda, changeAgendaLength, addAge
   if (!loaded && oldInfo && (Object.keys(oldInfo).length > 0)) {
 
     const newAgendaObject = []
-    let len = 0
     for (let i = 0; i<oldInfo.agenda.length; i++) {
       let newAgenda = {name: oldInfo.agenda[i], id: (i+1).toString()}
       newAgendaObject.push(newAgenda)
