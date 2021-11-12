@@ -87,7 +87,6 @@ const ProfilePage = () => {
 
     // Delete an account
     const deleteAccount = () => {
-        // TODO add a popup to confirm
 
         const cookies = new Cookies()
         userService

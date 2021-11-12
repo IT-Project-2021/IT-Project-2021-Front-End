@@ -10,9 +10,6 @@ import meetingService from "../services/meetings"
 import React, { useState, useEffect } from 'react'
 import Cookies from 'universal-cookie'
 import LinearProgress from '@mui/material/LinearProgress'
-// import AddButton from "@material-ui/icons/Add"
-// import IconButton from '@material-ui/core/IconButton';
-// import { Link } from "react-router-dom";
 
 const palette = Theme.palette
 const useStyles = makeStyles({
