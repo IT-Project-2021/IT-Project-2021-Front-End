@@ -108,9 +108,7 @@ const LoginPage = () => {
             Create an account
           </Link>
           <br></br>
-          <Link to="/ForgotPassword" style={{ textDecoration: 'none', fontSize: "16px", color: '#0353A4' }}>
-            Forgot your password?
-          </Link>
+
         </Box>
 
       </Grid>
