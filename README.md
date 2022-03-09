@@ -1,7 +1,7 @@
 # My Daily Planner Front-End Repository
-The front-end repository for the website 'My Daily Planner'.
+The front-end repository for the website 'My Daily Planner', a web application for customer relationship management
 
-This can be accessed at https://it-project-2021-front-end.herokuapp.com/.
+This can be found hosted at https://it-project-2021-front-end.herokuapp.com/.
 
 Information on the back-end and its documentation can be found at https://github.com/IT-Project-2021/IT-Project-2021-Back-End/.
 
